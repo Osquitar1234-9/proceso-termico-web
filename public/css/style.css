@@ -1,0 +1,92 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Fuente y colores */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #F7FAFC;
+  color: #0A192F;
+  line-height: 1.6;
+  padding: 1rem;
+}
+
+/* Encabezado */
+header {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.logo {
+  max-width: 200px;
+  height: auto;
+}
+
+/* Navegación */
+nav {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline-block;
+  margin: 0.5rem;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #0077B6;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+  color: #023E8A;
+}
+
+/* Secciones */
+main {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+main h1 {
+  text-align: center;
+  margin: 1rem 0;
+  font-size: 2rem;
+}
+
+section {
+  margin: 2rem 0;
+}
+
+section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+section img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ddd;
+  font-size: 0.9rem;
+  color: #666;
+}
