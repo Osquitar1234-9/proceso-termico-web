@@ -1,24 +1,219 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clases Virtuales | Proceso Térmico</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    /* Estilos específicos para la página de Clases */
+    .classes-container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+    
+    .classes-hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+    
+    .classes-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .classes-images {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    
+    .course-card {
+      background-color: var(--card-background);
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--card-shadow);
+      transition: var(--transition);
+    }
+    
+    .course-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
+    }
+    
+    .schedule-table th, 
+    .schedule-table td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--primary-color);
+    }
+    
+    .schedule-table th {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    @media (max-width: 768px) {
+      .classes-hero {
+        grid-template-columns: 1fr;
+      }
+      
+      .classes-images {
+        order: -1;
+      }
+      
+      .schedule-table {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+  </style>
 </head>
 <body>
   <header>
-    <img src="svg/logo.svg" alt="Logo Proceso Térmico" class="logo" />
+    <div class="header-container">
+      <img src="../svg/logo.svg" alt="Logo Proceso Térmico" class="logo">
+      <nav>
+        <ul>
+          <li><a href="../index.html">Inicio</a></li>
+          <li><a href="clases.html" class="active">Clases</a></li>
+          <li><a href="../public/app.html">App</a></li>
+          <li><a href="../public/noticias.html">Noticias</a></li>
+          <li><a href="../public/formularios.html">Formularios</a></li>
+          <li><a href="../public/productos.html">Productos</a></li>
+          <li><a href="../public/pagos.html">Pagos</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
 
-  <main>
-    <h1>Clases Virtuales</h1>
-    <img src="svg/clases-desktop.svg" alt="Clases escritorio" />
-    <img src="svg/clases-mobile.svg" alt="Clases móvil" />
+  <main class="classes-container">
+    <section class="classes-hero">
+      <div class="classes-info">
+        <h1>Clases Virtuales Especializadas</h1>
+        <p>Programa de capacitación en procesamiento térmico de alimentos con expertos de la industria.</p>
+        <ul class="benefits-list">
+          <li>✔ Cursos 100% en línea con sesiones en vivo</li>
+          <li>✔ Certificación internacional</li>
+          <li>✔ Material didáctico interactivo</li>
+          <li>✔ Asesoría personalizada</li>
+        </ul>
+      </div>
+      
+      <div class="classes-images">
+        <picture>
+          <source media="(max-width: 600px)" srcset="../svg/clases-mobile.svg">
+          <img src="../svg/clases-desktop.svg" alt="Plataforma de Clases Virtuales" class="classes-screenshot">
+        </picture>
+        <a href="#inscripcion" class="cta-button">Inscríbete Ahora</a>
+      </div>
+    </section>
+    
+    <section class="course-catalog">
+      <h2>Nuestros Cursos Destacados</h2>
+      <div class="course-grid">
+        <article class="course-card">
+          <h3>Fundamentos de Proceso Térmico</h3>
+          <p>Curso introductorio para entender los principios básicos de pasteurización y esterilización.</p>
+          <p class="course-duration">Duración: 4 semanas</p>
+        </article>
+        
+        <article class="course-card">
+          <h3>Validación de Procesos Térmicos</h3>
+          <p>Métodos avanzados para validación de procesos según normativas internacionales.</p>
+          <p class="course-duration">Duración: 6 semanas</p>
+        </article>
+        
+        <article class="course-card">
+          <h3>Autoclaves Industriales</h3>
+          <p>Operación, mantenimiento y optimización de equipos de procesamiento térmico.</p>
+          <p class="course-duration">Duración: 5 semanas</p>
+        </article>
+      </div>
+    </section>
+    
+    <section class="schedule">
+      <h2>Próximas Sesiones</h2>
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th>Curso</th>
+            <th>Fecha de Inicio</th>
+            <th>Horario</th>
+            <th>Instructor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Fundamentos</td>
+            <td>15/07/2025</td>
+            <td>Lunes y Miércoles 18:00-20:00</td>
+            <td>Dra. Laura Méndez</td>
+          </tr>
+          <tr>
+            <td>Validación</td>
+            <td>22/07/2025</td>
+            <td>Martes y Jueves 17:00-19:00</td>
+            <td>Ing. Carlos Rojas</td>
+          </tr>
+          <tr>
+            <td>Autoclaves</td>
+            <td>05/08/2025</td>
+            <td>Sábados 09:00-13:00</td>
+            <td>Ing. Patricia Vargas</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    
+    <section id="inscripcion" class="registration-form">
+      <h2>Formulario de Inscripción</h2>
+      <form>
+        <div class="form-group">
+          <label for="nombre">Nombre completo:</label>
+          <input type="text" id="nombre" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Correo electrónico:</label>
+          <input type="email" id="email" required>
+        </div>
+        <div class="form-group">
+          <label for="curso">Curso de interés:</label>
+          <select id="curso" required>
+            <option value="">Seleccione un curso</option>
+            <option value="fundamentos">Fundamentos de Proceso Térmico</option>
+            <option value="validacion">Validación de Procesos Térmicos</option>
+            <option value="autoclaves">Autoclaves Industriales</option>
+          </select>
+        </div>
+        <button type="submit" class="cta-button">Enviar Inscripción</button>
+      </form>
+    </section>
   </main>
 
   <footer>
-    <p>© 2025 Proyecto Proceso Térmico</p>
+    <div class="footer-content">
+      <img src="../svg/logo.svg" alt="Logo" class="footer-logo">
+      <p>© 2025 Proyecto Proceso Térmico. Todos los derechos reservados.</p>
+    </div>
   </footer>
 </body>
 </html>

@@ -1,24 +1,217 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Noticias | Proceso Térmico</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    /* Estilos específicos para la página de Noticias */
+    .news-container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+    
+    .news-hero {
+      position: relative;
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+    
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .news-card {
+      background-color: var(--card-background);
+      border-radius: var(--border-radius);
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    
+    .news-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .news-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    
+    .news-content {
+      padding: 1.5rem;
+    }
+    
+    .news-date {
+      color: var(--primary-color);
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .news-category {
+      display: inline-block;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      margin-bottom: 0.8rem;
+    }
+    
+    .news-summary {
+      margin: 1rem 0;
+    }
+    
+    .news-link {
+      color: var(--primary-color);
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+    }
+    
+    .news-link::after {
+      content: '→';
+      margin-left: 0.5rem;
+      transition: transform 0.3s;
+    }
+    
+    .news-link:hover::after {
+      transform: translateX(3px);
+    }
+    
+    .newsletter {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      margin: 4rem 0;
+      text-align: center;
+    }
+    
+    .newsletter-form {
+      max-width: 500px;
+      margin: 0 auto;
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .newsletter-input {
+      flex: 1;
+      padding: 0.8rem;
+      border: none;
+      border-radius: var(--border-radius);
+    }
+    
+    @media (max-width: 768px) {
+      .newsletter-form {
+        flex-direction: column;
+      }
+      
+      .news-card {
+        max-width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
   <header>
-    <img src="svg/logo.svg" alt="Logo Proceso Térmico" class="logo" />
+    <div class="header-container">
+      <img src="../svg/logo.svg" alt="Logo Proceso Térmico" class="logo">
+      <nav>
+        <ul>
+          <li><a href="../index.html">Inicio</a></li>
+          <li><a href="../public/clases.html">Clases</a></li>
+          <li><a href="../public/app.html">App</a></li>
+          <li><a href="noticias.html" class="active">Noticias</a></li>
+          <li><a href="../public/formularios.html">Formularios</a></li>
+          <li><a href="../public/productos.html">Productos</a></li>
+          <li><a href="../public/pagos.html">Pagos</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
 
-  <main>
-    <h1>Página de noticias</h1>
-    <img src="svg/noticias-desktop.svg" alt="Noticias escritorio" />
-    <img src="svg/noticias-mobile.svg" alt="Noticias móvil" />
+  <main class="news-container">
+    <section class="news-hero">
+      <picture>
+        <source media="(max-width: 600px)" srcset="../svg/noticias-mobile.svg">
+        <img src="../svg/noticias-desktop.svg" alt="Noticias sobre Proceso Térmico" class="hero-image">
+      </picture>
+      <div class="hero-text">
+        <h1>Últimas Noticias</h1>
+        <p>Mantente informado sobre los avances en procesamiento térmico de alimentos</p>
+      </div>
+    </section>
+    
+    <section class="news-grid">
+      <article class="news-card">
+        <img src="../svg/noticias-sample1.svg" alt="Nueva normativa" class="news-image">
+        <div class="news-content">
+          <span class="news-date">15 Junio 2025</span>
+          <span class="news-category">Normativas</span>
+          <h3>Actualización de protocolos internacionales</h3>
+          <p class="news-summary">La FDA ha publicado nuevas directrices para procesos térmicos en alimentos enlatados que entrarán en vigor en 2026.</p>
+          <a href="#" class="news-link">Leer más</a>
+        </div>
+      </article>
+      
+      <article class="news-card">
+        <img src="../svg/noticias-sample2.svg" alt="Congreso internacional" class="news-image">
+        <div class="news-content">
+          <span class="news-date">2 Junio 2025</span>
+          <span class="news-category">Eventos</span>
+          <h3>Congreso Internacional de Procesamiento Térmico</h3>
+          <p class="news-summary">Resumen de las innovaciones presentadas en el evento anual realizado en Barcelona.</p>
+          <a href="#" class="news-link">Leer más</a>
+        </div>
+      </article>
+      
+      <article class="news-card">
+        <img src="../svg/noticias-sample3.svg" alt="Nueva tecnología" class="news-image">
+        <div class="news-content">
+          <span class="news-date">20 Mayo 2025</span>
+          <span class="news-category">Tecnología</span>
+          <h3>Sistema de monitoreo en tiempo real</h3>
+          <p class="news-summary">Nueva tecnología permite supervisar parámetros críticos durante procesos de esterilización.</p>
+          <a href="#" class="news-link">Leer más</a>
+        </div>
+      </article>
+      
+      <article class="news-card">
+        <img src="../svg/noticias-sample4.svg" alt="Investigación" class="news-image">
+        <div class="news-content">
+          <span class="news-date">5 Mayo 2025</span>
+          <span class="news-category">Investigación</span>
+          <h3>Estudio sobre reducción de tiempos de proceso</h3>
+          <p class="news-summary">Investigadores del ITP publican resultados prometedores para optimización de ciclos térmicos.</p>
+          <a href="#" class="news-link">Leer más</a>
+        </div>
+      </article>
+    </section>
+    
+    <section class="newsletter">
+      <h2>Suscríbete a nuestro boletín</h2>
+      <p>Recibe las últimas noticias y actualizaciones directamente en tu correo</p>
+      <form class="newsletter-form">
+        <input type="email" class="newsletter-input" placeholder="Tu correo electrónico" required>
+        <button type="submit" class="cta-button">Suscribirse</button>
+      </form>
+    </section>
   </main>
 
   <footer>
-    <p>© 2025 Proyecto Proceso Térmico</p>
+    <div class="footer-content">
+      <img src="../svg/logo.svg" alt="Logo" class="footer-logo">
+      <p>© 2025 Proyecto Proceso Térmico. Todos los derechos reservados.</p>
+    </div>
   </footer>
 </body>
 </html>
