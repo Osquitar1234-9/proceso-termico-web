@@ -1,155 +1,56 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formularios | Proceso Térmico</title>
-  <link rel="stylesheet" href="../css/style.css">
-  <style>
-    /* Estilos específicos para la página de Formularios */
-    .forms-container {
-      max-width: 1200px;
-      margin: 2rem auto;
-      padding: 0 1.5rem;
-    }
-    
-    .forms-header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-    
-    .form-options {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      margin-bottom: 3rem;
-    }
-    
-    .form-card {
-      background-color: var(--card-background);
-      padding: 1.5rem;
-      border-radius: var(--border-radius);
-      box-shadow: var(--card-shadow);
-      transition: var(--transition);
-      text-align: center;
-    }
-    
-    .form-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-    }
-    
-    .form-card img {
-      max-height: 120px;
-      margin-bottom: 1rem;
-    }
-    
-    .embedded-form {
-      margin: 3rem 0;
-      border-radius: var(--border-radius);
-      overflow: hidden;
-      box-shadow: var(--card-shadow);
-    }
-    
-    .form-description {
-      max-width: 800px;
-      margin: 0 auto 2rem;
-      text-align: center;
-    }
-    
-    @media (max-width: 768px) {
-      .embedded-form iframe {
-        height: 600px;
-      }
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Formulario de Contacto | Proceso Térmico</title>
+  <link rel="stylesheet" href="public/css/style.css">
 </head>
 <body>
+
+  <!-- ENCABEZADO -->
   <header>
     <div class="header-container">
-      <img src="../svg/logo.svg" alt="Logo Proceso Térmico" class="logo">
+      <img src="public/svg/logo.svg" alt="Logo Proceso Térmico" class="logo">
       <nav>
         <ul>
-          <li><a href="../index.html">Inicio</a></li>
-          <li><a href="../public/clases.html">Clases</a></li>
-          <li><a href="../public/app.html">App</a></li>
-          <li><a href="../public/noticias.html">Noticias</a></li>
-          <li><a href="formularios.html" class="active">Formularios</a></li>
-          <li><a href="../public/productos.html">Productos</a></li>
-          <li><a href="../public/pagos.html">Pagos</a></li>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="clases.html">Clases</a></li>
+          <li><a href="productos.html">Productos</a></li>
+          <li><a href="formularios.html" class="active">Formulario</a></li>
+          <li><a href="pagos.html">Pagos</a></li>
+          <li><a href="noticias.html">Noticias</a></li>
+          <li><a href="app.html">App</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <main class="forms-container">
-    <section class="forms-header">
-      <h1>Formularios de Contacto</h1>
-      <div class="form-description">
-        <p>Seleccione el formulario que desea completar o utilice nuestro formulario principal de contacto.</p>
-      </div>
-    </section>
-    
-    <section class="form-options">
-      <article class="form-card" onclick="location.href='#contacto-general'">
-        <picture>
-          <source media="(max-width: 600px)" srcset="../svg/formularios-mobile.svg">
-          <img src="../svg/formularios-desktop.svg" alt="Formulario General">
-        </picture>
-        <h3>Contacto General</h3>
-        <p>Consultas, sugerencias o información general</p>
-      </article>
-      
-      <article class="form-card" onclick="location.href='../public/clases.html#inscripcion'">
-        <img src="../svg/clases-desktop.svg" alt="Inscripción a Clases">
-        <h3>Inscripción a Clases</h3>
-        <p>Formulario para registro en cursos virtuales</p>
-      </article>
-      
-      <article class="form-card" onclick="location.href='../public/productos.html#consulta'">
-        <img src="../svg/productos-desktop.svg" alt="Consulta de Productos">
-        <h3>Consulta de Productos</h3>
-        <p>Solicite información sobre nuestros productos</p>
-      </article>
-    </section>
-    
-    <section id="contacto-general" class="embedded-form">
-      <h2>Formulario de Contacto General</h2>
-      <iframe 
-        src="https://docs.google.com/forms/d/e/1FAIpQLSeXxxxREEMPLAZARxxx/viewform?embedded=true" 
-        width="100%" 
-        height="800" 
-        frameborder="0" 
-        marginheight="0" 
-        marginwidth="0">
-        Cargando formulario...
-      </iframe>
-    </section>
-    
-    <section class="contact-info">
-      <h2>Otras formas de contacto</h2>
-      <div class="contact-methods">
-        <div class="contact-method">
-          <h3>Correo Electrónico</h3>
-          <p>contacto@procesotermico.com</p>
-        </div>
-        <div class="contact-method">
-          <h3>Teléfono</h3>
-          <p>+1 (555) 123-4567</p>
-        </div>
-        <div class="contact-method">
-          <h3>Horario de Atención</h3>
-          <p>Lunes a Viernes: 9:00 - 18:00</p>
-        </div>
+  <!-- SECCIÓN FORMULARIO -->
+  <main>
+    <section style="padding: 3rem 1rem; background-color: var(--secondary-color); text-align: center;">
+      <h1 style="color: var(--primary-dark); margin-bottom: 1rem;">Formulario de contacto</h1>
+      <p style="margin-bottom: 2rem; font-size: 1.1rem;">
+        Completa el siguiente formulario y te responderemos lo antes posible.
+      </p>
+      <div style="max-width: 800px; margin: auto; background: white; border-radius: var(--border-radius); box-shadow: var(--card-shadow); overflow: hidden;">
+        <!-- ✅ Google Form embebido -->
+        <iframe 
+          src="https://docs.google.com/forms/d/e/1FAIpQLSeoDzGee6bhTuRNIAvCzuIrbQIJEmHOzFE0fnlONTPwJvY79w/viewform?embedded=true" 
+          width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0">
+          Cargando…
+        </iframe>
       </div>
     </section>
   </main>
 
+  <!-- PIE DE PÁGINA -->
   <footer>
     <div class="footer-content">
-      <img src="../svg/logo.svg" alt="Logo" class="footer-logo">
-      <p>© 2025 Proyecto Proceso Térmico. Todos los derechos reservados.</p>
+      <img src="public/svg/logo.svg" alt="Logo Pie de Página" class="footer-logo">
+      <p>© 2025 Proceso Térmico. Todos los derechos reservados.</p>
     </div>
   </footer>
+
 </body>
 </html>
