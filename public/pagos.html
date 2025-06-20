@@ -1,197 +1,67 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pagos Seguros | Proceso Térmico</title>
-  <link rel="stylesheet" href="../css/style.css">
-  <style>
-    /* Estilos específicos para la página de Pagos */
-    .payments-container {
-      max-width: 1200px;
-      margin: 2rem auto;
-      padding: 0 1.5rem;
-    }
-    
-    .payment-hero {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-    
-    .payment-methods {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      margin: 3rem 0;
-    }
-    
-    .method-card {
-      background-color: var(--card-background);
-      padding: 2rem;
-      border-radius: var(--border-radius);
-      box-shadow: var(--card-shadow);
-      text-align: center;
-      transition: var(--transition);
-    }
-    
-    .method-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
-    
-    .method-icon {
-      max-height: 80px;
-      margin-bottom: 1.5rem;
-    }
-    
-    .payment-steps {
-      max-width: 800px;
-      margin: 3rem auto;
-    }
-    
-    .step {
-      display: flex;
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-      align-items: flex-start;
-    }
-    
-    .step-number {
-      background-color: var(--primary-color);
-      color: white;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-weight: bold;
-    }
-    
-    .security-badge {
-      text-align: center;
-      margin: 3rem 0;
-    }
-    
-    .payment-image {
-      border-radius: var(--border-radius);
-      box-shadow: var(--card-shadow);
-      margin: 2rem auto;
-      max-width: 100%;
-    }
-    
-    @media (max-width: 768px) {
-      .step {
-        flex-direction: column;
-      }
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pagos Seguros - Proceso Térmico</title>
+  <link rel="stylesheet" href="public/css/style.css" />
+  <script src="https://www.paypal.com/sdk/js?client-id=TU_CLIENT_ID&currency=USD"></script>
 </head>
 <body>
   <header>
     <div class="header-container">
-      <img src="../svg/logo.svg" alt="Logo Proceso Térmico" class="logo">
+      <img src="public/svg/logo.svg" alt="Logo Proceso Térmico" class="logo" />
       <nav>
         <ul>
-          <li><a href="../index.html">Inicio</a></li>
-          <li><a href="../public/clases.html">Clases</a></li>
-          <li><a href="../public/app.html">App</a></li>
-          <li><a href="../public/noticias.html">Noticias</a></li>
-          <li><a href="../public/formularios.html">Formularios</a></li>
-          <li><a href="../public/productos.html">Productos</a></li>
-          <li><a href="pagos.html" class="active">Pagos</a></li>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="productos.html">Productos</a></li>
+          <li><a href="formularios.html">Formulario</a></li>
+          <li><a class="active" href="pagos.html">Pagos</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <main class="payments-container">
-    <section class="payment-hero">
-      <h1>Pagos Seguros</h1>
-      <p class="subtitle">Realiza tus pagos de forma rápida y protegida con nuestras plataformas certificadas</p>
-      
-      <picture>
-        <source media="(max-width: 600px)" srcset="../svg/pagos-mobile.svg">
-        <img src="../svg/pagos-desktop.svg" alt="Plataforma de pagos seguros" class="payment-image">
-      </picture>
-    </section>
-    
-    <section class="payment-methods">
-      <article class="method-card">
-        <img src="../svg/tarjeta-credito.svg" alt="Tarjeta de crédito" class="method-icon">
-        <h3>Tarjetas de Crédito/Débito</h3>
-        <p>Aceptamos todas las tarjetas principales (Visa, MasterCard, American Express)</p>
-        <div class="card-icons" style="margin-top: 1rem;">
-          <img src="../svg/visa.svg" alt="Visa" style="height: 30px; margin: 0 5px;">
-          <img src="../svg/mastercard.svg" alt="MasterCard" style="height: 30px; margin: 0 5px;">
-          <img src="../svg/amex.svg" alt="American Express" style="height: 30px; margin: 0 5px;">
-        </div>
-      </article>
-      
-      <article class="method-card">
-        <img src="../svg/paypal.svg" alt="PayPal" class="method-icon">
-        <h3>PayPal</h3>
-        <p>Paga de forma segura a través de tu cuenta PayPal con protección al comprador</p>
-      </article>
-      
-      <article class="method-card">
-        <img src="../svg/transferencia.svg" alt="Transferencia" class="method-icon">
-        <h3>Transferencia Bancaria</h3>
-        <p>Realiza pagos directos desde tu banco (disponible para clientes empresariales)</p>
-      </article>
-    </section>
-    
-    <section class="payment-steps">
-      <h2 style="text-align: center;">Cómo realizar tu pago</h2>
-      
-      <div class="step">
-        <div class="step-number">1</div>
-        <div>
-          <h3>Selecciona tu producto o servicio</h3>
-          <p>Elige el curso, producto o membresía que deseas adquirir en nuestra plataforma.</p>
-        </div>
-      </div>
-      
-      <div class="step">
-        <div class="step-number">2</div>
-        <div>
-          <h3>Elige tu método de pago</h3>
-          <p>Selecciona entre tarjeta, PayPal o transferencia según tu preferencia.</p>
-        </div>
-      </div>
-      
-      <div class="step">
-        <div class="step-number">3</div>
-        <div>
-          <h3>Completa la información requerida</h3>
-          <p>Ingresa los datos de pago en nuestro formulario seguro (256-bit SSL encryption).</p>
-        </div>
-      </div>
-      
-      <div class="step">
-        <div class="step-number">4</div>
-        <div>
-          <h3>Recibe tu confirmación</h3>
-          <p>Obtendrás un comprobante por correo electrónico y acceso inmediato a tu compra.</p>
-        </div>
-      </div>
-    </section>
-    
-    <section class="security-badge">
-      <h3>Tu seguridad es nuestra prioridad</h3>
-      <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 1.5rem;">
-        <img src="../svg/ssl-secure.svg" alt="SSL Secure" style="height: 60px;">
-        <img src="../svg/pci-compliant.svg" alt="PCI Compliant" style="height: 60px;">
-      </div>
+  <main style="padding: 2rem; text-align: center;">
+    <h1>💳 Pagos Seguros</h1>
+    <p>Utilizamos plataformas confiables como PayPal para garantizar la seguridad de tus transacciones.</p>
+
+    <div id="paypal-button-container" style="margin: 2rem auto; max-width: 400px;"></div>
+
+    <script>
+      paypal.Buttons({
+        createOrder: function(data, actions) {
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                value: '10.00' // Puedes cambiar el valor
+              }
+            }]
+          });
+        },
+        onApprove: function(data, actions) {
+          return actions.order.capture().then(function(details) {
+            alert('Pago completado por ' + details.payer.name.given_name + ' ✅');
+          });
+        }
+      }).render('#paypal-button-container');
+    </script>
+
+    <section style="margin-top: 3rem;">
+      <h2>🔒 Medidas de Seguridad</h2>
+      <ul style="text-align: left; display: inline-block;">
+        <li>Conexión cifrada (HTTPS) a través de GitHub Pages</li>
+        <li>Procesamiento de pagos solo mediante plataformas oficiales (PayPal)</li>
+        <li>No almacenamos datos personales ni financieros</li>
+        <li>Formulario de contacto disponible para dudas o reportes</li>
+      </ul>
     </section>
   </main>
 
   <footer>
     <div class="footer-content">
-      <img src="../svg/logo.svg" alt="Logo" class="footer-logo">
-      <p>© 2025 Proyecto Proceso Térmico. Todos los derechos reservados.</p>
-      <p style="font-size: 0.8rem; margin-top: 0.5rem;">Plataforma de pagos seguros certificada</p>
+      <img src="public/svg/logo.svg" class="footer-logo" alt="Logo" />
+      <p>© 2025 Proceso Térmico. Todos los derechos reservados.</p>
     </div>
   </footer>
 </body>
