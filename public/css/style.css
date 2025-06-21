@@ -251,3 +251,29 @@ footer {
   outline: 3px solid var(--secondary-color);
   outline-offset: 3px;
 }
+/* Todos tus estilos actuales... */
+
+/* Añade esto al final */
+@media (max-width: 768px) {
+  body {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  header, section {
+    padding: 15px;
+  }
+  
+  nav ul {
+    flex-direction: column;
+  }
+  
+  .servicios-container {
+    grid-template-columns: 1fr;
+  }
+  
+  iframe {
+    width: 100%;
+    min-height: 300px;
+  }
+}
