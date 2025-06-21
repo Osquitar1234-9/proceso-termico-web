@@ -3,66 +3,56 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pagos Seguros - Proceso Térmico</title>
+  <title>Pagos | Proceso Térmico</title>
   <link rel="stylesheet" href="public/css/style.css" />
-  <script src="https://www.paypal.com/sdk/js?client-id=ASNXMMjwxySGecXg8jGMmPrw8TqB2EbcF9yd_UNv9dHSB6M18eEBxwytelKi2wmGH-gw3ZP3tK12AJmf&currency=USD"></script>
 </head>
 <body>
   <header>
-    <div class="header-container">
-      <img src="public/svg/logo.svg" alt="Logo Proceso Térmico" class="logo" />
-      <nav>
-        <ul>
-          <li><a href="index.html">Inicio</a></li>
-          <li><a href="productos.html">Productos</a></li>
-          <li><a href="formularios.html">Formulario</a></li>
-          <li><a class="active" href="pagos.html">Pagos</a></li>
-        </ul>
-      </nav>
-    </div>
+    <h1>Pagos Seguros</h1>
+    <p>Utilizamos PayPal para garantizar la seguridad de tus transacciones.</p>
   </header>
 
-  <main style="padding: 2rem; text-align: center;">
-    <h1>💳 Pagos Seguros</h1>
-    <p>Utilizamos plataformas confiables como PayPal para garantizar la seguridad de tus transacciones.</p>
+  <section>
+    <h2>🔒 Medidas de Seguridad</h2>
+    <ul>
+      <li>Conexión cifrada (HTTPS) mediante GitHub Pages</li>
+      <li>Pagos gestionados exclusivamente con PayPal</li>
+      <li>No almacenamos datos personales ni bancarios</li>
+    </ul>
+  </section>
 
-    <div id="paypal-button-container" style="margin: 2rem auto; max-width: 400px;"></div>
-
-    <script>
-      paypal.Buttons({
-        createOrder: function(data, actions) {
-          return actions.order.create({
-            purchase_units: [{
-              amount: {
-                value: '10.00' // Puedes cambiar el valor
-              }
-            }]
-          });
-        },
-        onApprove: function(data, actions) {
-          return actions.order.capture().then(function(details) {
-            alert('Pago completado por ' + details.payer.name.given_name + ' ✅');
-          });
-        }
-      }).render('#paypal-button-container');
-    </script>
-
-    <section style="margin-top: 3rem;">
-      <h2>🔒 Medidas de Seguridad</h2>
-      <ul style="text-align: left; display: inline-block;">
-        <li>Conexión cifrada (HTTPS) a través de GitHub Pages</li>
-        <li>Procesamiento de pagos solo mediante plataformas oficiales (PayPal)</li>
-        <li>No almacenamos datos personales ni financieros</li>
-        <li>Formulario de contacto disponible para dudas o reportes</li>
-      </ul>
-    </section>
-  </main>
+  <section>
+    <h2>💳 Realiza tu pago</h2>
+    <!-- Botón de PayPal -->
+    <div id="paypal-button-container"></div>
+  </section>
 
   <footer>
-    <div class="footer-content">
-      <img src="public/svg/logo.svg" class="footer-logo" alt="Logo" />
-      <p>© 2025 Proceso Térmico. Todos los derechos reservados.</p>
-    </div>
+    <p>¿Tienes dudas? Contáctanos desde el formulario de contacto.</p>
   </footer>
+
+  <!-- SDK de PayPal (modo producción) -->
+  <script src="https://www.paypal.com/sdk/js?client-id=ASNXMMjwxySGecXg8jGMmPrw8TqB2EbcF9yd_UNv9dHSB6M18eEBxwytelKi2wmGH-gw3ZP3tK12AJmf&currency=USD"></script>
+
+  <script>
+    paypal.Buttons({
+      createOrder: function(data, actions) {
+        return actions.order.create({
+          purchase_units: [{
+            description: "Servicio de procesamiento térmico",
+            amount: {
+              value: '10.00' // 💵 Puedes cambiar este valor
+            }
+          }]
+        });
+      },
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+          alert('Gracias, ' + details.payer.name.given_name + '. Tu pago fue procesado con éxito.');
+        });
+      }
+    }).render('#paypal-button-container');
+  </script>
 </body>
 </html>
+
