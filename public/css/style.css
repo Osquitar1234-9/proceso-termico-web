@@ -39,7 +39,7 @@ body {
 }
 
 .logo {
-  height: 50px; /* Ajusta según necesidad */
+  height: 50px;
   width: auto;
   transition: var(--transition);
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
@@ -50,7 +50,7 @@ body {
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
 }
 
-/* ================ HEADER ================ */
+/* ================ HEADER & NAVIGATION ================ */
 header {
   background-color: var(--text-light);
   padding: 0.5rem 1rem;
@@ -58,22 +58,41 @@ header {
   top: 0;
   z-index: 1000;
   box-shadow: var(--box-shadow);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .header-content {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
 }
 
-/* ================ NAVEGACIÓN ================ */
+/* Menú Hamburguesa */
+.menu-toggle {
+  display: none; /* Oculto en desktop */
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 1.8rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 1001;
+  transition: var(--transition);
+}
+
+.menu-toggle:hover {
+  color: var(--accent);
+}
+
+.menu-toggle[aria-expanded="true"] {
+  color: var(--accent);
+}
+
 nav {
   margin-left: auto;
+  transition: var(--transition);
 }
 
 nav ul {
@@ -110,6 +129,25 @@ nav a::after {
 
 nav a:hover::after {
   width: 70%;
+}
+
+/* Overlay para menú móvil */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition);
+}
+
+.overlay.active {
+  opacity: 1;
+  visibility: visible;
 }
 
 /* ================ HERO SECTION ================ */
@@ -199,20 +237,49 @@ footer {
 
 /* ================ RESPONSIVE ================ */
 @media (max-width: 768px) {
-  .header-content {
-    flex-direction: column;
+  /* Menú Hamburguesa */
+  .menu-toggle {
+    display: block;
   }
 
   nav {
-    margin: 1rem 0 0;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 80%;
+    max-width: 300px;
+    height: 100vh;
+    background-color: var(--text-light);
+    padding: 6rem 2rem 2rem;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    margin: 0;
+  }
+
+  nav.active {
+    left: 0;
   }
 
   nav ul {
     flex-direction: column;
-    gap: 0.5rem;
-    text-align: center;
+    gap: 1rem;
   }
 
+  nav a {
+    padding: 0.8rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  nav a::after {
+    display: none;
+  }
+
+  /* Header */
+  .header-content {
+    flex-direction: row; /* Mantiene logo y botón en línea */
+  }
+
+  /* Hero */
   .hero h1 {
     font-size: 2rem;
   }
@@ -226,4 +293,17 @@ footer {
   .hero h1 {
     font-size: 1.75rem;
   }
+
+  nav {
+    width: 85%;
+    padding: 5rem 1.5rem 1.5rem;
+  }
+}
+
+/* Clase para bloquear scroll cuando el menú está abierto */
+body.menu-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
 }
