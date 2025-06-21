@@ -1,72 +1,115 @@
 /**
- * Menú Hamburguesa - Proceso Térmico
- * Versión mejorada con mejores prácticas y mayor robustez
+ * Controlador de Menú Hamburguesa - Proceso Térmico
+ * Versión optimizada para rendimiento y accesibilidad
+ * 
+ * Funcionalidades:
+ * - Apertura/cierre del menú
+ * - Cierre al hacer clic fuera
+ * - Cierre al seleccionar enlace
+ * - Cierre con tecla ESC
+ * - Gestión de scroll
+ * - Compatibilidad con lectores de pantalla
  */
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Elementos del DOM
-    const menuToggle = document.querySelector('.menu-toggle');
-    const nav = document.getElementById('main-nav');
-    const menuIcon = document.querySelector('.menu-icon');
-    const overlay = document.createElement('div');
-    
-    // Validación de elementos
-    if (!menuToggle || !nav || !menuIcon) {
-        console.error('Error: Elementos esenciales del menú no encontrados');
-        return;
+class MobileMenu {
+  constructor() {
+    this.menuToggle = document.querySelector('.menu-toggle');
+    this.nav = document.getElementById('main-nav');
+    this.menuIcon = document.querySelector('.menu-icon');
+    this.overlay = this.createOverlay();
+    this.isOpen = false;
+
+    this.init();
+  }
+
+  init() {
+    // Validar elementos esenciales
+    if (!this.menuToggle || !this.nav || !this.menuIcon) {
+      console.error('Elementos del menú no encontrados');
+      return;
     }
 
-    // Crear overlay dinámicamente
-    overlay.className = 'overlay';
-    document.body.appendChild(overlay);
+    // Configurar estado inicial
+    this.menuToggle.setAttribute('aria-expanded', 'false');
+    this.menuToggle.setAttribute('aria-controls', 'main-nav');
+    this.menuToggle.setAttribute('aria-label', 'Menú de navegación');
 
-    // Estado inicial
-    menuToggle.setAttribute('aria-expanded', 'false');
-    overlay.style.display = 'none';
+    // Event listeners
+    this.menuToggle.addEventListener('click', () => this.toggleMenu());
+    this.overlay.addEventListener('click', () => this.closeMenu());
+    document.addEventListener('keydown', (e) => this.handleKeyDown(e));
 
-    // Evento para abrir/cerrar menú
-    menuToggle.addEventListener('click', function() {
-        const isExpanded = this.getAttribute('aria-expanded') === 'true';
-        
-        // Actualizar estado
-        this.setAttribute('aria-expanded', !isExpanded);
-        nav.classList.toggle('active');
-        document.body.classList.toggle('menu-open');
-        overlay.style.display = isExpanded ? 'none' : 'block';
-        
-        // Cambiar ícono
-        menuIcon.textContent = isExpanded ? '☰' : '✕';
-        
-        // Bloquear/desbloquear scroll
-        document.body.style.overflow = isExpanded ? '' : 'hidden';
-    });
-
-    // Cerrar menú al hacer clic en overlay
-    overlay.addEventListener('click', function() {
-        closeMenu();
-    });
-
-    // Cerrar menú al hacer clic en enlace
+    // Cerrar al hacer clic en enlaces (para navegación móvil)
     document.querySelectorAll('#main-nav a').forEach(link => {
-        link.addEventListener('click', function() {
-            closeMenu();
-        });
+      link.addEventListener('click', () => this.closeMenu());
     });
+  }
 
-    // Cerrar menú al presionar ESC
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && nav.classList.contains('active')) {
-            closeMenu();
-        }
-    });
+  createOverlay() {
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.setAttribute('role', 'presentation');
+    document.body.appendChild(overlay);
+    return overlay;
+  }
 
-    // Función para cerrar menú
-    function closeMenu() {
-        menuToggle.setAttribute('aria-expanded', 'false');
-        nav.classList.remove('active');
-        document.body.classList.remove('menu-open');
-        menuIcon.textContent = '☰';
-        overlay.style.display = 'none';
-        document.body.style.overflow = '';
+  toggleMenu() {
+    this.isOpen ? this.closeMenu() : this.openMenu();
+  }
+
+  openMenu() {
+    this.isOpen = true;
+    this.menuToggle.setAttribute('aria-expanded', 'true');
+    this.nav.classList.add('active');
+    this.overlay.style.display = 'block';
+    this.menuIcon.textContent = '✕';
+    document.body.classList.add('menu-open');
+    document.body.style.overflow = 'hidden';
+    
+    // Enfocar el primer elemento del menú
+    setTimeout(() => {
+      const firstLink = this.nav.querySelector('a');
+      if (firstLink) firstLink.focus();
+    }, 100);
+  }
+
+  closeMenu() {
+    this.isOpen = false;
+    this.menuToggle.setAttribute('aria-expanded', 'false');
+    this.nav.classList.remove('active');
+    this.overlay.style.display = 'none';
+    this.menuIcon.textContent = '☰';
+    document.body.classList.remove('menu-open');
+    document.body.style.overflow = '';
+    
+    // Devolver foco al botón del menú
+    this.menuToggle.focus();
+  }
+
+  handleKeyDown(e) {
+    // Cerrar con ESC
+    if (e.key === 'Escape' && this.isOpen) {
+      this.closeMenu();
     }
+    
+    // Trampa de foco para teclado (solo cuando el menú está abierto)
+    if (this.isOpen && e.key === 'Tab') {
+      const focusableElements = this.nav.querySelectorAll('a');
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (e.shiftKey && document.activeElement === firstElement) {
+        lastElement.focus();
+        e.preventDefault();
+      } else if (!e.shiftKey && document.activeElement === lastElement) {
+        firstElement.focus();
+        e.preventDefault();
+      }
+    }
+  }
+}
+
+// Inicialización cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
+  new MobileMenu();
 });
