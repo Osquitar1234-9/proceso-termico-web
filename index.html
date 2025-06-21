@@ -3,88 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proyecto Proceso Térmico</title>
+    <meta name="description" content="Soluciones integrales para el procesamiento térmico de alimentos">
+    <title>Proyecto Proceso Térmico | Expertos en procesamiento de alimentos</title>
     <link href="public/css/style.css" rel="stylesheet">
+    <link rel="preload" href="public/svg/home-desktop.svg" as="image" media="(min-width: 769px)">
+    <link rel="preload" href="public/svg/home-mobile.svg" as="image" media="(max-width: 768px)">
+    
     <style>
-        /* SWITCH AUTOMÁTICO IMÁGENES DESKTOP/MOBILE */
-        .img-desktop { display: block; }
-        .img-mobile { display: none; }
-        
-        @media (max-width: 768px) {
-            .img-desktop { display: none; }
-            .img-mobile { display: block; }
+        /* Optimización de carga de imágenes */
+        .hero-image {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: cover;
+            background-color: #f0f0f0; /* Color de fondo mientras carga */
         }
     </style>
 </head>
 <body>
     <header>
         <div class="header-container">
-            <!-- Logo (solo una versión) -->
-            <img src="public/svg/logo.svg" alt="Logo Proceso Térmico" class="logo">
+            <!-- Logo optimizado -->
+            <a href="index.html" aria-label="Inicio">
+                <img src="public/svg/logo.svg" alt="Logo Proceso Térmico" class="logo" width="150" height="50">
+            </a>
             
-            <nav>
-             <ul>
-                  <li><a href="index.html">Inicio</a></li>
-                  <li><a href="clases.html">Clases</a></li>
-                  <li><a href="productos.html">Productos</a></li>
-                  <li><a href="noticias.html">Noticias</a></li>
-                  <li><a href="pagos.html">Pagos</a></li>
-                  <li><a href="app.html">App</a></li>
-                  <li><a href="formularios.html">Formulario</a></li> <!-- ✅ RUTA CORRECTA -->
-             </ul>
+            <!-- Botón menú hamburguesa -->
+            <button class="menu-toggle" aria-label="Menú" aria-expanded="false">
+                <span class="menu-icon">☰</span>
+            </button>
+            
+            <!-- Navegación principal -->
+            <nav id="main-nav">
+                <ul>
+                    <li><a href="index.html" class="active">Inicio</a></li>
+                    <li><a href="clases.html">Clases</a></li>
+                    <li><a href="productos.html">Productos</a></li>
+                    <li><a href="noticias.html">Noticias</a></li>
+                    <li><a href="pagos.html">Pagos</a></li>
+                    <li><a href="app.html">App</a></li>
+                    <li><a href="formularios.html">Formulario</a></li>
+                </ul>
             </nav>
-            
         </div>
     </header>
 
     <main>
-        <!-- Hero Section con imágenes responsive -->
-        <section class="hero">
+        <!-- Hero Section optimizada -->
+        <section class="hero" aria-labelledby="main-heading">
             <picture>
                 <source media="(max-width: 768px)" srcset="public/svg/home-mobile.svg">
-                <img src="public/svg/home-desktop.svg" alt="Proceso Térmico" class="hero-image">
+                <img src="public/svg/home-desktop.svg" alt="" class="hero-image" loading="eager">
             </picture>
             <div class="hero-text">
-                <h1>Proyecto Proceso Térmico</h1>
-                <p>Soluciones integrales para el procesamiento térmico de alimentos</p>
+                <h1 id="main-heading">Proyecto Proceso Térmico</h1>
+                <p class="hero-subtitle">Soluciones integrales para el procesamiento térmico de alimentos</p>
+                <a href="formularios.html" class="cta-button">Contáctenos</a>
             </div>
         </section>
 
-        <!-- Grid de Servicios -->
-        <section class="services-grid">
+        <!-- Grid de Servicios mejorado -->
+        <section class="services-grid" aria-labelledby="services-heading">
+            <h2 id="services-heading" class="visually-hidden">Nuestros Servicios</h2>
+            
             <!-- Clases Virtuales -->
-            <article class="service-card" onclick="location.href='public/clases.html'">
+            <article class="service-card" tabindex="0" onclick="location.href='clases.html'" onkeydown="if(event.key === 'Enter') location.href='clases.html'">
                 <picture>
                     <source media="(max-width: 768px)" srcset="public/svg/clases-mobile.svg">
-                    <img src="public/svg/clases-desktop.svg" alt="Clases Virtuales">
+                    <img src="public/svg/clases-desktop.svg" alt="" loading="lazy">
                 </picture>
                 <div class="service-content">
                     <h3>Clases Virtuales</h3>
                     <p>Capacitación especializada en procesamiento térmico</p>
+                    <span class="service-link">Ver más →</span>
                 </div>
             </article>
 
             <!-- App Web -->
-            <article class="service-card" onclick="location.href='public/app.html'">
+            <article class="service-card" tabindex="0" onclick="location.href='app.html'" onkeydown="if(event.key === 'Enter') location.href='app.html'">
                 <picture>
                     <source media="(max-width: 768px)" srcset="public/svg/app-mobile.svg">
-                    <img src="public/svg/app-desktop.svg" alt="App de Cálculos">
+                    <img src="public/svg/app-desktop.svg" alt="" loading="lazy">
                 </picture>
                 <div class="service-content">
                     <h3>App de Cálculos</h3>
                     <p>Herramientas digitales para procesos térmicos</p>
+                    <span class="service-link">Ver más →</span>
                 </div>
             </article>
 
             <!-- Noticias -->
-            <article class="service-card" onclick="location.href='public/noticias.html'">
+            <article class="service-card" tabindex="0" onclick="location.href='noticias.html'" onkeydown="if(event.key === 'Enter') location.href='noticias.html'">
                 <picture>
                     <source media="(max-width: 768px)" srcset="public/svg/noticias-mobile.svg">
-                    <img src="public/svg/noticias-desktop.svg" alt="Noticias">
+                    <img src="public/svg/noticias-desktop.svg" alt="" loading="lazy">
                 </picture>
                 <div class="service-content">
                     <h3>Noticias</h3>
                     <p>Actualizaciones del sector alimentario</p>
+                    <span class="service-link">Ver más →</span>
                 </div>
             </article>
         </section>
@@ -92,9 +109,30 @@
 
     <footer>
         <div class="footer-content">
-            <img src="public/svg/logo.svg" alt="Logo" class="footer-logo">
-            <p>© 2025 Proyecto Proceso Térmico<br>Todos los derechos reservados</p>
+            <div class="footer-logo-container">
+                <img src="public/svg/logo.svg" alt="Proceso Térmico" class="footer-logo" width="120" height="40">
+            </div>
+            <div class="footer-info">
+                <p>© 2025 Proyecto Proceso Térmico</p>
+                <p>Todos los derechos reservados</p>
+                <p><a href="politica-privacidad.html">Política de Privacidad</a></p>
+            </div>
         </div>
     </footer>
+
+    <!-- JavaScript -->
+    <script src="public/js/menu.js" defer></script>
+    
+    <script>
+        // Mejora de accesibilidad para cards clickeables
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('focus', function() {
+                this.style.outline = '2px solid var(--color-secundario)';
+            });
+            card.addEventListener('blur', function() {
+                this.style.outline = 'none';
+            });
+        });
+    </script>
 </body>
 </html>
