@@ -19,6 +19,74 @@
   
   <!-- Favicon -->
   <link rel="icon" href="public/svg/logo.svg" type="image/svg+xml">
+
+  <style>
+    /* Estilos específicos para PLIN */
+    .plin-login-section {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 15px 0;
+      text-align: center;
+    }
+    .alert-message {
+      background: #fff3cd;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .highlight-link {
+      color: #2A5C8B;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+    .verify-box {
+      margin-top: 20px;
+    }
+    #user-email {
+      width: 100%;
+      max-width: 300px;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .verify-button {
+      background: #2A5C8B;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      display: block;
+      width: 100%;
+      max-width: 300px;
+      margin: 15px auto;
+      transition: background 0.3s;
+    }
+    .verify-button:hover {
+      background: #1E4566;
+    }
+    .error-message {
+      color: #dc3545;
+      margin-top: 10px;
+      font-size: 14px;
+      min-height: 20px;
+    }
+    #plin-payment-section {
+      display: none; /* Oculto inicialmente */
+    }
+    @media (max-width: 768px) {
+      .verify-button {
+        padding: 14px;
+      }
+    }
+  </style>
 </head>
 <body>
   <!-- Header -->
@@ -78,36 +146,44 @@
         </p>
       </div>
       
-      <!-- Sección PLIN con acceso restringido -->
+      <!-- Sección PLIN con restricción -->
       <div id="plin-tab" class="tab-content">
         <div id="plin-content" class="plin-content">
           <!-- Para usuarios NO registrados -->
           <div id="plin-login-section" class="plin-login-section">
-            <h3>Acceso exclusivo para clientes registrados</h3>
-            <p>Para pagar con PLIN, completa el formulario de contacto primero.</p>
-            <div class="plin-actions">
-              <a href="formularios.html" class="cta-button">Registrarme ahora</a>
-              <p class="small-text">¿Ya completaste el formulario?</p>
-              <button id="check-registration-btn" class="secondary-button">Verificar mi registro</button>
+            <h3>Pago con PLIN (Exclusivo clientes)</h3>
+            <div class="alert-message">
+              <p>⚠️ Para pagar con PLIN, primero debes:</p>
+              <ol>
+                <li>Completar nuestro <a href="formularios.html" class="highlight-link">formulario de registro</a></li>
+                <li>Verificar tu email</li>
+              </ol>
+            </div>
+            
+            <div class="verify-box">
+              <p>¿Ya te registraste? Verifícate aquí:</p>
+              <input type="email" id="user-email" placeholder="Ingresa tu email registrado">
+              <button id="verify-btn" class="verify-button">Verificar registro</button>
+              <p id="error-msg" class="error-message"></p>
             </div>
           </div>
           
           <!-- Para usuarios registrados (oculto inicialmente) -->
-          <div id="plin-payment-section" class="plin-payment-section" style="display: none;">
+          <div id="plin-payment-section" class="plin-payment-section">
             <h3>Paga con PLIN en 3 pasos:</h3>
             <ol>
-              <li>Abre la app PLIN y selecciona <strong>"Pagar con QR"</strong></li>
-              <li>Escanea este código:</li>
+              <li>Abre la app PLIN</li>
+              <li>Selecciona <strong>"Pagar con QR"</strong></li>
+              <li>Escanea este código e ingresa el monto exacto:</li>
             </ol>
             
-            <div class="plin-qr-container">
-              <img src="public/img/plin-qr.jpeg" alt="Código QR PLIN - OSCAR DEL CARPIO">
-            </div>
-            
-            <div class="payment-details">
-              <p><strong>Beneficiario:</strong> OSCAR DEL CARPIO</p>
-              <p><strong>Monto:</strong> <span id="plin-amount">$100.00</span> USD</p>
-              <p><strong>Concepto:</strong> <span id="plin-concepto">Curso Básico</span></p>
+            <div class="qr-wrapper">
+              <img src="public/img/plin-qr.jpeg" alt="QR PLIN - OSCAR DEL CARPIO">
+              <div class="payment-details">
+                <p><strong>Beneficiario:</strong> OSCAR DEL CARPIO</p>
+                <p><strong>Monto a pagar:</strong> <span id="plin-amount">$100.00</span> USD</p>
+                <p><strong>Concepto:</strong> <span id="plin-concept">Curso Básico</span></p>
+              </div>
             </div>
           </div>
         </div>
@@ -169,12 +245,13 @@
   <script src="https://www.paypal.com/sdk/js?client-id=ASNXMMjwxySGecXg8jGMmPrw8TqB2EbcF9yd_UNv9dHSB6M18eEBxwytelKi2wmGH-gw3ZP3tK12AJmf&currency=USD&locale=es_ES" data-sdk-integration-source="button-factory"></script>
 
   <script>
-    // Año actual
+    // ===== CONFIGURACIÓN INICIAL =====
     document.getElementById('current-year').textContent = new Date().getFullYear();
 
-    // Sistema de pestañas
+    // ===== SISTEMA DE PESTAÑAS =====
     document.querySelectorAll('.tab-button').forEach(button => {
       button.addEventListener('click', () => {
+        // Cambiar pestañas
         document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
         
@@ -182,50 +259,91 @@
         const tabId = button.getAttribute('data-tab');
         document.getElementById(tabId).classList.add('active');
 
-        // Verificar registro al cambiar a pestaña PLIN
-        if (tabId === 'plin-tab') checkPlinRegistration();
+        // Restringir acceso a PLIN
+        if (tabId === 'plin-tab' && !isUserVerified()) {
+          document.querySelector('[data-tab="paypal-tab"]').click();
+          showError("Debes registrarte para pagar con PLIN", true);
+        }
       });
     });
 
-    // Actualizar detalles PLIN al cambiar curso
+    // ===== VERIFICACIÓN DE REGISTRO =====
+    const verifyBtn = document.getElementById('verify-btn');
+    const userEmail = document.getElementById('user-email');
+    const errorMsg = document.getElementById('error-msg');
+    const plinLoginSection = document.getElementById('plin-login-section');
+    const plinPaymentSection = document.getElementById('plin-payment-section');
+
+    // Simulación de usuarios registrados (en producción usa tu backend)
+    const registeredUsers = [
+      'cliente@ejemplo.com',
+      'usuario@thermoprocess.com',
+      'test@test.com'
+    ];
+
+    verifyBtn.addEventListener('click', verifyRegistration);
+
+    function verifyRegistration() {
+      const email = userEmail.value.trim();
+      resetErrors();
+
+      if (!email) {
+        showError("Por favor ingresa tu email");
+        return;
+      }
+
+      if (!isValidEmail(email)) {
+        showError("Email no válido");
+        return;
+      }
+
+      // En producción, reemplazar con fetch a tu backend
+      if (registeredUsers.includes(email)) {
+        successVerification(email);
+      } else {
+        showError("Email no registrado. Completa el formulario primero.");
+      }
+    }
+
+    function successVerification(email) {
+      localStorage.setItem('verifiedUser', email);
+      plinLoginSection.style.display = 'none';
+      plinPaymentSection.style.display = 'block';
+      updatePlinDetails();
+    }
+
+    function isUserVerified() {
+      return localStorage.getItem('verifiedUser') !== null;
+    }
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function showError(message, isAlert = false) {
+      if (isAlert) {
+        alert(message);
+      } else {
+        errorMsg.textContent = message;
+        setTimeout(() => errorMsg.textContent = '', 4000);
+      }
+    }
+
+    function resetErrors() {
+      errorMsg.textContent = '';
+    }
+
+    // ===== ACTUALIZAR DETALLES PLIN =====
     function updatePlinDetails() {
       const producto = document.getElementById('producto');
       const monto = producto.value;
       const curso = producto.options[producto.selectedIndex].text.split(' - ')[0];
       
-      document.getElementById('plin-amount').textContent = `$${monto}.00`;
-      document.getElementById('plin-concepto').textContent = curso;
+      document.getElementById('plin-amount').textContent = `$${monto}`;
+      document.getElementById('plin-concept').textContent = curso;
     }
 
-    // Verificación de registro (simulada con localStorage)
-    document.getElementById('check-registration-btn').addEventListener('click', function() {
-      const email = prompt("Por favor ingresa el email con el que te registraste:");
-      
-      if (email && email.includes('@')) {
-        // En producción: aquí harías una petición a tu backend para verificar el email
-        localStorage.setItem('userRegistered', 'true');
-        checkPlinRegistration();
-        alert("¡Registro verificado! Ahora puedes pagar con PLIN.");
-      } else {
-        alert("Email no válido. Completa el formulario de contacto primero.");
-      }
-    });
-
-    // Función para verificar el estado de registro
-    function checkPlinRegistration() {
-      const isRegistered = localStorage.getItem('userRegistered') === 'true';
-      
-      if (isRegistered) {
-        document.getElementById('plin-login-section').style.display = 'none';
-        document.getElementById('plin-payment-section').style.display = 'block';
-        updatePlinDetails();
-      } else {
-        document.getElementById('plin-login-section').style.display = 'block';
-        document.getElementById('plin-payment-section').style.display = 'none';
-      }
-    }
-
-    // Renderizar botón PayPal
+    // ===== PAYPAL =====
     function renderBotonPayPal() {
       const monto = document.getElementById('producto').value;
       const producto = document.getElementById('producto').options[document.getElementById('producto').selectedIndex].text.split(' - ')[0];
@@ -256,18 +374,26 @@
       }).render('#paypal-button-container');
     }
 
-    // Inicialización
+    // ===== INICIALIZACIÓN =====
     document.addEventListener('DOMContentLoaded', () => {
-      setTimeout(renderBotonPayPal, 500);
+      // Verificar autenticación
+      if (isUserVerified()) {
+        plinLoginSection.style.display = 'none';
+        plinPaymentSection.style.display = 'block';
+      }
+
+      // Configurar eventos
       document.getElementById('producto').addEventListener('change', () => {
+        if (isUserVerified()) updatePlinDetails();
+        
         if (document.querySelector('#paypal-tab').classList.contains('active')) {
           document.getElementById('paypal-button-container').innerHTML = '<div class="payment-loading">Actualizando...</div>';
           setTimeout(renderBotonPayPal, 300);
         }
       });
-      
-      // Verificar registro al cargar
-      checkPlinRegistration();
+
+      // Iniciar PayPal
+      setTimeout(renderBotonPayPal, 500);
     });
   </script>
 
