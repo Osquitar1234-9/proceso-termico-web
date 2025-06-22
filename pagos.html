@@ -6,7 +6,7 @@
   <meta name="description" content="Realiza pagos seguros para cursos de procesamiento térmico con PayPal o Plin">
   <title>Pagos Seguros | ThermoProcess</title>
   
-  <!-- Preconexiones para mejor performance -->
+  <!-- Preconexiones -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://www.paypal.com">
@@ -21,7 +21,7 @@
   <link rel="icon" href="public/svg/logo.svg" type="image/svg+xml">
 </head>
 <body>
-  <!-- Header consistente con el resto del sitio -->
+  <!-- Header -->
   <header>
     <div class="header-content">
       <div class="logo-container">
@@ -45,7 +45,7 @@
     </div>
   </header>
 
-  <!-- Contenido principal de pagos -->
+  <!-- Contenido principal -->
   <main class="payment-container">
     <section class="payment-header">
       <h1>Realiza tu pago</h1>
@@ -78,43 +78,29 @@
         </p>
       </div>
       
+      <!-- Sección PLIN modificada -->
       <div id="plin-tab" class="tab-content">
         <div id="plin-content" class="plin-content">
-          <!-- Contenido dinámico según si está registrado o no -->
-          <div id="plin-login-section" class="plin-login-section">
-            <h3>Acceso restringido a clientes registrados</h3>
-            <p>Para pagar con PLIN, debes estar registrado en nuestro sistema.</p>
-            <div class="plin-actions">
-              <a href="formularios.html" class="cta-button">Registrarme ahora</a>
-              <p class="small-text">¿Ya estás registrado?</p>
-              <button id="check-registration-btn" class="secondary-button">Verificar mi registro</button>
-            </div>
-          </div>
-          
-          <div id="plin-payment-section" class="plin-payment-section" style="display: none;">
+          <!-- Contenido para usuarios registrados -->
+          <div id="plin-payment-section" class="plin-payment-section">
             <h3>Paga con PLIN en 3 pasos:</h3>
             <ol>
-              <li>Abre la app PLIN y selecciona "Pagar con QR"</li>
-              <li>Escanea el siguiente código</li>
-              <li>Confirma el pago</li>
+              <li>Abre la app PLIN y selecciona <strong>"Pagar con QR"</strong></li>
+              <li>Escanea este código:</li>
             </ol>
             
             <div class="plin-qr-container">
-              <div id="qr-code-container">
-                <!-- Aquí se insertará el QR dinámico -->
-                <img id="plin-qr-image" src="" alt="Código QR PLIN">
-              </div>
-              <p class="qr-instructions">Escanea este código para pagar directamente</p>
+              <img src="public/img/plin-qr.jpeg" alt="Código QR PLIN - OSCAR DEL CARPIO">
             </div>
             
             <div class="payment-details">
-              <p><strong>Beneficiario:</strong> <span id="plin-beneficiary">ThermoProcess</span></p>
-              <p><strong>Monto:</strong> <span id="plin-amount">$0.00</span> USD</p>
-              <p><strong>Referencia:</strong> <span id="plin-reference">Curso seleccionado</span></p>
+              <p><strong>Beneficiario:</strong> OSCAR DEL CARPIO</p>
+              <p><strong>Monto:</strong> <span id="plin-amount">$100.00</span> USD</p>
+              <p><strong>Concepto:</strong> <span id="plin-concepto">Curso Básico</span></p>
             </div>
             
-            <div class="security-note">
-              <span class="lock-icon">🔒</span> Pago seguro con PLIN
+            <div class="plin-nota">
+              <p>⚠️ <strong>Importante:</strong> Ingresa manualmente el monto mostrado arriba en la app PLIN.</p>
             </div>
           </div>
         </div>
@@ -143,7 +129,7 @@
     </section>
   </main>
 
-  <!-- Footer consistente -->
+  <!-- Footer -->
   <footer>
     <div class="footer-content">
       <div class="footer-brand">
@@ -176,102 +162,32 @@
   <script src="https://www.paypal.com/sdk/js?client-id=ASNXMMjwxySGecXg8jGMmPrw8TqB2EbcF9yd_UNv9dHSB6M18eEBxwytelKi2wmGH-gw3ZP3tK12AJmf&currency=USD&locale=es_ES" data-sdk-integration-source="button-factory"></script>
 
   <script>
-    // Año actual en el footer
+    // Año actual
     document.getElementById('current-year').textContent = new Date().getFullYear();
 
     // Sistema de pestañas
     document.querySelectorAll('.tab-button').forEach(button => {
       button.addEventListener('click', () => {
-        // Remover clase active de todos los botones y contenidos
         document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
         
-        // Agregar active al botón clickeado y su contenido correspondiente
         button.classList.add('active');
         const tabId = button.getAttribute('data-tab');
         document.getElementById(tabId).classList.add('active');
-        
-        // Si es la pestaña de PLIN, verificar estado
-        if (tabId === 'plin-tab') {
-          checkPlinRegistration();
-        }
       });
     });
 
-    // Función para verificar registro PLIN
-    function checkPlinRegistration() {
-      // Aquí deberías implementar la lógica para verificar si el usuario está registrado
-      // Esto puede ser mediante una cookie, localStorage o una consulta al backend
+    // Actualizar detalles PLIN al cambiar curso
+    document.getElementById('producto').addEventListener('change', function() {
+      const monto = this.value;
+      const curso = this.options[this.selectedIndex].text.split(' - ')[0];
       
-      // Ejemplo con localStorage (simulación)
-      const userRegistered = localStorage.getItem('userRegistered') === 'true';
-      const userEmail = localStorage.getItem('userEmail') || '';
-      
-      if (userRegistered) {
-        // Mostrar sección de pago con PLIN
-        document.getElementById('plin-login-section').style.display = 'none';
-        document.getElementById('plin-payment-section').style.display = 'block';
-        
-        // Actualizar detalles del pago
-        updatePlinDetails();
-      } else {
-        // Mostrar sección de registro
-        document.getElementById('plin-login-section').style.display = 'block';
-        document.getElementById('plin-payment-section').style.display = 'none';
-      }
-    }
-
-    // Función para actualizar detalles del pago con PLIN
-    function updatePlinDetails() {
-      const productoSelect = document.getElementById('producto');
-      const monto = productoSelect.value;
-      const producto = productoSelect.options[productoSelect.selectedIndex].text.split(' - ')[0];
-      
-      // Actualizar la UI
       document.getElementById('plin-amount').textContent = `$${monto}.00`;
-      document.getElementById('plin-reference').textContent = producto;
-      
-      // Generar o actualizar el QR
-      updatePlinQR(monto, producto);
-    }
-
-    // Función para actualizar el QR de PLIN
-    function updatePlinQR(monto, producto) {
-      // Aquí deberías generar el QR dinámico con el monto y referencia
-      // Para este ejemplo, usaremos un servicio de generación de QR online
-      // En producción, deberías usar un backend que genere el QR con los datos reales de PLIN
-      
-      const qrData = `plin://ThermoProcess?monto=${monto}&moneda=USD&concepto=${encodeURIComponent(producto)}`;
-      const qrSize = 200;
-      
-      // Usando un servicio de generación de QR (en producción usa tu backend)
-      document.getElementById('plin-qr-image').src = `https://api.qrserver.com/v1/create-qr-code/?size=${qrSize}x${qrSize}&data=${encodeURIComponent(qrData)}`;
-      document.getElementById('plin-qr-image').alt = `QR para pago de ${producto} - $${monto} USD`;
-    }
-
-    // Botón para verificar registro
-    document.getElementById('check-registration-btn').addEventListener('click', function() {
-      const email = prompt("Por favor ingresa el email con el que te registraste:");
-      
-      if (email) {
-        // Aquí deberías hacer una petición a tu backend para verificar el registro
-        // Simulación con localStorage
-        if (email.includes('@')) {
-          localStorage.setItem('userRegistered', 'true');
-          localStorage.setItem('userEmail', email);
-          alert("¡Registro verificado! Ahora puedes pagar con PLIN.");
-          checkPlinRegistration();
-        } else {
-          alert("El email ingresado no es válido o no está registrado.");
-        }
-      }
+      document.getElementById('plin-concepto').textContent = curso;
     });
 
-    // Función para renderizar botón PayPal
+    // Renderizar botón PayPal
     function renderBotonPayPal() {
-      const container = document.getElementById('paypal-button-container');
-      container.innerHTML = '<div class="payment-loading">Cargando pasarela de pago...</div>';
-
       const monto = document.getElementById('producto').value;
       const producto = document.getElementById('producto').options[document.getElementById('producto').selectedIndex].text.split(' - ')[0];
 
@@ -283,70 +199,31 @@
           label: 'paypal',
           height: 40
         },
-        createOrder: function(data, actions) {
-          return actions.order.create({
-            purchase_units: [{
-              description: producto,
-              amount: {
-                value: monto,
-                breakdown: {
-                  item_total: {
-                    value: monto,
-                    currency_code: 'USD'
-                  }
-                }
-              },
-              items: [{
-                name: producto,
-                unit_amount: {
-                  value: monto,
-                  currency_code: 'USD'
-                },
-                quantity: '1'
-              }]
-            }]
-          });
-        },
-        onApprove: function(data, actions) {
-          return actions.order.capture().then(function(details) {
-            const confirmationMessage = `
-              <div class="payment-confirmation">
-                <h3>¡Pago completado con éxito!</h3>
-                <p>Gracias ${details.payer.name.given_name}, tu compra de <strong>${producto}</strong> ha sido procesada.</p>
-                <p>ID de transacción: ${details.id}</p>
-                <a href="clases.html" class="cta-button">Acceder al curso</a>
-              </div>
-            `;
-            container.innerHTML = confirmationMessage;
-          });
-        },
-        onError: function(err) {
-          console.error("Error en el pago:", err);
-          container.innerHTML = `
-            <div class="payment-error">
-              <p>Ocurrió un error al procesar el pago. Por favor intenta nuevamente.</p>
-              <button onclick="renderBotonPayPal()" class="cta-button">Reintentar</button>
+        createOrder: (data, actions) => actions.order.create({
+          purchase_units: [{
+            description: producto,
+            amount: { value: monto }
+          }]
+        }),
+        onApprove: (data, actions) => actions.order.capture().then(details => {
+          document.getElementById('paypal-button-container').innerHTML = `
+            <div class="payment-confirmation">
+              <h3>¡Pago completado!</h3>
+              <p>Gracias ${details.payer.name.given_name}, tu compra de <strong>${producto}</strong> ha sido procesada.</p>
+              <a href="clases.html" class="cta-button">Acceder al curso</a>
             </div>
           `;
-        }
+        })
       }).render('#paypal-button-container');
     }
 
-    // Render inicial con retraso para mejor UX
-    document.addEventListener('DOMContentLoaded', function() {
+    // Inicialización
+    document.addEventListener('DOMContentLoaded', () => {
       setTimeout(renderBotonPayPal, 500);
-      
-      // Recargar botón al cambiar producto
-      document.getElementById('producto').addEventListener('change', function() {
+      document.getElementById('producto').addEventListener('change', () => {
         if (document.querySelector('#paypal-tab').classList.contains('active')) {
-          document.getElementById('paypal-button-container').innerHTML = '<div class="payment-loading">Actualizando opciones...</div>';
+          document.getElementById('paypal-button-container').innerHTML = '<div class="payment-loading">Actualizando...</div>';
           setTimeout(renderBotonPayPal, 300);
-        }
-        
-        // Si está en la pestaña PLIN y está visible la sección de pago
-        if (document.querySelector('#plin-tab').classList.contains('active') && 
-            document.getElementById('plin-payment-section').style.display !== 'none') {
-          updatePlinDetails();
         }
       });
     });
