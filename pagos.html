@@ -3,341 +3,263 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Realiza pagos seguros para cursos de procesamiento térmico con PayPal o Plin">
   <title>Pagos Seguros | ThermoProcess</title>
+  
+  <!-- Preconexiones -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://www.paypal.com">
+  
+  <!-- Fuentes -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS -->
   <link href="public/css/style.css" rel="stylesheet">
-  <style>
-    /* ===== ESTILOS PLIN RESPONSIVE ===== */
-    .plin-verification {
-      background: #f8f9fa;
-      padding: 2rem;
-      border-radius: 10px;
-      margin: 1rem 0;
-      text-align: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    }
-
-    .verification-card {
-      max-width: 500px;
-      margin: 0 auto;
-      padding: 1.5rem;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-    }
-
-    .verification-steps {
-      text-align: left;
-      margin: 1.5rem 0;
-      padding-left: 1.5rem;
-    }
-
-    .verification-steps li {
-      margin-bottom: 0.8rem;
-      color: #555;
-    }
-
-    .verification-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    #verification-email {
-      padding: 12px 15px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 1rem;
-      transition: all 0.3s;
-    }
-
-    #verification-email:focus {
-      border-color: #2A5C8B;
-      box-shadow: 0 0 0 3px rgba(42,92,139,0.2);
-    }
-
-    #verify-btn {
-      background: #2A5C8B;
-      color: white;
-      border: none;
-      padding: 14px;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    #verify-btn:hover {
-      background: #1E4566;
-    }
-
-    .verification-message {
-      padding: 12px;
-      border-radius: 8px;
-      margin-top: 1rem;
-      display: none;
-      animation: fadeIn 0.5s;
-    }
-
-    .message-success {
-      background: #e6ffed;
-      color: #1a7f37;
-      border: 1px solid #a7f3b0;
-    }
-
-    .message-error {
-      background: #ffebee;
-      color: #d32f2f;
-      border: 1px solid #ffcdd2;
-    }
-
-    .register-link {
-      display: inline-block;
-      margin-top: 1.5rem;
-      color: #2A5C8B;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.3s;
-    }
-
-    .register-link:hover {
-      text-decoration: underline;
-    }
-
-    /* Animaciones */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Responsive para móviles */
-    @media (max-width: 768px) {
-      .plin-verification {
-        padding: 1.5rem;
-        margin: 0.5rem 0;
-      }
-      
-      .verification-card {
-        padding: 1.2rem;
-        box-shadow: none;
-      }
-      
-      #verify-btn {
-        padding: 16px;
-      }
-      
-      .verification-steps {
-        padding-left: 1rem;
-      }
-    }
-
-    /* Estilos para la sección de pago */
-    #plin-payment-section {
-      display: none; /* Oculto inicialmente */
-      animation: fadeIn 0.5s;
-    }
-    
-    .qr-instructions {
-      margin-bottom: 1.5rem;
-    }
-    
-    .qr-container {
-      max-width: 300px;
-      margin: 0 auto 1.5rem;
-      padding: 1rem;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-    }
-    
-    .qr-container img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-    
-    .payment-details {
-      background: #f8f9fa;
-      padding: 1.2rem;
-      border-radius: 8px;
-      margin-top: 1.5rem;
-    }
-  </style>
+  
+  <!-- Favicon -->
+  <link rel="icon" href="public/svg/logo.svg" type="image/svg+xml">
 </head>
 <body>
-  <!-- Header (Mantén tu header existente) -->
-  <header>...</header>
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <div class="logo-container">
+        <a href="index.html" aria-label="Inicio">
+          <img src="public/svg/logo.svg" alt="ThermoProcess" class="logo">
+        </a>
+      </div>
+      
+      <nav id="main-nav">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="clases.html">Cursos</a></li>
+          <li><a href="pagos.html" class="active">Pagos</a></li>
+          <li><a href="formularios.html">Contacto</a></li>
+        </ul>
+      </nav>
+      
+      <button class="menu-toggle" aria-label="Menú" aria-expanded="false" aria-controls="main-nav">
+        <span class="menu-icon">☰</span>
+      </button>
+    </div>
+  </header>
 
   <!-- Contenido principal -->
   <main class="payment-container">
-    <!-- ... (Mantén tus secciones de selección de curso y pestañas) ... -->
+    <section class="payment-header">
+      <h1>Realiza tu pago</h1>
+      <p class="subtitle">Selecciona el producto y el método de pago</p>
+    </section>
 
-    <!-- Sección PLIN Mejorada -->
-    <div id="plin-tab" class="tab-content">
-      <div id="plin-content" class="plin-content">
-        <!-- Tarjeta de verificación -->
-        <div id="plin-verification" class="plin-verification">
-          <div class="verification-card">
-            <h3 style="margin-bottom: 1rem; color: #2A5C8B;">Verifica tu registro</h3>
-            <p style="color: #555; margin-bottom: 1.5rem;">Para pagar con PLIN debes haber completado nuestro formulario de contacto.</p>
-            
-            <ol class="verification-steps">
-              <li>Completa el <strong>formulario de registro</strong></li>
-              <li>Ingresa aquí el mismo email que usaste</li>
-              <li>Verifica tu identidad</li>
-            </ol>
+    <section class="product-selection">
+      <h2><span class="icon">🔍</span> Elige tu curso:</h2>
+      <div class="select-wrapper">
+        <select id="producto" class="styled-select">
+          <option value="100.00">Curso Básico - $100.00 USD</option>
+          <option value="250.00">Curso Intermedio - $250.00 USD</option>
+          <option value="500.00">Curso Avanzado - $500.00 USD</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="payment-methods">
+      <h2><span class="icon">💳</span> Método de pago:</h2>
+      
+      <div class="payment-tabs">
+        <button class="tab-button active" data-tab="paypal-tab">PayPal</button>
+        <button class="tab-button" data-tab="plin-tab">Plin</button>
+      </div>
+      
+      <div id="paypal-tab" class="tab-content active">
+        <div id="paypal-button-container" class="payment-button-container"></div>
+        <p class="security-note">
+          <span class="lock-icon">🔒</span> Pago seguro con PayPal
+        </p>
+      </div>
+      
+      <!-- Sección PLIN con restricción -->
+      <div id="plin-tab" class="tab-content">
+        <div id="plin-content" class="plin-content">
+          <!-- Para usuarios NO registrados -->
+          <div id="plin-verification" class="plin-verification">
+            <h3>Acceso exclusivo para clientes registrados</h3>
+            <p>Para pagar con PLIN, completa nuestro formulario de contacto primero.</p>
             
             <div class="verification-form">
-              <input type="email" id="verification-email" placeholder="tucorreo@ejemplo.com">
-              <button id="verify-btn">Verificar ahora</button>
+              <p>Ingresa el email con el que te registraste:</p>
+              <input type="email" id="verification-email" placeholder="tu@email.com">
+              <button id="verify-btn">Verificar registro</button>
               <div id="verification-message" class="verification-message"></div>
             </div>
             
-            <a href="formularios.html" class="register-link">¿No te has registrado? Haz clic aquí</a>
+            <p>¿No completaste el formulario? <a href="formularios.html" class="register-link">Regístrate aquí</a></p>
           </div>
-        </div>
-        
-        <!-- Sección de pago (aparece tras verificación) -->
-        <div id="plin-payment-section">
-          <div class="qr-instructions">
-            <h3 style="margin-bottom: 1rem; color: #2A5C8B;">Paga con PLIN fácilmente</h3>
-            <ol style="padding-left: 1.5rem;">
-              <li>Abre la app <strong>PLIN</strong> en tu celular</li>
-              <li>Selecciona la opción <strong>"Pagar con QR"</strong></li>
-              <li>Escanea este código e ingresa el monto exacto</li>
+          
+          <!-- Para usuarios registrados -->
+          <div id="plin-payment-section">
+            <h3>Paga con PLIN en 3 pasos:</h3>
+            <ol>
+              <li>Abre la app PLIN y selecciona <strong>"Pagar con QR"</strong></li>
+              <li>Escanea este código:</li>
             </ol>
-          </div>
-          
-          <div class="qr-container">
-            <img src="public/img/plin-qr.jpeg" alt="Código QR PLIN">
-          </div>
-          
-          <div class="payment-details">
-            <p><strong>Beneficiario:</strong> OSCAR DEL CARPIO</p>
-            <p><strong>Monto a ingresar:</strong> <span id="plin-amount">$100.00</span> USD</p>
-            <p><strong>Concepto:</strong> <span id="plin-concept">Curso Básico</span></p>
-          </div>
-          
-          <div style="margin-top: 1.5rem; padding: 1rem; background: #fff3cd; border-radius: 8px;">
-            <p style="margin: 0; color: #856404;">⚠️ <strong>Importante:</strong> El monto debe coincidir exactamente con tu compra.</p>
+            
+            <div class="plin-qr-container">
+              <img src="public/img/plin-qr.jpeg" alt="Código QR PLIN - OSCAR DEL CARPIO">
+            </div>
+            
+            <div class="payment-details">
+              <p><strong>Beneficiario:</strong> OSCAR DEL CARPIO</p>
+              <p><strong>Monto a pagar:</strong> <span id="plin-amount">$100.00</span> USD</p>
+              <p><strong>Concepto:</strong> <span id="plin-concept">Curso Básico</span></p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
+
+    <section class="payment-info">
+      <div class="info-card">
+        <h3>¿Qué incluye?</h3>
+        <ul>
+          <li>Acceso completo al curso seleccionado</li>
+          <li>Material descargable</li>
+          <li>Certificado digital</li>
+          <li>Soporte técnico</li>
+        </ul>
+      </div>
+      
+      <div class="info-card">
+        <h3>Políticas de pago</h3>
+        <ul>
+          <li>Pagos procesados en USD</li>
+          <li>Factura electrónica disponible</li>
+          <li>Reembolsos en 72 horas</li>
+        </ul>
+      </div>
+    </section>
   </main>
 
-  <!-- Footer (Mantén tu footer existente) -->
-  <footer>...</footer>
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <img src="public/svg/logo.svg" alt="ThermoProcess" class="footer-logo">
+        <p>Expertos en tecnologías de procesamiento térmico</p>
+      </div>
+      
+      <div class="footer-links">
+        <h3>Enlaces rápidos</h3>
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="clases.html">Cursos</a></li>
+          <li><a href="pagos.html">Pagos</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-contact">
+        <h3>Contacto</h3>
+        <p>contacto@thermoprocess.com</p>
+        <p>Pagos: pagos@thermoprocess.com</p>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      <p>&copy; <span id="current-year"></span> ThermoProcess. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- SDK PayPal (con tu Client ID original) -->
+  <script src="https://www.paypal.com/sdk/js?client-id=ASNXMMjwxySGecXg8jGMmPrw8TqB2EbcF9yd_UNv9dHSB6M18eEBxwytelKi2wmGH-gw3ZP3tK12AJmf&currency=USD&locale=es_ES" data-sdk-integration-source="button-factory"></script>
 
   <script>
-    // ===== VERIFICACIÓN CON FORMULARIO =====
+    // Año actual
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    // Sistema de pestañas
+    document.querySelectorAll('.tab-button').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        
+        button.classList.add('active');
+        const tabId = button.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
+
+        // Restringir PLIN si no está verificado
+        if (tabId === 'plin-tab' && !isVerified()) {
+          document.querySelector('[data-tab="paypal-tab"]').click();
+          showVerificationMessage("Debes registrarte para pagar con PLIN", true);
+        }
+      });
+    });
+
+    // ===== VERIFICACIÓN PLIN =====
     const verifyBtn = document.getElementById('verify-btn');
     const emailInput = document.getElementById('verification-email');
     const messageDiv = document.getElementById('verification-message');
     const plinVerification = document.getElementById('plin-verification');
     const plinPaymentSection = document.getElementById('plin-payment-section');
 
-    // Simulación de base de datos (en producción usa tu backend)
-    const registeredEmails = [
-      'cliente@ejemplo.com', 
-      'usuario@test.com',
-      'correo@registrado.com'
-    ];
-
     verifyBtn.addEventListener('click', verifyRegistration);
 
     function verifyRegistration() {
-      const email = emailInput.value.trim().toLowerCase();
+      const email = emailInput.value.trim();
       resetMessages();
 
       if (!email) {
-        showMessage('Por favor ingresa tu email', 'message-error');
-        emailInput.focus();
+        showVerificationMessage("Por favor ingresa tu email", false);
         return;
       }
 
       if (!isValidEmail(email)) {
-        showMessage('El formato del email no es válido', 'message-error');
+        showVerificationMessage("Email no válido", false);
         return;
       }
 
-      // Simulación de verificación (reemplazar con API real)
+      // Simulación de verificación (en producción usa tu backend)
       setTimeout(() => {
-        if (registeredEmails.includes(email)) {
+        if (checkRegisteredEmail(email)) {
           successfulVerification(email);
         } else {
-          showMessage('Email no registrado. Completa el formulario primero.', 'message-error');
+          showVerificationMessage("Email no registrado. Completa el formulario primero.", false);
         }
       }, 800);
     }
 
     function successfulVerification(email) {
-      showMessage('✅ Verificación exitosa. Redirigiendo...', 'message-success');
-      
-      // Guardar en localStorage (simulación de sesión)
+      showVerificationMessage("¡Verificación exitosa!", true);
       localStorage.setItem('verifiedUser', email);
-      
-      // Transición suave
-      setTimeout(() => {
-        plinVerification.style.display = 'none';
-        plinPaymentSection.style.display = 'block';
-        updatePlinDetails();
-      }, 1500);
+      plinVerification.style.display = 'none';
+      plinPaymentSection.style.display = 'block';
+      updatePlinDetails();
+    }
+
+    function isVerified() {
+      return localStorage.getItem('verifiedUser') !== null;
     }
 
     function isValidEmail(email) {
-      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return re.test(email);
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
 
-    function showMessage(text, className) {
+    function checkRegisteredEmail(email) {
+      // Simulación - en producción verifica contra tu base de datos
+      const registeredEmails = ['cliente@ejemplo.com', 'usuario@thermoprocess.com'];
+      return registeredEmails.includes(email.toLowerCase());
+    }
+
+    function showVerificationMessage(text, isSuccess) {
       messageDiv.textContent = text;
-      messageDiv.className = `verification-message ${className}`;
+      messageDiv.className = `verification-message ${isSuccess ? 'message-success' : 'message-error'}`;
       messageDiv.style.display = 'block';
     }
 
     function resetMessages() {
       messageDiv.style.display = 'none';
-      messageDiv.className = 'verification-message';
     }
 
-    // ===== RESTRICCIÓN POR PESTAÑA =====
-    document.querySelector('[data-tab="plin-tab"]').addEventListener('click', function() {
-      if (!localStorage.getItem('verifiedUser')) {
-        // Mueve el scroll a la sección de verificación
-        plinVerification.scrollIntoView({ behavior: 'smooth' });
-        
-        // Efecto visual para llamar la atención
-        plinVerification.style.animation = 'none';
-        void plinVerification.offsetWidth; // Trigger reflow
-        plinVerification.style.animation = 'pulse 1.5s';
-      }
-    });
-
-    // Efecto de pulso (añade al CSS)
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes pulse {
-        0% { box-shadow: 0 0 0 0 rgba(42, 92, 139, 0.4); }
-        70% { box-shadow: 0 0 0 15px rgba(42, 92, 139, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(42, 92, 139, 0); }
-      }
-    `;
-    document.head.appendChild(style);
-
-    // ===== INICIALIZACIÓN =====
-    document.addEventListener('DOMContentLoaded', function() {
-      // Verificar si ya está autenticado
-      if (localStorage.getItem('verifiedUser')) {
-        plinVerification.style.display = 'none';
-        plinPaymentSection.style.display = 'block';
-      }
-      
-      // Actualizar detalles al cambiar curso
-      document.getElementById('producto').addEventListener('change', updatePlinDetails);
-    });
-
+    // ===== ACTUALIZAR DETALLES PLIN =====
     function updatePlinDetails() {
       const producto = document.getElementById('producto');
       const monto = producto.value;
@@ -346,6 +268,62 @@
       document.getElementById('plin-amount').textContent = `$${monto}`;
       document.getElementById('plin-concept').textContent = curso;
     }
+
+    // ===== PAYPAL =====
+    function renderBotonPayPal() {
+      const monto = document.getElementById('producto').value;
+      const producto = document.getElementById('producto').options[document.getElementById('producto').selectedIndex].text.split(' - ')[0];
+
+      paypal.Buttons({
+        style: {
+          layout: 'vertical',
+          color: 'gold',
+          shape: 'rect',
+          label: 'paypal',
+          height: 40
+        },
+        createOrder: (data, actions) => actions.order.create({
+          purchase_units: [{
+            description: producto,
+            amount: { value: monto }
+          }]
+        }),
+        onApprove: (data, actions) => actions.order.capture().then(details => {
+          document.getElementById('paypal-button-container').innerHTML = `
+            <div class="payment-confirmation">
+              <h3>¡Pago completado!</h3>
+              <p>Gracias ${details.payer.name.given_name}, tu compra de <strong>${producto}</strong> ha sido procesada.</p>
+              <a href="clases.html" class="cta-button">Acceder al curso</a>
+            </div>
+          `;
+        })
+      }).render('#paypal-button-container');
+    }
+
+    // ===== INICIALIZACIÓN =====
+    document.addEventListener('DOMContentLoaded', () => {
+      // Verificar autenticación
+      if (isVerified()) {
+        plinVerification.style.display = 'none';
+        plinPaymentSection.style.display = 'block';
+      }
+
+      // Configurar eventos
+      document.getElementById('producto').addEventListener('change', () => {
+        if (isVerified()) updatePlinDetails();
+        
+        if (document.querySelector('#paypal-tab').classList.contains('active')) {
+          document.getElementById('paypal-button-container').innerHTML = '<div class="payment-loading">Actualizando...</div>';
+          setTimeout(renderBotonPayPal, 300);
+        }
+      });
+
+      // Iniciar PayPal
+      setTimeout(renderBotonPayPal, 500);
+    });
   </script>
+
+  <!-- JavaScript del menú -->
+  <script src="public/js/menu.js" defer></script>
 </body>
 </html>
