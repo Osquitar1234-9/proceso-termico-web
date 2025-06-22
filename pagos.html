@@ -1,73 +1,204 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pagos | Proceso Térmico</title>
-  <link rel="stylesheet" href="public/css/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Realiza pagos seguros para cursos de procesamiento térmico">
+  <title>Pagos Seguros | ThermoProcess</title>
+  
+  <!-- Preconexiones para mejor performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://www.paypal.com">
+  
+  <!-- Fuentes -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link href="public/css/style.css" rel="stylesheet">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="public/svg/logo.svg" type="image/svg+xml">
 </head>
 <body>
+  <!-- Header consistente con el resto del sitio -->
   <header>
-    <h1>Realiza tu pago</h1>
-    <p>Selecciona el producto y paga de forma segura con PayPal</p>
+    <div class="header-content">
+      <div class="logo-container">
+        <a href="index.html" aria-label="Inicio">
+          <img src="public/svg/logo.svg" alt="ThermoProcess" class="logo">
+        </a>
+      </div>
+      
+      <nav id="main-nav">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="clases.html">Cursos</a></li>
+          <li><a href="pagos.html" class="active">Pagos</a></li>
+          <li><a href="formularios.html">Contacto</a></li>
+        </ul>
+      </nav>
+      
+      <button class="menu-toggle" aria-label="Menú" aria-expanded="false" aria-controls="main-nav">
+        <span class="menu-icon">☰</span>
+      </button>
+    </div>
   </header>
 
-  <section>
-    <h2>🔍 Elige tu producto:</h2>
-    <select id="producto">
-      <option value="100.00">Curso Básico - $100.00</option>
-      <option value="250.00">Curso Intermedio - $250.00</option>
-      <option value="500.00">Curso Avanzado - $500.00</option>
-    </select>
-  </section>
+  <!-- Contenido principal de pagos -->
+  <main class="payment-container">
+    <section class="payment-header">
+      <h1>Realiza tu pago</h1>
+      <p class="subtitle">Selecciona el producto y paga de forma segura con PayPal</p>
+    </section>
 
-  <section>
-    <h2>💳 Proceder con el pago:</h2>
-    <div id="paypal-button-container"></div>
-  </section>
+    <section class="product-selection">
+      <h2><span class="icon">🔍</span> Elige tu curso:</h2>
+      <div class="select-wrapper">
+        <select id="producto" class="styled-select">
+          <option value="100.00">Curso Básico - $100.00 USD</option>
+          <option value="250.00">Curso Intermedio - $250.00 USD</option>
+          <option value="500.00">Curso Avanzado - $500.00 USD</option>
+        </select>
+      </div>
+    </section>
 
+    <section class="payment-section">
+      <h2><span class="icon">💳</span> Método de pago:</h2>
+      <div id="paypal-button-container" class="paypal-buttons"></div>
+      <p class="security-note">
+        <span class="lock-icon">🔒</span> Transacciones 100% seguras mediante PayPal.
+      </p>
+    </section>
+
+    <section class="payment-info">
+      <div class="info-card">
+        <h3>¿Qué incluye?</h3>
+        <ul>
+          <li>Acceso completo al curso seleccionado</li>
+          <li>Material descargable</li>
+          <li>Certificado digital</li>
+          <li>Soporte técnico</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer consistente -->
   <footer>
-    <p>Transacciones seguras gestionadas por PayPal. No almacenamos datos personales.</p>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <img src="public/svg/logo.svg" alt="ThermoProcess" class="footer-logo">
+        <p>Expertos en tecnologías de procesamiento térmico</p>
+      </div>
+      
+      <div class="footer-links">
+        <h3>Enlaces rápidos</h3>
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="clases.html">Cursos</a></li>
+          <li><a href="pagos.html">Pagos</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-contact">
+        <h3>Contacto</h3>
+        <p>contacto@thermoprocess.com</p>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      <p>&copy; <span id="current-year"></span> ThermoProcess. Todos los derechos reservados.</p>
+    </div>
   </footer>
 
-  <!-- SDK PayPal con tu Client ID real -->
-  <script src="https://www.paypal.com/sdk/js?client-id=ASNXMMjwxySGecXg8jGMmPrw8TqB2EbcF9yd_UNv9dHSB6M18eEBxwytelKi2wmGH-gw3ZP3tK12AJmf&currency=USD"></script>
+  <!-- SDK PayPal -->
+  <script src="https://www.paypal.com/sdk/js?client-id=ASNXMMjwxySGecXg8jGMmPrw8TqB2EbcF9yd_UNv9dHSB6M18eEBxwytelKi2wmGH-gw3ZP3tK12AJmf&currency=USD&locale=es_ES" data-sdk-integration-source="button-factory"></script>
 
   <script>
+    // Año actual en el footer
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    // Función mejorada para renderizar botón PayPal
     function renderBotonPayPal() {
-      // Borra cualquier botón anterior
       const container = document.getElementById('paypal-button-container');
-      container.innerHTML = '';
+      container.innerHTML = '<div class="paypal-loading">Cargando pasarela de pago...</div>';
 
       const monto = document.getElementById('producto').value;
+      const producto = document.getElementById('producto').options[document.getElementById('producto').selectedIndex].text.split(' - ')[0];
 
       paypal.Buttons({
-        createOrder: function (data, actions) {
+        style: {
+          layout: 'vertical',
+          color:  'gold',
+          shape:  'rect',
+          label:  'paypal',
+          height: 40
+        },
+        createOrder: function(data, actions) {
           return actions.order.create({
             purchase_units: [{
-              description: 'Pago por producto seleccionado',
+              description: producto,
               amount: {
-                value: monto
-              }
+                value: monto,
+                breakdown: {
+                  item_total: {
+                    value: monto,
+                    currency_code: 'USD'
+                  }
+                }
+              },
+              items: [{
+                name: producto,
+                unit_amount: {
+                  value: monto,
+                  currency_code: 'USD'
+                },
+                quantity: '1'
+              }]
             }]
           });
         },
-        onApprove: function (data, actions) {
-          return actions.order.capture().then(function (details) {
-            alert('Gracias, ' + details.payer.name.given_name + '. Tu pago fue procesado con éxito.');
+        onApprove: function(data, actions) {
+          return actions.order.capture().then(function(details) {
+            // Mensaje más profesional
+            const confirmationMessage = `
+              <div class="payment-confirmation">
+                <h3>¡Pago completado con éxito!</h3>
+                <p>Gracias ${details.payer.name.given_name}, tu compra de <strong>${producto}</strong> ha sido procesada.</p>
+                <p>ID de transacción: ${details.id}</p>
+                <a href="clases.html" class="cta-button">Acceder al curso</a>
+              </div>
+            `;
+            
+            document.getElementById('paypal-button-container').innerHTML = confirmationMessage;
           });
+        },
+        onError: function(err) {
+          console.error("Error en el pago:", err);
+          document.getElementById('paypal-button-container').innerHTML = `
+            <div class="payment-error">
+              <p>Ocurrió un error al procesar el pago. Por favor intenta nuevamente.</p>
+              <button onclick="renderBotonPayPal()" class="cta-button">Reintentar</button>
+            </div>
+          `;
         }
       }).render('#paypal-button-container');
     }
 
-    // Render inicial
-    renderBotonPayPal();
-
-    // Cambiar botón al cambiar de producto
-    document.getElementById('producto').addEventListener('change', renderBotonPayPal);
+    // Render inicial con retraso para mejor UX
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(renderBotonPayPal, 500);
+      
+      // Recargar botón al cambiar producto
+      document.getElementById('producto').addEventListener('change', function() {
+        document.getElementById('paypal-button-container').innerHTML = '<div class="paypal-loading">Actualizando opciones...</div>';
+        setTimeout(renderBotonPayPal, 300);
+      });
+    });
   </script>
+
+  <!-- JavaScript del menú -->
   <script src="public/js/menu.js" defer></script>
 </body>
 </html>
-
-
