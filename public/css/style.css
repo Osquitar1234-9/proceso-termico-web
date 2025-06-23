@@ -568,6 +568,50 @@ footer {
   margin-bottom: 0.5rem;
 }
 
+/* ================ PLIN MOBILE PAYMENT ================ */
+/* Contenedores responsivos */
+.mobile-payment-container {
+  display: none;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.desktop-payment-container {
+  display: block;
+}
+
+/* Botón de pago móvil */
+.mobile-payment-btn {
+  background: #6E0FF5;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin: 0 auto;
+}
+
+.mobile-payment-btn:hover {
+  background: #5a0bd3;
+}
+
+.mobile-note {
+  font-size: 14px;
+  color: #666;
+  margin-top: 8px;
+}
+
+/* Estilo para el logo de Plin en el botón */
+.mobile-payment-btn img {
+  height: 20px;
+  width: auto;
+}
+
 /* Animations */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
@@ -615,7 +659,7 @@ footer {
 
   /* Header */
   .header-content {
-    flex-direction: row; /* Mantiene logo y botón en línea */
+    flex-direction: row;
   }
 
   /* Hero */
@@ -639,6 +683,29 @@ footer {
   .tab-button {
     padding: 0.7rem 1rem;
     font-size: 0.9rem;
+  }
+
+  /* PLIN Mobile Payment Styles */
+  .mobile-payment-container {
+    display: block;
+  }
+  
+  .desktop-payment-container {
+    display: none !important;
+  }
+  
+  .plin-qr-container {
+    display: none;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-payment-container {
+    display: none !important;
+  }
+  
+  .desktop-payment-container {
+    display: block;
   }
 }
 
