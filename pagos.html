@@ -5,13 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Realiza pagos seguros para cursos de procesamiento térmico con PayPal o Plin">
 
-  <!-- Deep Linking para Plin -->
-  <meta property="al:android:url" content="plin://pay">
-  <meta property="al:android:package" content="com.interbank.mobilebanking">
-  <meta property="al:android:app_name" content="Plin">
-  <meta property="al:ios:url" content="plin://pay">
-  <meta property="al:ios:app_store_id" content="1477878625">
-  <meta property="al:ios:app_name" content="Plin">
+  <!-- ========== DEEP LINKING PARA PLIN ========== -->
+<!-- Configuración para Android -->
+<meta property="al:android:url" content="plin://open?screen=payment&source=web">
+<meta property="al:android:package" content="pe.interbank.plin">
+<meta property="al:android:app_name" content="Plin">
+<meta property="al:android:target_package" content="pe.interbank.plin">
+
+<!-- Configuración para iOS -->
+<meta property="al:ios:url" content="plinpay://transfer">
+<meta property="al:ios:app_store_id" content="1477878625">
+<meta property="al:ios:app_name" content="Plin">
+
+<!-- Universal Links (compatibilidad avanzada) -->
+<link rel="alternate" href="ios-app://1477878625/plinpay/transfer" />
+<link rel="alternate" href="android-app://pe.interbank.plin/plin/open" />
+
+<!-- Metadatos mejorados -->
+<meta name="plin:deeplink_version" content="2024.2">
+<meta property="og:url" content="https://plin.interbank.pe/pay">
 
   <title>Pagos Seguros | Proceso Termico</title>
   
