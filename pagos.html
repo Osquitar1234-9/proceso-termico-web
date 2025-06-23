@@ -97,14 +97,27 @@
           
           <!-- Para usuarios registrados -->
           <div id="plin-payment-section" style="display: none;">
-            <h3>Paga con PLIN en 3 pasos:</h3>
-            <ol>
-              <li>Abre la app PLIN y selecciona <strong>"Pagar con QR"</strong></li>
-              <li>Escanea este código:</li>
-            </ol>
+            <h3>Paga con PLIN:</h3>
             
-            <div class="plin-qr-container">
-              <img src="./public/svg/qr-plin.svg" alt="Código QR para pago por PLIN" width="200" height="200" loading="lazy">
+            <!-- Versión para móviles (oculta por defecto) -->
+            <div id="plin-mobile" style="display: none;">
+              <button id="plin-pay-button" class="mobile-payment-btn">
+                <img src="public/svg/plin-logo.svg" alt="Plin" width="20">
+                Pagar ahora con Plin
+              </button>
+              <p class="mobile-note">Se abrirá la app Plin con los datos de pago</p>
+            </div>
+            
+            <!-- Versión para desktop (muestra el QR) -->
+            <div id="plin-desktop">
+              <ol>
+                <li>Abre la app PLIN y selecciona <strong>"Pagar con QR"</strong></li>
+                <li>Escanea este código:</li>
+              </ol>
+              
+              <div class="plin-qr-container">
+                <img src="./public/svg/qr-plin.svg" alt="Código QR para pago por PLIN" width="200" height="200" loading="lazy">
+              </div>
             </div>
 
             <div class="payment-details">
@@ -235,6 +248,21 @@
         plinVerification.style.display = 'none';
         plinPaymentSection.style.display = 'block';
         updatePlinDetails();
+        
+        // Configurar el botón de pago para móviles
+        const plinPayButton = document.getElementById('plin-pay-button');
+        if (plinPayButton) {
+          plinPayButton.addEventListener('click', function() {
+            const monto = document.getElementById('producto').value;
+            // Intenta abrir la app Plin
+            window.location.href = `plin://pay?amount=${monto}&recipient=OSCAR_DEL_CARPIO&concept=${encodeURIComponent(document.getElementById('plin-concept').textContent)}`;
+            
+            // Fallback si no tiene la app instalada
+            setTimeout(function() {
+              window.location.href = 'https://plin.interbank.pe/home';
+            }, 500);
+          });
+        }
         
         // Scroll suave a la sección de pago
         document.getElementById('plin-payment-section').scrollIntoView({
