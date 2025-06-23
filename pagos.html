@@ -257,22 +257,29 @@
         plinPaymentSection.style.display = 'block';
         updatePlinDetails();
         
-        // Configurar el botón de pago para móviles
+        // Configuración del botón para móviles
         const plinPayButton = document.getElementById('plin-pay-button');
-        if (plinPayButton) {
+        if (plinPayButton && /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
           plinPayButton.addEventListener('click', function() {
             const monto = document.getElementById('producto').value;
-            // Intenta abrir la app Plin
-            window.location.href = `plin://pay?amount=${monto}&recipient=OSCAR_DEL_CARPIO&concept=${encodeURIComponent(document.getElementById('plin-concept').textContent)}`;
+            const concepto = document.getElementById('plin-concept').textContent;
             
-            // Fallback si no tiene la app instalada
-            setTimeout(function() {
-              window.location.href = 'https://plin.interbank.pe/home';
+            // URL para abrir Plin (ajustado para última versión)
+            const plinUrl = `plin://payment?amount=${monto}&recipient=OSCAR_DEL_CARPIO&note=${encodeURIComponent(concepto)}`;
+            
+            // Intenta abrir la app
+            window.location.href = plinUrl;
+            
+            // Fallback inteligente (si no tiene la app instalada)
+            setTimeout(() => {
+              if (!document.hidden) {
+                // Redirige a la página oficial de Plin con instrucciones
+                window.location.href = 'https://plin.interbank.pe/como-pagar-con-plin';
+              }
             }, 500);
           });
         }
         
-        // Scroll suave a la sección de pago
         document.getElementById('plin-payment-section').scrollIntoView({
           behavior: 'smooth'
         });
