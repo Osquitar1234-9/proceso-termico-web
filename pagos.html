@@ -344,8 +344,15 @@
       // Manejar parámetros de URL para redirección desde formulario
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('verified') === 'true') {
-        successfulVerification(localStorage.getItem('registeredEmail') || '');
+       const storedEmail = localStorage.getItem('registeredEmail');
+        if (storedEmail) {
+          successfulVerification(storedEmail);
+        } else {
+          // Por si el email no se guardó correctamente
+          showVerificationMessage("Error al recuperar tu email. Intenta verificar manualmente.", false);
+        }
       }
+
 
       // Iniciar PayPal
       setTimeout(renderBotonPayPal, 500);
