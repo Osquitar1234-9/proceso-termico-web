@@ -14,8 +14,6 @@
   <!-- Fuentes -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
   
-  <!-- CSS -->
-  <link href="public/css/style.css" rel="stylesheet">
   
   <!-- Favicon -->
   <link rel="icon" href="public/svg/logo.svg" type="image/svg+xml">
@@ -97,7 +95,7 @@
           </div>
           
           <!-- Para usuarios registrados -->
-          <div id="plin-payment-section">
+          <div id="plin-payment-section" style="display: none;">
             <h3>Paga con PLIN en 3 pasos:</h3>
             <ol>
               <li>Abre la app PLIN y selecciona <strong>"Pagar con QR"</strong></li>
@@ -105,7 +103,12 @@
             </ol>
             
             <div class="plin-qr-container">
-              <img src="public/img/plin-qr.jpeg" alt="Código QR PLIN - OSCAR DEL CARPIO">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="200" height="200">
+                <rect width="256" height="256" fill="#fff"/>
+                <path fill="#000" d="M36 36h22v22H36zm30 0h16v22H66zm48 0h16v22h-16zm30 0h22v22h-22zM36 66h22v16H36zm48 0h16v16h-16zm30 0h22v16h-22zM36 102h22v16H36zm30 0h16v16H66zm48 0h16v16h-16zm30 0h22v16h-22zM36 138h22v16H36zm48 0h16v16h-16zm30 0h22v16h-22zM36 174h22v22H36zm30 0h16v22H66zm48 0h16v22h-16zm30 0h22v22h-22z"/>
+                <path fill="#000" d="M102 36h16v22h-16zm0 48h16v16h-16zm0 48h16v16h-16zm0 48h16v22h-16zM66 138h16v16H66zm48 0h16v16h-16zM84 66h16v16H84zm0 48h16v16H84zm48-48h16v16h-16zm0 48h16v16h-16z"/>
+                <text x="128" y="240" text-anchor="middle" font-family="Arial" font-size="14" fill="#0066cc">PLIN</text>
+              </svg>
             </div>
             
             <div class="payment-details">
@@ -169,12 +172,19 @@
     </div>
   </footer>
 
-  <!-- SDK PayPal (con tu Client ID original) -->
+  <!-- SDK PayPal -->
   <script src="https://www.paypal.com/sdk/js?client-id=ASNXMMjwxySGecXg8jGMmPrw8TqB2EbcF9yd_UNv9dHSB6M18eEBxwytelKi2wmGH-gw3ZP3tK12AJmf&currency=USD&locale=es_ES" data-sdk-integration-source="button-factory"></script>
 
   <script>
     // Año actual
     document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    // Elementos PLIN
+    const verifyBtn = document.getElementById('verify-btn');
+    const emailInput = document.getElementById('verification-email');
+    const messageDiv = document.getElementById('verification-message');
+    const plinVerification = document.getElementById('plin-verification');
+    const plinPaymentSection = document.getElementById('plin-payment-section');
 
     // Sistema de pestañas
     document.querySelectorAll('.tab-button').forEach(button => {
@@ -186,21 +196,14 @@
         const tabId = button.getAttribute('data-tab');
         document.getElementById(tabId).classList.add('active');
 
-        // Restringir PLIN si no está verificado
+        // Manejar cambio a PLIN si no está verificado
         if (tabId === 'plin-tab' && !isVerified()) {
-          document.querySelector('[data-tab="paypal-tab"]').click();
-          showVerificationMessage("Debes registrarte para pagar con PLIN", true);
+          showVerificationMessage("Debes verificar tu registro para pagar con PLIN", false);
         }
       });
     });
 
     // ===== VERIFICACIÓN PLIN =====
-    const verifyBtn = document.getElementById('verify-btn');
-    const emailInput = document.getElementById('verification-email');
-    const messageDiv = document.getElementById('verification-message');
-    const plinVerification = document.getElementById('plin-verification');
-    const plinPaymentSection = document.getElementById('plin-payment-section');
-
     verifyBtn.addEventListener('click', verifyRegistration);
 
     function verifyRegistration() {
@@ -213,26 +216,36 @@
       }
 
       if (!isValidEmail(email)) {
-        showVerificationMessage("Email no válido", false);
+        showVerificationMessage("Formato de email inválido", false);
         return;
       }
 
-      // Simulación de verificación (en producción usa tu backend)
+      showVerificationMessage("Verificando...", true);
+      
+      // Simulación de verificación (en producción usa backend real)
       setTimeout(() => {
         if (checkRegisteredEmail(email)) {
           successfulVerification(email);
         } else {
           showVerificationMessage("Email no registrado. Completa el formulario primero.", false);
         }
-      }, 800);
+      }, 1500);
     }
 
     function successfulVerification(email) {
       showVerificationMessage("¡Verificación exitosa!", true);
       localStorage.setItem('verifiedUser', email);
-      plinVerification.style.display = 'none';
-      plinPaymentSection.style.display = 'block';
-      updatePlinDetails();
+      
+      setTimeout(() => {
+        plinVerification.style.display = 'none';
+        plinPaymentSection.style.display = 'block';
+        updatePlinDetails();
+        
+        // Scroll suave a la sección de pago
+        document.getElementById('plin-payment-section').scrollIntoView({
+          behavior: 'smooth'
+        });
+      }, 1000);
     }
 
     function isVerified() {
@@ -296,19 +309,29 @@
               <a href="clases.html" class="cta-button">Acceder al curso</a>
             </div>
           `;
-        })
+        }),
+        onError: (err) => {
+          console.error("Error en el pago:", err);
+          document.getElementById('paypal-button-container').innerHTML = `
+            <div class="payment-error">
+              <p>Ocurrió un error al procesar el pago. Por favor intenta nuevamente.</p>
+              <button onclick="renderBotonPayPal()" class="cta-button">Reintentar</button>
+            </div>
+          `;
+        }
       }).render('#paypal-button-container');
     }
 
     // ===== INICIALIZACIÓN =====
     document.addEventListener('DOMContentLoaded', () => {
-      // Verificar autenticación
+      // Verificar si el usuario ya está autenticado
       if (isVerified()) {
         plinVerification.style.display = 'none';
         plinPaymentSection.style.display = 'block';
+        updatePlinDetails();
       }
 
-      // Configurar eventos
+      // Manejar cambios en el selector de productos
       document.getElementById('producto').addEventListener('change', () => {
         if (isVerified()) updatePlinDetails();
         
@@ -318,12 +341,15 @@
         }
       });
 
+      // Manejar parámetros de URL para redirección desde formulario
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('verified') === 'true') {
+        successfulVerification(localStorage.getItem('registeredEmail') || '');
+      }
+
       // Iniciar PayPal
       setTimeout(renderBotonPayPal, 500);
     });
   </script>
-
-  <!-- JavaScript del menú -->
-  <script src="public/js/menu.js" defer></script>
 </body>
 </html>
