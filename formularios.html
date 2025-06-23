@@ -39,6 +39,23 @@
       style="border: 2px solid var(--secondary-color); border-radius: var(--border-radius); box-shadow: var(--card-shadow); background-color: #fff;">
       Cargando…
     </iframe>
+    <p style="text-align: center; margin-top: 2rem;">
+  ¿Ya llenaste el formulario? <br>
+  <a href="#" onclick="redirigir()">Haz clic aquí para continuar al pago</a>
+</p>
+
+<script>
+  function redirigir() {
+    const email = prompt("Por favor ingresa tu correo para continuar:");
+    if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      localStorage.setItem("registeredEmail", email);
+      window.location.href = `pagos.html?verified=true`;
+    } else {
+      alert("Correo inválido");
+    }
+  }
+</script>
+
   </main>
 
   <footer>
