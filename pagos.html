@@ -257,10 +257,10 @@
     }
 
     function checkRegisteredEmail(email) {
-      // Simulación - en producción verifica contra tu base de datos
-      const registeredEmails = ['cliente@ejemplo.com', 'usuario@thermoprocess.com'];
-      return registeredEmails.includes(email.toLowerCase());
+      const registeredEmail = localStorage.getItem('registeredEmail');
+      return registeredEmail && registeredEmail.toLowerCase() === email.toLowerCase();
     }
+
 
     function showVerificationMessage(text, isSuccess) {
       messageDiv.textContent = text;
@@ -352,8 +352,6 @@
           showVerificationMessage("Error al recuperar tu email. Intenta verificar manualmente.", false);
         }
       }
-
-
       // Iniciar PayPal
       setTimeout(renderBotonPayPal, 500);
     });
