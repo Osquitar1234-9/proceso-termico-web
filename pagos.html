@@ -313,8 +313,12 @@
       const monto = producto.value;
       const curso = producto.options[producto.selectedIndex].text.split(' - ')[0];
       
-      document.getElementById('plin-amount').textContent = `$${monto}`;
+      document.getElementById('plin-amount').textContent = `S/ ${(parseFloat(monto) * 3.7).toFixed(2)}`; // Conversión aproximada a soles
       document.getElementById('plin-concept').textContent = curso;
+      
+      // Actualizar QR dinámicamente (necesitarías un backend para generar QRs reales)
+      const qrImg = document.querySelector('.plin-qr-container img');
+      qrImg.src = `./public/svg/qr-plin.svg?monto=${monto}&concepto=${encodeURIComponent(curso)}`;
     }
 
     // ===== PAYPAL =====
