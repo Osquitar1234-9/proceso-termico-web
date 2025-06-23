@@ -108,8 +108,8 @@
           <div id="plin-payment-section" style="display: none;">
             <h3>Paga con PLIN:</h3>
             
-            <!-- Versión para móviles (oculta por defecto) -->
-            <div id="plin-mobile" style="display: none;">
+            <!-- Versión Móvil (Botón) -->
+            <div class="mobile-payment-container">
               <button id="plin-pay-button" class="mobile-payment-btn">
                 <img src="public/svg/plin-logo.svg" alt="Plin" width="20">
                 Pagar ahora con Plin
@@ -117,13 +117,12 @@
               <p class="mobile-note">Se abrirá la app Plin con los datos de pago</p>
             </div>
             
-            <!-- Versión para desktop (muestra el QR) -->
-            <div id="plin-desktop">
+            <!-- Versión Desktop (QR) -->
+            <div class="desktop-payment-container">
               <ol>
                 <li>Abre la app PLIN y selecciona <strong>"Pagar con QR"</strong></li>
                 <li>Escanea este código:</li>
               </ol>
-              
               <div class="plin-qr-container">
                 <img src="./public/svg/qr-plin.svg" alt="Código QR para pago por PLIN" width="200" height="200" loading="lazy">
               </div>
