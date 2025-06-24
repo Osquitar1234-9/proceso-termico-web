@@ -2,141 +2,73 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Formulario de Contacto | Proceso Térmico</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Formulario de Contacto | ThermoProcess</title>
+  <meta name="description" content="Contacto directo para asesoría y servicios en procesamiento térmico de alimentos">
+
+  <!-- Tipografía -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Estilos -->
   <link rel="stylesheet" href="public/css/style.css" />
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f8f8f8;
-      color: #333;
-    }
-
-    .fondo-svg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -1;
-      object-fit: cover;
-      display: none;
-    }
-
-    .mobile { display: block; }
-    .desktop { display: none; }
-
-    @media (min-width: 768px) {
-      .mobile { display: none; }
-      .desktop { display: block; }
-    }
-
-    main {
-      max-width: 960px;
-      margin: 5rem auto 3rem auto;
-      padding: 1.5rem;
-      background-color: rgba(255, 255, 255, 0.95);
-      border-radius: 1rem;
-      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
-    }
-
-    h1 {
-      text-align: center;
-      color: #003366;
-      margin-bottom: 2rem;
-    }
-
-    iframe {
-      border: none;
-      width: 100%;
-      height: 800px;
-      border-radius: 0.75rem;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      background-color: #fff;
-    }
-
-    .continuar {
-      text-align: center;
-      margin-top: 2rem;
-      font-size: 1rem;
-    }
-
-    .continuar a {
-      color: #0066cc;
-      text-decoration: underline;
-      cursor: pointer;
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem 1rem;
-      background-color: #003366;
-      color: white;
-    }
-
-    .footer-logo {
-      width: 120px;
-      margin-bottom: 0.5rem;
-    }
-  </style>
 </head>
 <body>
-  <!-- SVGs de fondo -->
-  <img src="public/svg/formularios-desktop.svg" alt="Fondo escritorio" class="fondo-svg desktop" />
-  <img src="public/svg/formularios-mobile.svg" alt="Fondo móvil" class="fondo-svg mobile" />
 
-  <header>
-    <div class="header-container">
-      <img src="public/svg/log.svg" alt="Logo Proceso Térmico" class="logo" />
-      <nav>
-        <ul>
-          <li><a href="index.html">Inicio</a></li>
-          <li><a href="clases.html">Clases</a></li>
-          <li><a href="productos.html">Productos</a></li>
-          <li><a href="noticias.html">Noticias</a></li>
-          <li><a href="pagos.html">Pagos</a></li>
-          <li><a href="app.html">App</a></li>
-          <li><a href="formularios.html" class="active">Formulario</a></li>
-        </ul>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="container">
+      <a href="home.html" class="logo">
+        <img src="public/svg/log.svg" alt="Logo ThermoProcess" />
+        <span>ThermoProcess</span>
+      </a>
+      <nav class="nav" id="main-nav">
+        <a href="index.html">Inicio</a>
+        <a href="clases.html">Clases</a>
+        <a href="app.html">App</a>
+        <a href="noticias.html">Noticias</a>
+        <a href="formularios.html" class="active">Formulario</a>
+        <a href="pagos.html">Pagos</a>
       </nav>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Menú móvil">☰</button>
     </div>
   </header>
 
-  <main>
-    <h1>Formulario de contacto</h1>
-
-    <iframe 
-      src="https://docs.google.com/forms/d/e/1FAIpQLSeoDzGee6bhTuRNIAvCzuIrbQIJEmHOzFE0fnlONTPwJvY79w/viewform?embedded=true"
-      loading="lazy"
-      allowfullscreen>
-      Cargando…
-    </iframe>
-
-    <div class="continuar">
-      ¿Ya llenaste el formulario?<br />
-      <a onclick="redirigir()">Haz clic aquí para continuar al pago</a>
-    </div>
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="main-content">
+    <section class="contact-section">
+      <div class="container">
+        <h1 class="section-title">Formulario de contacto</h1>
+        <p style="text-align:center; margin-bottom: 1.5rem;">Déjanos tus datos para asesorarte gratuitamente</p>
+        
+        <div class="form-container">
+          <iframe 
+            src="https://docs.google.com/forms/d/e/1FAIpQLSeoDzGee6bhTuRNIAvCzuIrbQIJEmHOzFE0fnlONTPwJvY79w/viewform?embedded=true"
+            width="100%"
+            height="800"
+            frameborder="0"
+            marginheight="0"
+            marginwidth="0"
+            loading="lazy"
+            style="border-radius: 0.75rem; background-color: #fff;">
+            Cargando…
+          </iframe>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <footer>
-    <img src="public/svg/log.svg" alt="Logo Footer" class="footer-logo" />
-    <p>© 2025 Proceso Térmico. Todos los derechos reservados.</p>
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> ThermoProcess - Todos los derechos reservados</p>
+      <p>Contacto: <a href="mailto:javier.decarpio.789@gmail.com">javier.decarpio.789@gmail.com</a></p>
+    </div>
   </footer>
 
+  <!-- JS -->
+  <script src="js/menu.js"></script>
   <script>
-    function redirigir() {
-      const email = prompt("Por favor ingresa tu correo para continuar:");
-      const regex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
-      if (email && regex.test(email)) {
-        localStorage.setItem("registeredEmail", email);
-        window.location.href = "pagos.html?verified=true";
-      } else {
-        alert("Correo inválido. Intenta nuevamente.");
-      }
-    }
+    document.getElementById('year').textContent = new Date().getFullYear();
   </script>
-
-  <script src="public/js/menu.js" defer></script>
 </body>
 </html>
