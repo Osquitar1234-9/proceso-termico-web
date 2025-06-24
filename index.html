@@ -10,15 +10,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="public/css/style.css" />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
   <header class="site-header">
     <div class="container header-container">
       <div class="logo">ThermoProcess</div>
-      <button class="menu-toggle" aria-label="Abrir menú">
+      <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">
         <span class="menu-icon">☰</span>
       </button>
       <nav id="main-nav" class="nav">
@@ -81,7 +80,7 @@
     </div>
   </footer>
 
-  <script src="public/js/menu.js" defer></script>
+  <script src="js/menu.js"></script>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
