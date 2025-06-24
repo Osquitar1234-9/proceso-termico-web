@@ -1,34 +1,46 @@
-document.addEventListener('DOMContentLoaded', function() {
-  const menuToggle = document.querySelector('.menu-toggle');
+document.addEventListener('DOMContentLoaded', function () {
+  const toggleBtn = document.getElementById('menu-toggle');
   const nav = document.getElementById('main-nav');
-  
-  if(menuToggle && nav) {
-    menuToggle.addEventListener('click', function() {
-      // Alternar estado del menú
-      nav.classList.toggle('open');
-      document.body.classList.toggle('menu-open');
-      
-      // Cambiar ícono
-      const icon = this.querySelector('.menu-icon');
-      if(nav.classList.contains('open')) {
-        icon.textContent = '✕';
-        this.setAttribute('aria-expanded', 'true');
-      } else {
-        icon.textContent = '☰';
-        this.setAttribute('aria-expanded', 'false');
+  const icon = toggleBtn?.querySelector('.menu-icon');
+
+  if (!toggleBtn || !nav || !icon) {
+    console.warn('Menú hamburguesa: elementos no encontrados.');
+    return;
+  }
+
+  const openMenu = () => {
+    nav.classList.add('open');
+    document.body.classList.add('menu-open');
+    icon.textContent = '✕';
+    toggleBtn.setAttribute('aria-expanded', 'true');
+  };
+
+  const closeMenu = () => {
+    nav.classList.remove('open');
+    document.body.classList.remove('menu-open');
+    icon.textContent = '☰';
+    toggleBtn.setAttribute('aria-expanded', 'false');
+  };
+
+  toggleBtn.addEventListener('click', () => {
+    const isOpen = nav.classList.contains('open');
+    isOpen ? closeMenu() : openMenu();
+  });
+
+  // Cierra al hacer clic en cualquier link del menú (solo en móviles)
+  nav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        closeMenu();
       }
     });
-    
-    // Cerrar menú al hacer clic en enlaces (solo en móvil)
-    document.querySelectorAll('#main-nav a').forEach(link => {
-      link.addEventListener('click', function() {
-        if(window.innerWidth <= 768) {
-          nav.classList.remove('open');
-          document.body.classList.remove('menu-open');
-          menuToggle.querySelector('.menu-icon').textContent = '☰';
-          menuToggle.setAttribute('aria-expanded', 'false');
-        }
-      });
-    });
-  }
+  });
+
+  // Cierra con Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && nav.classList.contains('open')) {
+      closeMenu();
+    }
+  });
 });
+
