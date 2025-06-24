@@ -1,59 +1,34 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function() {
   const menuToggle = document.querySelector('.menu-toggle');
   const nav = document.getElementById('main-nav');
-  const icon = menuToggle?.querySelector('.menu-icon');
-
-  // Si no existen los elementos necesarios, salir
-  if (!menuToggle || !nav || !icon) {
-    console.error('Elementos del menú no encontrados');
-    return;
+  
+  if(menuToggle && nav) {
+    menuToggle.addEventListener('click', function() {
+      // Alternar estado del menú
+      nav.classList.toggle('open');
+      document.body.classList.toggle('menu-open');
+      
+      // Cambiar ícono
+      const icon = this.querySelector('.menu-icon');
+      if(nav.classList.contains('open')) {
+        icon.textContent = '✕';
+        this.setAttribute('aria-expanded', 'true');
+      } else {
+        icon.textContent = '☰';
+        this.setAttribute('aria-expanded', 'false');
+      }
+    });
+    
+    // Cerrar menú al hacer clic en enlaces (solo en móvil)
+    document.querySelectorAll('#main-nav a').forEach(link => {
+      link.addEventListener('click', function() {
+        if(window.innerWidth <= 768) {
+          nav.classList.remove('open');
+          document.body.classList.remove('menu-open');
+          menuToggle.querySelector('.menu-icon').textContent = '☰';
+          menuToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    });
   }
-
-  /**
-   * Función para abrir/cerrar el menú
-   * @param {boolean} isOpen - Indica si el menú debe abrirse (true) o cerrarse (false)
-   */
-  const toggleMenu = (isOpen) => {
-    nav.classList.toggle('open', isOpen); // aquí el cambio importante
-    icon.textContent = isOpen ? '✕' : '☰';
-    menuToggle.setAttribute('aria-expanded', isOpen.toString());
-    document.body.style.overflow = isOpen ? 'hidden' : '';
-    document.querySelector('.site-header')?.classList.toggle('menu-open', isOpen);
-  };
-
-  const closeMenu = () => {
-    toggleMenu(false);
-  };
-
-  const handleClickOutside = (event) => {
-    if (nav.classList.contains('open') &&
-        !nav.contains(event.target) &&
-        event.target !== menuToggle) {
-      closeMenu();
-    }
-  };
-
-  menuToggle.addEventListener('click', () => {
-    const isOpen = !nav.classList.contains('open');
-    toggleMenu(isOpen);
-  });
-
-  nav.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', closeMenu);
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && nav.classList.contains('open')) {
-      closeMenu();
-    }
-  });
-
-  document.addEventListener('click', handleClickOutside);
-
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 768 && nav.classList.contains('open')) {
-      closeMenu();
-    }
-  });
 });
-
