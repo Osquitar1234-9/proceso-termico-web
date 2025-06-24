@@ -2,62 +2,64 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="Soluciones en procesamiento térmico de alimentos - ThermoProcess">
   <title>Inicio | ThermoProcess</title>
-
-  <!-- Fuentes y Estilos -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Tipografía -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css" />
+  
+  <!-- Estilos -->
+  <link rel="stylesheet" href="public/css/style.css" />
 </head>
-
 <body>
-  <header class="site-header">
-    <div class="container header-container">
-      <div class="logo">ThermoProcess</div>
-      <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">
-        <span class="menu-icon">☰</span>
-      </button>
-      <nav id="main-nav" class="nav">
-        <ul class="nav-list">
-          <li><a href="index.html" class="active">Inicio</a></li>
-          <li><a href="clases.html">Clases</a></li>
-          <li><a href="app.html">App</a></li>
-          <li><a href="noticias.html">Noticias</a></li>
-          <li><a href="formularios.html">Contacto</a></li>
-          <li><a href="pagos.html">Pagos</a></li>
-        </ul>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container">
+      <a href="home.html" class="logo">
+        <img src="public/svg/log.svg" alt="Logo ThermoProcess" />
+        <span>ThermoProcess</span>
+      </a>
+      <nav class="nav" id="main-nav">
+        <a href="index.html" class="active">Inicio</a>
+        <a href="clases.html">Clases</a>
+        <a href="app.html">App</a>
+        <a href="noticias.html">Noticias</a>
+        <a href="formularios.html">Contacto</a>
+        <a href="pagos.html">Pagos</a>
       </nav>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Menú móvil">☰</button>
     </div>
   </header>
 
+  <!-- Hero -->
   <main class="main-content">
     <section class="hero">
       <div class="container">
         <h1 class="hero-title">Expertos en Procesamiento Térmico de Alimentos</h1>
         <p class="hero-subtitle">Innovación, precisión y seguridad alimentaria para la industria moderna</p>
-        <div class="hero-actions">
-          <a href="formularios.html" class="btn-primary">Contáctanos</a>
-          <a href="clases.html" class="btn-secondary">Ver Clases</a>
+        <div class="hero-buttons">
+          <a href="formularios.html" class="btn btn-primary">Contáctanos</a>
+          <a href="clases.html" class="btn btn-secondary">Ver Clases</a>
         </div>
       </div>
     </section>
 
+    <!-- Features -->
     <section class="features">
       <div class="container">
         <h2 class="section-title">¿Qué ofrecemos?</h2>
         <div class="features-grid">
-          <div class="feature-item">
+          <div class="feature-card">
             <h3>Capacitación</h3>
             <p>Clases en línea sobre tecnología térmica, diseño de procesos y microbiología aplicada.</p>
           </div>
-          <div class="feature-item">
+          <div class="feature-card">
             <h3>Herramientas Interactivas</h3>
             <p>Software web gratuito para cálculos térmicos y validación de procesos.</p>
           </div>
-          <div class="feature-item">
+          <div class="feature-card">
             <h3>Noticias Actualizadas</h3>
             <p>Lo último en legislación, innovación y tendencias en conservación térmica de alimentos.</p>
           </div>
@@ -65,21 +67,24 @@
       </div>
     </section>
 
+    <!-- Llamado a la acción -->
     <section class="cta">
       <div class="container">
         <h2>¿Listo para optimizar tu proceso térmico?</h2>
-        <a href="pagos.html" class="btn-primary">Accede a nuestros cursos</a>
+        <a href="pagos.html" class="btn btn-primary">Accede a nuestros cursos</a>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container footer-container">
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
       <p>&copy; <span id="year"></span> ThermoProcess - Todos los derechos reservados</p>
-      <p>Contacto: javier.decarpio.789@gmail.com</p>
+      <p>Contacto: <a href="mailto:javier.decarpio.789@gmail.com">javier.decarpio.789@gmail.com</a></p>
     </div>
   </footer>
 
+  <!-- JS -->
   <script src="js/menu.js"></script>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
