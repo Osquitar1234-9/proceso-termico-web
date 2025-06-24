@@ -37,7 +37,7 @@
     <section class="hero">
       <div class="container">
         <h1 class="hero-title">Pago Seguro de Cursos</h1>
-        <p class="hero-subtitle">Selecciona tu curso y paga de forma segura con PayPal</p>
+        <p class="hero-subtitle">Selecciona tu curso y realiza tu pago de forma segura con PayPal</p>
       </div>
     </section>
 
@@ -45,6 +45,7 @@
       <div class="features-grid">
         <div class="feature-card">
           <h3>Selecciona tu curso</h3>
+          <label for="producto" class="sr-only">Selecciona el curso</label>
           <select id="producto">
             <option value="100.00">Curso Básico - $100.00 USD</option>
             <option value="250.00">Curso Intermedio - $250.00 USD</option>
@@ -54,6 +55,10 @@
         <div class="feature-card">
           <h3>Método de pago</h3>
           <div id="paypal-button-container"></div>
+          <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 1rem;">
+            * Transacción procesada de forma segura por PayPal. Al realizar el pago aceptas nuestras 
+            <a href="politica.html" style="color:#38bdf8;">políticas de privacidad</a>.
+          </p>
         </div>
       </div>
     </section>
@@ -65,18 +70,18 @@
             <h3>¿Qué incluye?</h3>
             <ul>
               <li>Acceso completo al curso</li>
-              <li>Material descargable</li>
-              <li>Certificado digital</li>
-              <li>Soporte técnico personalizado</li>
+              <li>Material descargable en PDF y Excel</li>
+              <li>Certificado digital de participación</li>
+              <li>Soporte técnico personalizado por email</li>
             </ul>
           </div>
           <div class="feature-card">
             <h3>Políticas</h3>
             <ul>
-              <li>Pagos 100% seguros con PayPal</li>
-              <li>Cuentas vinculadas a Interbank</li>
-              <li>Factura electrónica disponible</li>
-              <li>Reembolsos disponibles dentro de 72h</li>
+              <li>Pagos 100% seguros a través de PayPal</li>
+              <li>Transferencia inmediata a cuenta Interbank</li>
+              <li>Factura electrónica disponible a pedido</li>
+              <li>Reembolsos disponibles dentro de 72h (según términos)</li>
             </ul>
           </div>
         </div>
@@ -92,10 +97,10 @@
     </div>
   </footer>
 
-  <!-- PayPal SDK -->
+  <!-- SDK de PayPal -->
   <script src="https://www.paypal.com/sdk/js?client-id=ASNXMMjwxySGecXg8jGMmPrw8TqB2EbcF9yd_UNv9dHSB6M18eEBxwytelKi2wmGH-gw3ZP3tK12AJmf&currency=USD&locale=es_ES"></script>
 
-  <!-- Script para PayPal dinámico -->
+  <!-- Script PayPal Dinámico -->
   <script>
     let selectedAmount = "100.00";
     const select = document.getElementById("producto");
@@ -118,15 +123,13 @@
         createOrder: function (data, actions) {
           return actions.order.create({
             purchase_units: [{
-              amount: {
-                value: selectedAmount
-              }
+              amount: { value: selectedAmount }
             }]
           });
         },
         onApprove: function (data, actions) {
           return actions.order.capture().then(function (details) {
-            alert('✅ Pago completado por ' + details.payer.name.given_name + '. Revisa tu correo para confirmar inscripción.');
+            alert('✅ ¡Gracias, ' + details.payer.name.given_name + '! Tu pago ha sido confirmado.');
           });
         }
       }).render('#paypal-button-container');
@@ -135,12 +138,10 @@
     renderPayPalButton();
   </script>
 
-  <!-- Otros scripts -->
+  <!-- Script de menú y año -->
   <script src="/proceso-termico-web/js/menu.js" defer></script>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
-
-
