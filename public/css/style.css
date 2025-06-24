@@ -204,28 +204,28 @@ body {
 
   .nav {
     flex-direction: column;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    width: 100%;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: auto;                 /* ✔️ Se adapta al contenido */
+    max-height: 100vh;            /* ✔️ Nunca más alto que la pantalla */
+    overflow-y: auto;             /* ✔️ Permite desplazamiento si hay muchos ítems */
     background-color: #1e293b;
-    padding: 0;
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transition: all 0.3s ease;
+    padding: 70px 20px 30px;      /* ✔️ Ajusta espacio interior */
+    opacity: 1;
+    transition: right 0.3s ease;
     z-index: 1000;
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.2);
   }
 
   .nav.open {
-    padding: 1rem 0;
-    max-height: 400px;
-    opacity: 1;
+    right: 0;                     /* ✔️ Despliega el menú */
   }
 
   .nav a {
-    padding: 1rem;
-    text-align: center;
+    padding: 13px 0;
+    text-align: left;
     color: #cbd5e1;
     font-weight: 500;
     text-decoration: none;
@@ -245,6 +245,7 @@ body {
     flex-direction: column;
   }
 }
+
 @media (max-width: 768px) {
   .logo {
     display: none;
