@@ -325,3 +325,74 @@ ul {
     margin-bottom: 20px;
   }
 }
+
+/* ------------------------- */
+/* ESTILOS PARA MENÚ MÓVIL */
+/* ------------------------- */
+
+@media (max-width: 768px) {
+  /* Oculta el menú normal */
+  .nav {
+    display: none;
+  }
+
+  /* Muestra el botón hamburguesa */
+  .menu-toggle {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1001;
+    color: #333; /* Ajusta según tu diseño */
+  }
+
+  /* Estilos cuando el menú está activo */
+  #main-nav.active {
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 70%;
+    height: 100vh;
+    background: #fff;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    padding: 80px 20px 20px;
+    overflow-y: auto;
+  }
+
+  /* Estilos para la lista del menú móvil */
+  .nav-list {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  /* Evita scroll cuando el menú está abierto */
+  body.menu-open {
+    overflow: hidden;
+  }
+
+  /* Ajustes para el icono de cierre (X) */
+  #main-nav.active .menu-icon {
+    position: fixed;
+    right: 15px;
+    top: 15px;
+    font-size: 2rem;
+    z-index: 1002;
+  }
+}
+
+/* ------------------------- */
+/* ESTILOS PARA ESCRITORIO */
+/* ------------------------- */
+@media (min-width: 769px) {
+  .menu-toggle {
+    display: none; /* Oculta el botón en desktop */
+  }
+  
+  .nav {
+    display: block !important; /* Asegura que el menú sea visible */
+  }
+}
