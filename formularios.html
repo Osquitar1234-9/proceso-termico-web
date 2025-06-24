@@ -5,11 +5,90 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Formulario de Contacto | Proceso Térmico</title>
   <link rel="stylesheet" href="public/css/style.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f8f8f8;
+      color: #333;
+    }
+
+    .fondo-svg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      object-fit: cover;
+      display: none;
+    }
+
+    .mobile { display: block; }
+    .desktop { display: none; }
+
+    @media (min-width: 768px) {
+      .mobile { display: none; }
+      .desktop { display: block; }
+    }
+
+    main {
+      max-width: 960px;
+      margin: 5rem auto 3rem auto;
+      padding: 1.5rem;
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 1rem;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #003366;
+      margin-bottom: 2rem;
+    }
+
+    iframe {
+      border: none;
+      width: 100%;
+      height: 800px;
+      border-radius: 0.75rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      background-color: #fff;
+    }
+
+    .continuar {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 1rem;
+    }
+
+    .continuar a {
+      color: #0066cc;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      background-color: #003366;
+      color: white;
+    }
+
+    .footer-logo {
+      width: 120px;
+      margin-bottom: 0.5rem;
+    }
+  </style>
 </head>
 <body>
+  <!-- SVGs de fondo -->
+  <img src="public/svg/formularios-desktop.svg" alt="Fondo escritorio" class="fondo-svg desktop" />
+  <img src="public/svg/formularios-mobile.svg" alt="Fondo móvil" class="fondo-svg mobile" />
+
   <header>
     <div class="header-container">
-      <img src="public/svg/logo.svg" alt="Logo Proceso Térmico" class="logo" />
+      <img src="public/svg/log.svg" alt="Logo Proceso Térmico" class="logo" />
       <nav>
         <ul>
           <li><a href="index.html">Inicio</a></li>
@@ -24,46 +103,40 @@
     </div>
   </header>
 
-  <main style="max-width: 960px; margin: 3rem auto; padding: 1rem;">
-    <h1 style="text-align: center; color: var(--primary-dark); margin-bottom: 2rem;">
-      Formulario de contacto
-    </h1>
+  <main>
+    <h1>Formulario de contacto</h1>
 
     <iframe 
-      src="https://docs.google.com/forms/d/e/1FAIpQLSeoDzGee6bhTuRNIAvCzuIrbQIJEmHOzFE0fnlONTPwJvY79w/viewform?embedded=true" 
-      width="100%" 
-      height="800" 
-      frameborder="0" 
-      marginheight="0" 
-      marginwidth="0"
-      style="border: 2px solid var(--secondary-color); border-radius: var(--border-radius); box-shadow: var(--card-shadow); background-color: #fff;">
+      src="https://docs.google.com/forms/d/e/1FAIpQLSeoDzGee6bhTuRNIAvCzuIrbQIJEmHOzFE0fnlONTPwJvY79w/viewform?embedded=true"
+      loading="lazy"
+      allowfullscreen>
       Cargando…
     </iframe>
-    <p style="text-align: center; margin-top: 2rem;">
-  ¿Ya llenaste el formulario? <br>
-  <a href="#" onclick="redirigir()">Haz clic aquí para continuar al pago</a>
-</p>
 
-<script>
-  function redirigir() {
-    const email = prompt("Por favor ingresa tu correo para continuar:");
-    if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      localStorage.setItem("registeredEmail", email);
-      window.location.href = `pagos.html?verified=true`;
-    } else {
-      alert("Correo inválido");
-    }
-  }
-</script>
-
+    <div class="continuar">
+      ¿Ya llenaste el formulario?<br />
+      <a onclick="redirigir()">Haz clic aquí para continuar al pago</a>
+    </div>
   </main>
 
   <footer>
-    <div class="footer-content">
-      <img src="public/svg/logo.svg" alt="Logo Footer" class="footer-logo" />
-      <p>© 2025 Proceso Térmico. Todos los derechos reservados.</p>
-    </div>
+    <img src="public/svg/log.svg" alt="Logo Footer" class="footer-logo" />
+    <p>© 2025 Proceso Térmico. Todos los derechos reservados.</p>
   </footer>
+
+  <script>
+    function redirigir() {
+      const email = prompt("Por favor ingresa tu correo para continuar:");
+      const regex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+      if (email && regex.test(email)) {
+        localStorage.setItem("registeredEmail", email);
+        window.location.href = "pagos.html?verified=true";
+      } else {
+        alert("Correo inválido. Intenta nuevamente.");
+      }
+    }
+  </script>
+
   <script src="public/js/menu.js" defer></script>
 </body>
 </html>

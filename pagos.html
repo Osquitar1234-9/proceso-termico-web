@@ -1,47 +1,31 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Realiza pagos seguros para cursos de procesamiento térmico con PayPal o Plin">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Realiza pagos seguros para cursos de procesamiento térmico con PayPal o Plin" />
+  <title>Pagos Seguros | ThermoProcess</title>
 
-  <!-- ========== DEEP LINKING PARA PLIN ========== -->
-  <!-- Configuración para Android -->
-  <meta property="al:android:url" content="plin://pay?phone=973128244&amount={amount}&note={concept}">
-  <meta property="al:android:package" content="pe.interbank.plin">
-  <meta property="al:android:app_name" content="Plin">
+  <!-- Deep linking para PLIN -->
+  <meta property="al:android:url" content="plin://pay?phone=973128244&amount={amount}&note={concept}" />
+  <meta property="al:android:package" content="pe.interbank.plin" />
+  <meta property="al:android:app_name" content="Plin" />
+  <meta property="al:ios:url" content="plinpay://transfer?phone=973128244&amount={amount}&note={concept}" />
+  <meta property="al:ios:app_store_id" content="1477878625" />
+  <meta property="al:ios:app_name" content="Plin" />
 
-  <!-- Configuración para iOS -->
-  <meta property="al:ios:url" content="plinpay://transfer?phone=973128244&amount={amount}&note={concept}">
-  <meta property="al:ios:app_store_id" content="1477878625">
-  <meta property="al:ios:app_name" content="Plin">
-
-  <title>Pagos Seguros | Proceso Termico</title>
-  
-  <!-- Preconexiones -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://www.paypal.com">
-  
-  <!-- Fuentes -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="public/css/style.css">
-  
-  <!-- Favicon -->
-  <link rel="icon" href="public/svg/logo.svg" type="image/svg+xml">
+  <!-- Recursos -->
+  <link rel="icon" href="public/svg/logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="public/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <!-- Header -->
   <header>
     <div class="header-content">
-      <div class="logo-container">
-        <a href="index.html" aria-label="Inicio">
-          <img src="public/svg/logo.svg" alt="ThermoProcess" class="logo">
-        </a>
-      </div>
-      
-      <nav id="main-nav">
+      <a href="index.html">
+        <img src="public/svg/logo.svg" alt="ThermoProcess" class="logo" />
+      </a>
+      <nav>
         <ul>
           <li><a href="index.html">Inicio</a></li>
           <li><a href="clases.html">Cursos</a></li>
@@ -49,351 +33,92 @@
           <li><a href="formularios.html">Contacto</a></li>
         </ul>
       </nav>
-      
-      <button class="menu-toggle" aria-label="Menú" aria-expanded="false" aria-controls="main-nav">
-        <span class="menu-icon">☰</span>
-      </button>
     </div>
   </header>
 
-  <!-- Contenido principal -->
   <main class="payment-container">
-    <section class="payment-header">
+    <section class="hero">
       <h1>Realiza tu pago</h1>
-      <p class="subtitle">Selecciona el producto y el método de pago</p>
+      <p>Selecciona tu curso y método de pago preferido</p>
     </section>
 
     <section class="product-selection">
-      <h2><span class="icon">🔍</span> Elige tu curso:</h2>
-      <div class="select-wrapper">
-        <select id="producto" class="styled-select">
-          <option value="100.00">Curso Básico - $100.00 USD</option>
-          <option value="250.00">Curso Intermedio - $250.00 USD</option>
-          <option value="500.00">Curso Avanzado - $500.00 USD</option>
-        </select>
-      </div>
+      <label for="producto">Curso:</label>
+      <select id="producto">
+        <option value="100.00">Curso Básico - $100.00 USD</option>
+        <option value="250.00">Curso Intermedio - $250.00 USD</option>
+        <option value="500.00">Curso Avanzado - $500.00 USD</option>
+      </select>
     </section>
 
-    <section class="payment-methods">
-      <h2><span class="icon">💳</span> Método de pago:</h2>
-      
-      <div class="payment-tabs">
-        <button class="tab-button active" data-tab="paypal-tab">PayPal</button>
-        <button class="tab-button" data-tab="plin-tab">Plin</button>
-      </div>
-      
-      <div id="paypal-tab" class="tab-content active">
-        <div id="paypal-button-container" class="payment-button-container"></div>
-        <p class="security-note">
-          <span class="lock-icon">🔒</span> Pago seguro con PayPal
-        </p>
-      </div>
-      
-      <!-- Sección PLIN con restricción -->
-      <div id="plin-tab" class="tab-content">
-        <div id="plin-content" class="plin-content">
-          <!-- Para usuarios NO registrados -->
-          <div id="plin-verification" class="plin-verification">
-            <h3>Acceso exclusivo para clientes registrados</h3>
-            <p>Para pagar con PLIN, completa nuestro formulario de contacto primero.</p>
-            
-            <div class="verification-form">
-              <p>Ingresa el email con el que te registraste:</p>
-              <input type="email" id="verification-email" placeholder="tu@email.com">
-              <button id="verify-btn">Verificar registro</button>
-              <div id="verification-message" class="verification-message"></div>
-            </div>
-            
-            <p>¿No completaste el formulario? <a href="formularios.html" class="register-link">Regístrate aquí</a></p>
-          </div>
-          
-          <!-- Para usuarios registrados -->
-          <div id="plin-payment-section" style="display: none;">
-            <h3>Paga con PLIN:</h3>
-            
-            <!-- Versión Móvil (Botón) -->
-            <div class="mobile-payment-container">
-              <button id="plin-pay-button" class="mobile-payment-btn">
-                <img src="public/svg/plin-logo.svg" alt="Plin" width="20">
-                Pagar ahora con Plin
-              </button>
-              <p class="mobile-note">Se abrirá la app Plin con los datos de pago</p>
-            </div>
-            
-            <!-- Versión Desktop (QR) -->
-            <div class="desktop-payment-container">
-              <ol>
-                <li>Abre la app PLIN y selecciona <strong>"Pagar con QR"</strong></li>
-                <li>Escanea este código:</li>
-              </ol>
-              <div class="plin-qr-container">
-                <img src="public/svg/qr-plin.svg" alt="Código QR para pago por PLIN" class="plin-qr-img" loading="lazy">
-              </div>
-            </div>
+    <section class="payment-tabs">
+      <button class="tab-button active" data-tab="paypal-tab">PayPal</button>
+      <button class="tab-button" data-tab="plin-tab">Plin</button>
+    </section>
 
-            <div class="payment-details">
-              <p><strong>Beneficiario:</strong> OSCAR DEL CARPIO</p>
-              <p><strong>Monto a pagar:</strong> <span id="plin-amount">$100.00</span> USD</p>
-              <p><strong>Concepto:</strong> <span id="plin-concept">Curso Básico</span></p>
-            </div>
-          </div>
+    <section id="paypal-tab" class="tab-content active">
+      <div id="paypal-button-container"></div>
+    </section>
+
+    <section id="plin-tab" class="tab-content">
+      <div id="plin-verification">
+        <h3>Verificación requerida</h3>
+        <input type="email" id="verification-email" placeholder="tu@email.com" />
+        <button id="verify-btn">Verificar</button>
+        <p id="verification-message"></p>
+        <p>¿Aún no te registraste? <a href="formularios.html">Hazlo aquí</a></p>
+      </div>
+
+      <div id="plin-payment-section" style="display: none;">
+        <h3>Paga con Plin</h3>
+        <div class="mobile-payment">
+          <button id="plin-pay-button">
+            <img src="public/svg/plin-logo.svg" alt="Plin" width="20" /> Pagar con Plin
+          </button>
+          <p>Se abrirá la app Plin con tus datos</p>
+        </div>
+        <div class="desktop-payment">
+          <p>Escanea este código con PLIN:</p>
+          <img src="public/svg/qr-plin.svg" alt="QR Plin" class="plin-qr-img" loading="lazy" />
+        </div>
+        <div class="payment-details">
+          <p><strong>Beneficiario:</strong> OSCAR DEL CARPIO</p>
+          <p><strong>Monto:</strong> <span id="plin-amount">$100.00</span></p>
+          <p><strong>Concepto:</strong> <span id="plin-concept">Curso Básico</span></p>
         </div>
       </div>
     </section>
 
-    <section class="payment-info">
-      <div class="info-card">
+    <section class="info-cards">
+      <div>
         <h3>¿Qué incluye?</h3>
         <ul>
-          <li>Acceso completo al curso seleccionado</li>
+          <li>Acceso completo al curso</li>
           <li>Material descargable</li>
           <li>Certificado digital</li>
           <li>Soporte técnico</li>
         </ul>
       </div>
-      
-      <div class="info-card">
-        <h3>Políticas de pago</h3>
+      <div>
+        <h3>Políticas</h3>
         <ul>
-          <li>Pagos procesados en USD</li>
-          <li>Factura electrónica disponible</li>
-          <li>Reembolsos en 72 horas</li>
+          <li>Pagos en USD</li>
+          <li>Factura electrónica</li>
+          <li>Reembolsos en 72h</li>
         </ul>
       </div>
     </section>
   </main>
 
-  <!-- Footer -->
   <footer>
     <div class="footer-content">
-      <div class="footer-brand">
-        <img src="public/svg/logo.svg" alt="ThermoProcess" class="footer-logo">
-        <p>Expertos en tecnologías de procesamiento térmico</p>
-      </div>
-      
-      <div class="footer-links">
-        <h3>Enlaces rápidos</h3>
-        <ul>
-          <li><a href="index.html">Inicio</a></li>
-          <li><a href="clases.html">Cursos</a></li>
-          <li><a href="pagos.html">Pagos</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-contact">
-        <h3>Contacto</h3>
-        <p>javier.decarpio.789@gmail.com</p>
-      </div>
-    </div>
-    
-    <div class="copyright">
-      <p>&copy; <span id="current-year"></span> ThermoProcess. Todos los derechos reservados.</p>
+      <img src="public/svg/logo.svg" alt="ThermoProcess" class="footer-logo" />
+      <p>javier.decarpio.789@gmail.com | +54 973128244</p>
+      <p>&copy; <span id="current-year"></span> Proceso Termico. Todos los derechos reservados.</p>
     </div>
   </footer>
 
-  <!-- SDK PayPal -->
   <script src="https://www.paypal.com/sdk/js?client-id=ASNXMMjwxySGecXg8jGMmPrw8TqB2EbcF9yd_UNv9dHSB6M18eEBxwytelKi2wmGH-gw3ZP3tK12AJmf&currency=USD&locale=es_ES" data-sdk-integration-source="button-factory"></script>
-
-  <script>
-    // Año actual
-    document.getElementById('current-year').textContent = new Date().getFullYear();
-
-    // Elementos PLIN
-    const verifyBtn = document.getElementById('verify-btn');
-    const emailInput = document.getElementById('verification-email');
-    const messageDiv = document.getElementById('verification-message');
-    const plinVerification = document.getElementById('plin-verification');
-    const plinPaymentSection = document.getElementById('plin-payment-section');
-
-    // Sistema de pestañas
-    document.querySelectorAll('.tab-button').forEach(button => {
-      button.addEventListener('click', () => {
-        document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-        
-        button.classList.add('active');
-        const tabId = button.getAttribute('data-tab');
-        document.getElementById(tabId).classList.add('active');
-
-        // Manejar cambio a PLIN si no está verificado
-        if (tabId === 'plin-tab' && !isVerified()) {
-          showVerificationMessage("Debes verificar tu registro para pagar con PLIN", false);
-        }
-      });
-    });
-
-    // ===== VERIFICACIÓN PLIN =====
-    verifyBtn.addEventListener('click', verifyRegistration);
-
-    function verifyRegistration() {
-      const email = emailInput.value.trim();
-      resetMessages();
-
-      if (!email) {
-        showVerificationMessage("Por favor ingresa tu email", false);
-        return;
-      }
-
-      if (!isValidEmail(email)) {
-        showVerificationMessage("Formato de email inválido", false);
-        return;
-      }
-
-      showVerificationMessage("Verificando...", true);
-      
-      // Simulación de verificación (en producción usa backend real)
-      setTimeout(() => {
-        if (checkRegisteredEmail(email)) {
-          successfulVerification(email);
-        } else {
-          showVerificationMessage("Email no registrado. Completa el formulario primero.", false);
-        }
-      }, 1500);
-    }
-
-    function successfulVerification(email) {
-      showVerificationMessage("¡Verificación exitosa!", true);
-      localStorage.setItem('verifiedUser', email);
-      
-      setTimeout(() => {
-        plinVerification.style.display = 'none';
-        plinPaymentSection.style.display = 'block';
-        updatePlinDetails();
-        
-        const plinPayButton = document.getElementById('plin-pay-button');
-        if (plinPayButton && /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-          plinPayButton.addEventListener('click', function() {
-            const monto = document.getElementById('producto').value;
-            const concepto = document.getElementById('producto').options[document.getElementById('producto').selectedIndex].text.split(' - ')[0];
-            
-            // URL actualizada con tu número y parámetros dinámicos
-            const plinUrl = `plin://pay?phone=973128244&amount=${monto}&note=${encodeURIComponent(concepto)}`;
-            
-            // Intenta abrir la app
-            window.location.href = plinUrl;
-            
-            // Fallback mejorado
-            setTimeout(() => {
-              if (!document.hidden) {
-                window.location.href = `https://plin.interbank.pe/pagar?phone=973128244&monto=${monto}&concepto=${encodeURIComponent(concepto)}`;
-              }
-            }, 500);
-          });
-        }
-      }, 1000);
-    }
-
-    function isVerified() {
-      return localStorage.getItem('verifiedUser') !== null;
-    }
-
-    function isValidEmail(email) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
-
-    function checkRegisteredEmail(email) {
-      const registeredEmail = localStorage.getItem('registeredEmail');
-      return registeredEmail && registeredEmail.toLowerCase() === email.toLowerCase();
-    }
-
-
-    function showVerificationMessage(text, isSuccess) {
-      messageDiv.textContent = text;
-      messageDiv.className = `verification-message ${isSuccess ? 'message-success' : 'message-error'}`;
-      messageDiv.style.display = 'block';
-    }
-
-    function resetMessages() {
-      messageDiv.style.display = 'none';
-    }
-
-    // ===== ACTUALIZAR DETALLES PLIN =====
-    function updatePlinDetails() {
-      const producto = document.getElementById('producto');
-      const monto = producto.value;
-      const curso = producto.options[producto.selectedIndex].text.split(' - ')[0];
-      
-      document.getElementById('plin-amount').textContent = `S/ ${(parseFloat(monto) * 3.7).toFixed(2)}`; // Conversión aproximada a soles
-      document.getElementById('plin-concept').textContent = curso;
-      
-      // Actualizar QR dinámicamente (necesitarías un backend para generar QRs reales)
-      const qrImg = document.querySelector('.plin-qr-container img');
-      qrImg.src = `./public/svg/qr-plin.svg?monto=${monto}&concepto=${encodeURIComponent(curso)}`;
-    }
-
-    // ===== PAYPAL =====
-    function renderBotonPayPal() {
-      const monto = document.getElementById('producto').value;
-      const producto = document.getElementById('producto').options[document.getElementById('producto').selectedIndex].text.split(' - ')[0];
-
-      paypal.Buttons({
-        style: {
-          layout: 'vertical',
-          color: 'gold',
-          shape: 'rect',
-          label: 'paypal',
-          height: 40
-        },
-        createOrder: (data, actions) => actions.order.create({
-          purchase_units: [{
-            description: producto,
-            amount: { value: monto }
-          }]
-        }),
-        onApprove: (data, actions) => actions.order.capture().then(details => {
-          document.getElementById('paypal-button-container').innerHTML = `
-            <div class="payment-confirmation">
-              <h3>¡Pago completado!</h3>
-              <p>Gracias ${details.payer.name.given_name}, tu compra de <strong>${producto}</strong> ha sido procesada.</p>
-              <a href="clases.html" class="cta-button">Acceder al curso</a>
-            </div>
-          `;
-        }),
-        onError: (err) => {
-          console.error("Error en el pago:", err);
-          document.getElementById('paypal-button-container').innerHTML = `
-            <div class="payment-error">
-              <p>Ocurrió un error al procesar el pago. Por favor intenta nuevamente.</p>
-              <button onclick="renderBotonPayPal()" class="cta-button">Reintentar</button>
-            </div>
-          `;
-        }
-      }).render('#paypal-button-container');
-    }
-
-    // ===== INICIALIZACIÓN =====
-    document.addEventListener('DOMContentLoaded', () => {
-      // Verificar si el usuario ya está autenticado
-      if (isVerified()) {
-        plinVerification.style.display = 'none';
-        plinPaymentSection.style.display = 'block';
-        updatePlinDetails();
-      }
-
-      // Manejar cambios en el selector de productos
-      document.getElementById('producto').addEventListener('change', () => {
-        if (isVerified()) updatePlinDetails();
-        
-        if (document.querySelector('#paypal-tab').classList.contains('active')) {
-          document.getElementById('paypal-button-container').innerHTML = '<div class="payment-loading">Actualizando...</div>';
-          setTimeout(renderBotonPayPal, 300);
-        }
-      });
-
-      // Manejar parámetros de URL para redirección desde formulario
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('verified') === 'true') {
-       const storedEmail = localStorage.getItem('registeredEmail');
-        if (storedEmail) {
-          successfulVerification(storedEmail);
-        } else {
-          // Por si el email no se guardó correctamente
-          showVerificationMessage("Error al recuperar tu email. Intenta verificar manualmente.", false);
-        }
-      }
-      // Iniciar PayPal
-      setTimeout(renderBotonPayPal, 500);
-    });
-  </script>
+  <script src="public/js/pagos.js" defer></script>
 </body>
 </html>
