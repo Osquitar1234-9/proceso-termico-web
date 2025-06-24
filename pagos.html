@@ -37,7 +37,7 @@
     <section class="hero">
       <div class="container">
         <h1 class="hero-title">Pago Seguro de Cursos</h1>
-        <p class="hero-subtitle">Selecciona tu curso y paga de forma segura</p>
+        <p class="hero-subtitle">Selecciona tu curso y paga de forma segura con PayPal</p>
       </div>
     </section>
 
@@ -67,16 +67,16 @@
               <li>Acceso completo al curso</li>
               <li>Material descargable</li>
               <li>Certificado digital</li>
-              <li>Soporte técnico</li>
+              <li>Soporte técnico personalizado</li>
             </ul>
           </div>
           <div class="feature-card">
             <h3>Políticas</h3>
             <ul>
-              <li>Pagos seguros con PayPal</li>
-              <li>Cuenta vinculada a Interbank</li>
+              <li>Pagos 100% seguros con PayPal</li>
+              <li>Cuentas vinculadas a Interbank</li>
               <li>Factura electrónica disponible</li>
-              <li>Reembolsos en 72h</li>
+              <li>Reembolsos disponibles dentro de 72h</li>
             </ul>
           </div>
         </div>
@@ -92,13 +92,55 @@
     </div>
   </footer>
 
-  <!-- Scripts -->
-  <script src="https://www.paypal.com/sdk/js?client-id=ASNXMMjwxySGecXg8jGMmPrw8TqB2EbcF9yd_UNv9dHSB6M18eEBxwytelKi2wmGH-gw3ZP3tK12AJmf&currency=USD&locale=es_ES" data-sdk-integration-source="button-factory"></script>
+  <!-- PayPal SDK -->
+  <script src="https://www.paypal.com/sdk/js?client-id=ASNXMMjwxySGecXg8jGMmPrw8TqB2EbcF9yd_UNv9dHSB6M18eEBxwytelKi2wmGH-gw3ZP3tK12AJmf&currency=USD&locale=es_ES"></script>
+
+  <!-- Script para PayPal dinámico -->
+  <script>
+    let selectedAmount = "100.00";
+    const select = document.getElementById("producto");
+
+    select.addEventListener("change", () => {
+      selectedAmount = select.value;
+      renderPayPalButton();
+    });
+
+    function renderPayPalButton() {
+      document.getElementById("paypal-button-container").innerHTML = "";
+
+      paypal.Buttons({
+        style: {
+          color: 'blue',
+          shape: 'pill',
+          label: 'pay',
+          height: 40
+        },
+        createOrder: function (data, actions) {
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                value: selectedAmount
+              }
+            }]
+          });
+        },
+        onApprove: function (data, actions) {
+          return actions.order.capture().then(function (details) {
+            alert('✅ Pago completado por ' + details.payer.name.given_name + '. Revisa tu correo para confirmar inscripción.');
+          });
+        }
+      }).render('#paypal-button-container');
+    }
+
+    renderPayPalButton();
+  </script>
+
+  <!-- Otros scripts -->
   <script src="/proceso-termico-web/js/menu.js" defer></script>
-  <script src="/proceso-termico-web/public/js/pagos.js" defer></script>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
+
 
