@@ -3,122 +3,102 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Realiza pagos seguros para cursos de procesamiento térmico con PayPal o Plin" />
-  <title>Pagos Seguros | ThermoProcess</title>
+  <meta name="description" content="Realiza pagos seguros para cursos de procesamiento térmico" />
+  <title>Pagos | ThermoProcess</title>
 
-  <!-- Deep linking para PLIN -->
-  <meta property="al:android:url" content="plin://pay?phone=973128244&amount={amount}&note={concept}" />
-  <meta property="al:android:package" content="pe.interbank.plin" />
-  <meta property="al:android:app_name" content="Plin" />
-  <meta property="al:ios:url" content="plinpay://transfer?phone=973128244&amount={amount}&note={concept}" />
-  <meta property="al:ios:app_store_id" content="1477878625" />
-  <meta property="al:ios:app_name" content="Plin" />
-
-  <!-- Recursos -->
+  <!-- Icono y fuentes -->
   <link rel="icon" href="public/svg/logo.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="public/css/style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/proceso-termico-web/public/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <header>
-    <div class="header-content">
-      <a href="index.html">
-        <img src="public/svg/logo.svg" alt="ThermoProcess" class="logo" />
+
+  <!-- Header -->
+  <header class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="public/svg/log.svg" alt="Logo ThermoProcess" />
+        <span>ThermoProcess</span>
       </a>
-      <nav>
-        <ul>
-          <li><a href="index.html">Inicio</a></li>
-          <li><a href="clases.html">Cursos</a></li>
-          <li><a href="pagos.html" class="active">Pagos</a></li>
-          <li><a href="formularios.html">Contacto</a></li>
-        </ul>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Menú móvil" aria-expanded="false">
+        <span class="menu-icon">☰</span>
+      </button>
+      <nav class="nav" id="main-nav">
+        <a href="index.html">Inicio</a>
+        <a href="clases.html">Clases</a>
+        <a href="pagos.html" class="active">Pagos</a>
+        <a href="formularios.html">Contacto</a>
       </nav>
     </div>
   </header>
 
-  <main class="payment-container">
+  <!-- Contenido principal -->
+  <main class="main-content">
     <section class="hero">
-      <h1>Realiza tu pago</h1>
-      <p>Selecciona tu curso y método de pago preferido</p>
-    </section>
-
-    <section class="product-selection">
-      <label for="producto">Curso:</label>
-      <select id="producto">
-        <option value="100.00">Curso Básico - $100.00 USD</option>
-        <option value="250.00">Curso Intermedio - $250.00 USD</option>
-        <option value="500.00">Curso Avanzado - $500.00 USD</option>
-      </select>
-    </section>
-
-    <section class="payment-tabs">
-      <button class="tab-button active" data-tab="paypal-tab">PayPal</button>
-      <button class="tab-button" data-tab="plin-tab">Plin</button>
-    </section>
-
-    <section id="paypal-tab" class="tab-content active">
-      <div id="paypal-button-container"></div>
-    </section>
-
-    <section id="plin-tab" class="tab-content">
-      <div id="plin-verification">
-        <h3>Verificación requerida</h3>
-        <input type="email" id="verification-email" placeholder="tu@email.com" />
-        <button id="verify-btn">Verificar</button>
-        <p id="verification-message"></p>
-        <p>¿Aún no te registraste? <a href="formularios.html">Hazlo aquí</a></p>
+      <div class="container">
+        <h1 class="hero-title">Pago Seguro de Cursos</h1>
+        <p class="hero-subtitle">Selecciona tu curso y paga de forma segura</p>
       </div>
+    </section>
 
-      <div id="plin-payment-section" style="display: none;">
-        <h3>Paga con Plin</h3>
-        <div class="mobile-payment">
-          <button id="plin-pay-button">
-            <img src="public/svg/plin-logo.svg" alt="Plin" width="20" /> Pagar con Plin
-          </button>
-          <p>Se abrirá la app Plin con tus datos</p>
+    <section class="container" style="padding: 2rem 0;">
+      <div class="features-grid">
+        <div class="feature-card">
+          <h3>Selecciona tu curso</h3>
+          <select id="producto">
+            <option value="100.00">Curso Básico - $100.00 USD</option>
+            <option value="250.00">Curso Intermedio - $250.00 USD</option>
+            <option value="500.00">Curso Avanzado - $500.00 USD</option>
+          </select>
         </div>
-        <div class="desktop-payment">
-          <p>Escanea este código con PLIN:</p>
-          <img src="public/svg/qr-plin.svg" alt="QR Plin" class="plin-qr-img" loading="lazy" />
-        </div>
-        <div class="payment-details">
-          <p><strong>Beneficiario:</strong> OSCAR DEL CARPIO</p>
-          <p><strong>Monto:</strong> <span id="plin-amount">$100.00</span></p>
-          <p><strong>Concepto:</strong> <span id="plin-concept">Curso Básico</span></p>
+        <div class="feature-card">
+          <h3>Método de pago</h3>
+          <div id="paypal-button-container"></div>
         </div>
       </div>
     </section>
 
-    <section class="info-cards">
-      <div>
-        <h3>¿Qué incluye?</h3>
-        <ul>
-          <li>Acceso completo al curso</li>
-          <li>Material descargable</li>
-          <li>Certificado digital</li>
-          <li>Soporte técnico</li>
-        </ul>
-      </div>
-      <div>
-        <h3>Políticas</h3>
-        <ul>
-          <li>Pagos en USD</li>
-          <li>Factura electrónica</li>
-          <li>Reembolsos en 72h</li>
-        </ul>
+    <section class="features">
+      <div class="container">
+        <div class="features-grid">
+          <div class="feature-card">
+            <h3>¿Qué incluye?</h3>
+            <ul>
+              <li>Acceso completo al curso</li>
+              <li>Material descargable</li>
+              <li>Certificado digital</li>
+              <li>Soporte técnico</li>
+            </ul>
+          </div>
+          <div class="feature-card">
+            <h3>Políticas</h3>
+            <ul>
+              <li>Pagos seguros con PayPal</li>
+              <li>Cuenta vinculada a Interbank</li>
+              <li>Factura electrónica disponible</li>
+              <li>Reembolsos en 72h</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
   </main>
 
-  <footer>
-    <div class="footer-content">
-      <img src="public/svg/logo.svg" alt="ThermoProcess" class="footer-logo" />
-      <p>javier.decarpio.789@gmail.com | +54 973128244</p>
-      <p>&copy; <span id="current-year"></span> Proceso Termico. Todos los derechos reservados.</p>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> ThermoProcess - Todos los derechos reservados</p>
+      <p>Contacto: <a href="mailto:javier.decarpio.789@gmail.com">javier.decarpio.789@gmail.com</a></p>
     </div>
   </footer>
 
+  <!-- Scripts -->
   <script src="https://www.paypal.com/sdk/js?client-id=ASNXMMjwxySGecXg8jGMmPrw8TqB2EbcF9yd_UNv9dHSB6M18eEBxwytelKi2wmGH-gw3ZP3tK12AJmf&currency=USD&locale=es_ES" data-sdk-integration-source="button-factory"></script>
-  <script src="public/js/pagos.js" defer></script>
+  <script src="/proceso-termico-web/js/menu.js" defer></script>
+  <script src="/proceso-termico-web/public/js/pagos.js" defer></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
+
