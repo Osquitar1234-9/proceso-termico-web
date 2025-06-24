@@ -7,204 +7,19 @@
   <title>ThermoProcess | Procesamiento Térmico de Alimentos</title>
 
   <!-- Fuentes Google -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet" />
 
   <!-- Favicon -->
   <link rel="icon" href="public/svg/logo.svg" type="image/svg+xml" />
 
   <!-- CSS -->
   <link rel="stylesheet" href="public/css/style.css" />
-
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f5f5f5;
-      color: #333;
-    }
-
-    .fondo-svg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -1;
-      object-fit: cover;
-      display: none;
-    }
-
-    .mobile { display: block; }
-    .desktop { display: none; }
-
-    @media (min-width: 768px) {
-      .mobile { display: none; }
-      .desktop { display: block; }
-    }
-
-    .hero {
-      padding: 6rem 1rem 3rem;
-      text-align: center;
-      background-color: rgba(255,255,255,0.9);
-      border-radius: 1rem;
-      margin: 2rem auto;
-      max-width: 960px;
-      box-shadow: 0 0 12px rgba(0,0,0,0.08);
-    }
-
-    .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
-      color: #003366;
-      margin-bottom: 1rem;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      margin-bottom: 2rem;
-    }
-
-    .hero-buttons .cta-button {
-      padding: 0.75rem 1.5rem;
-      margin: 0 0.5rem;
-      border: none;
-      border-radius: 6px;
-      background-color: #003366;
-      color: #fff;
-      text-decoration: none;
-      font-weight: bold;
-      transition: background-color 0.3s;
-    }
-
-    .hero-buttons .secondary {
-      background-color: #888;
-    }
-
-    .hero-buttons .cta-button:hover {
-      background-color: #00509e;
-    }
-
-    .services {
-      max-width: 960px;
-      margin: 3rem auto;
-      padding: 1rem;
-      background: rgba(255,255,255,0.9);
-      border-radius: 1rem;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
-    }
-
-    .services h2 {
-      text-align: center;
-      color: #003366;
-    }
-
-    .services-grid {
-      display: grid;
-      gap: 2rem;
-      grid-template-columns: 1fr;
-      margin-top: 2rem;
-    }
-
-    @media (min-width: 768px) {
-      .services-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    .service-card {
-      text-align: center;
-      padding: 1rem;
-      background-color: #ffffff;
-      border-radius: 0.75rem;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
-    }
-
-    .service-card img {
-      width: 60px;
-      margin-bottom: 1rem;
-    }
-
-    .service-card h3 {
-      margin-bottom: 0.5rem;
-      color: #003366;
-    }
-
-    .service-card p {
-      font-size: 0.95rem;
-      margin-bottom: 1rem;
-    }
-
-    .service-link {
-      color: #0066cc;
-      text-decoration: underline;
-      font-size: 0.95rem;
-    }
-
-    .testimonials {
-      max-width: 800px;
-      margin: 3rem auto;
-      text-align: center;
-    }
-
-    .testimonials h2 {
-      color: #003366;
-    }
-
-    blockquote {
-      background: #fff;
-      padding: 2rem;
-      border-radius: 0.75rem;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
-      font-style: italic;
-    }
-
-    footer {
-      background-color: #003366;
-      color: white;
-      padding: 2rem 1rem;
-    }
-
-    .footer-content {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      max-width: 960px;
-      margin: auto;
-    }
-
-    .footer-logo {
-      width: 100px;
-    }
-
-    .footer-links ul,
-    .footer-contact address {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      font-size: 0.95rem;
-    }
-
-    .footer-links a {
-      color: #fff;
-      text-decoration: none;
-    }
-
-    .copyright {
-      text-align: center;
-      margin-top: 1rem;
-      font-size: 0.85rem;
-    }
-  </style>
+  <link rel="stylesheet" href="public/css/home.css" />
 </head>
 <body>
-
-  <!-- Fondos SVG -->
-  <img src="public/svg/home-desktop.svg" alt="Fondo desktop" class="fondo-svg desktop" />
-  <img src="public/svg/home-mobile.svg" alt="Fondo móvil" class="fondo-svg mobile" />
-
   <!-- Header -->
-  <header>
-    <div class="header-content">
+  <header class="main-header">
+    <div class="header-container">
       <div class="logo-container">
         <a href="index.html" aria-label="Inicio">
           <img src="public/svg/log.svg" alt="ThermoProcess" class="logo" />
@@ -227,61 +42,80 @@
     </div>
   </header>
 
-  <!-- Hero -->
-  <section class="hero">
-    <h1>Soluciones Expertas en Procesamiento Térmico</h1>
-    <p>Tecnología avanzada y conocimiento especializado para la industria alimentaria</p>
-    <div class="hero-buttons">
-      <a href="formularios.html" class="cta-button">Contáctenos</a>
-      <a href="clases.html" class="cta-button secondary">Ver Cursos</a>
+  <!-- Hero Section con SVG de fondo -->
+  <section class="hero-section">
+    <div class="hero-background">
+      <img src="public/svg/home-desktop.svg" alt="Fondo desktop" class="hero-bg desktop" />
+      <img src="public/svg/home-mobile.svg" alt="Fondo móvil" class="hero-bg mobile" />
+    </div>
+    <div class="hero-content">
+      <h1>Soluciones Expertas en Procesamiento Térmico</h1>
+      <p class="hero-subtitle">Tecnología avanzada y conocimiento especializado para la industria alimentaria</p>
+      <div class="hero-buttons">
+        <a href="formularios.html" class="cta-button primary-btn">Contáctenos</a>
+        <a href="clases.html" class="cta-button secondary-btn">Ver Cursos</a>
+      </div>
     </div>
   </section>
 
   <!-- Servicios -->
-  <section class="services">
-    <h2>Nuestros Servicios</h2>
-    <div class="services-grid">
-      <article class="service-card">
-        <img src="public/svg/training.svg" alt="Capacitación" />
-        <h3>Capacitación Especializada</h3>
-        <p>Cursos prácticos en procesamiento térmico con certificación internacional.</p>
-        <a href="clases.html" class="service-link">Más información →</a>
-      </article>
+  <section class="services-section">
+    <div class="section-container">
+      <h2 class="section-title">Nuestros Servicios</h2>
+      <div class="services-grid">
+        <article class="service-card">
+          <div class="service-icon">
+            <img src="public/svg/clases-mobile.svg" alt="Capacitación" />
+          </div>
+          <h3>Capacitación Especializada</h3>
+          <p>Cursos prácticos en procesamiento térmico con certificación internacional.</p>
+          <a href="clases.html" class="service-link">Más información →</a>
+        </article>
 
-      <article class="service-card">
-        <img src="public/svg/calculator.svg" alt="Software" />
-        <h3>Software de Cálculo</h3>
-        <p>Herramientas digitales para determinar parámetros térmicos.</p>
-        <a href="app.html" class="service-link">Más información →</a>
-      </article>
+        <article class="service-card">
+          <div class="service-icon">
+            <img src="public/svg/app-mobile.svg" alt="Software" />
+          </div>
+          <h3>Software de Cálculo</h3>
+          <p>Herramientas digitales para determinar parámetros térmicos con precisión científica.</p>
+          <a href="app.html" class="service-link">Más información →</a>
+        </article>
 
-      <article class="service-card">
-        <img src="public/svg/consulting.svg" alt="Consultoría" />
-        <h3>Asesoría Técnica</h3>
-        <p>Soluciones personalizadas para tu línea de producción.</p>
-        <a href="formularios.html" class="service-link">Más información →</a>
-      </article>
+        <article class="service-card">
+          <div class="service-icon">
+            <img src="public/svg/formularios-mobile.svg" alt="Consultoría" />
+          </div>
+          <h3>Asesoría Técnica</h3>
+          <p>Soluciones personalizadas para tu línea de producción.</p>
+          <a href="formularios.html" class="service-link">Más información →</a>
+        </article>
+      </div>
     </div>
   </section>
 
   <!-- Testimonios -->
-  <section class="testimonials">
-    <h2>Lo que dicen nuestros clientes</h2>
-    <blockquote>
-      <p>"La capacitación en procesamiento térmico transformó nuestros protocolos de seguridad alimentaria."</p>
-      <footer>- Juan Pérez, <cite>Alimentos Frescos S.A.</cite></footer>
-    </blockquote>
+  <section class="testimonials-section">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+        <img src="public/svg/log.svg" alt="Testimonios" class="testimonial-icon" />
+      </div>
+      <blockquote class="testimonial-card">
+        <p>"La capacitación en procesamiento térmico transformó nuestros protocolos de seguridad alimentaria."</p>
+        <footer>- Juan Pérez, <cite>Alimentos Frescos S.A.</cite></footer>
+      </blockquote>
+    </div>
   </section>
 
   <!-- Footer -->
-  <footer>
-    <div class="footer-content">
+  <footer class="main-footer">
+    <div class="footer-container">
       <div class="footer-brand">
         <img src="public/svg/log.svg" alt="ThermoProcess" class="footer-logo" />
-        <p>Expertos en tecnologías de procesamiento térmico para la industria alimentaria.</p>
+        <p class="footer-description">Expertos en tecnologías de procesamiento térmico para la industria alimentaria.</p>
       </div>
       <div class="footer-links">
-        <h3>Enlaces rápidos</h3>
+        <h3 class="footer-title">Enlaces rápidos</h3>
         <ul>
           <li><a href="index.html">Inicio</a></li>
           <li><a href="clases.html">Cursos</a></li>
@@ -290,15 +124,18 @@
         </ul>
       </div>
       <div class="footer-contact">
-        <h3>Contacto</h3>
+        <h3 class="footer-title">Contacto</h3>
         <address>
-          <p>contacto@thermoprocess.com</p>
-          <p>+51 973 128 244</p>
+          <p><i class="icon-email"></i> contacto@thermoprocess.com</p>
+          <p><i class="icon-phone"></i> +51 973 128 244</p>
         </address>
+        <div class="payment-method">
+          <img src="public/svg/qr-plin.svg" alt="Pago con PLIN" class="payment-icon" />
+        </div>
       </div>
     </div>
-    <div class="copyright">
-      <p>&copy; 2025 ThermoProcess. Todos los derechos reservados.</p>
+    <div class="footer-bottom">
+      <p class="copyright">&copy; 2025 ThermoProcess. Todos los derechos reservados.</p>
     </div>
   </footer>
 
