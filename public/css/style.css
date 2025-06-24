@@ -206,3 +206,57 @@ body {
     flex-direction: column;
   }
 }
+/* ==== MENÚ HAMBURGUESA FUNCIONAL ==== */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #38bdf8;
+  cursor: pointer;
+}
+
+.menu-icon {
+  display: inline-block;
+  line-height: 1;
+}
+
+/* Ya está activado en media query, pero reforzamos lo necesario */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+    z-index: 1001;
+    position: relative;
+  }
+
+  .nav {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 100%;
+    background-color: #1e293b;
+    padding: 1rem 0;
+    border-top: 1px solid #334155;
+    z-index: 1000;
+  }
+
+  .nav.open {
+    display: flex;
+  }
+
+  .nav a {
+    padding: 1rem;
+    text-align: center;
+    color: #cbd5e1;
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid #334155;
+  }
+
+  .nav a:hover {
+    background-color: #0f172a;
+    color: #38bdf8;
+  }
+}
