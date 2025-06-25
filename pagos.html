@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Realiza pagos seguros para cursos de procesamiento térmico" />
-  <title>Pagos | ThermoProscess</title>
+  <title>Pagos | ThermoProcess</title>
 
   <!-- Icono y fuentes -->
   <link rel="icon" href="public/svg/logo.svg" type="image/svg+xml" />
@@ -74,7 +74,8 @@
           <p><strong>CCI:</strong> 00334101315818859652</p>
           <p><strong>Nro. de Cuenta:</strong> 3413158188596</p>
           <p><strong>Titular:</strong> Oscar Javier Del Carpio Carpio</p>
-          <button onclick="generarYEnviarPDF()">Generar comprobante PDF</button>
+          <button onclick="generarComprobantePDF()">Generar comprobante PDF</button>
+          <p style="font-size: 0.9rem; color: #666;">El comprobante se descargará automáticamente en tu dispositivo.</p>
         </div>
       </div>
     </section>
@@ -92,153 +93,80 @@
   <script src="https://www.paypal.com/sdk/js?client-id=ASNXMMjwxySGecXg8jGMmPrw8TqB2EbcF9yd_UNv9dHSB6M18eEBxwytelKi2wmGH-gw3ZP3tK12AJmf&currency=USD&locale=es_ES"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-  let selectedAmount = "100.00";
+    let selectedAmount = "100.00";
 
-  // Asignar monto inicial y actualizar al cambiar curso
-  const select = document.getElementById("producto");
-  select.addEventListener("change", () => {
-    selectedAmount = select.value;
-    renderPayPalButton();
-  });
+    const select = document.getElementById("producto");
+    select.addEventListener("change", () => {
+      selectedAmount = select.value;
+      renderPayPalButton();
+    });
 
-  // Renderizado del botón PayPal
-  function renderPayPalButton() {
-    document.getElementById("paypal-button-container").innerHTML = "";
+    function renderPayPalButton() {
+      document.getElementById("paypal-button-container").innerHTML = "";
 
-    paypal.Buttons({
-      style: {
-        color: 'blue',
-        shape: 'pill',
-        label: 'pay',
-        height: 40
-      },
-      createOrder: (data, actions) => {
-        return actions.order.create({
-          purchase_units: [{ amount: { value: selectedAmount } }]
-        });
-      },
-      onApprove: (data, actions) => {
-        return actions.order.capture().then(details => {
-          alert(`✅ Gracias, ${details.payer.name.given_name}! Tu pago fue exitoso.`);
-        });
-      }
-    }).render('#paypal-button-container');
-  }
-
-  renderPayPalButton();
-
-  // Función para generar y enviar PDF a Drive vía Google Apps Script
-  async function generarYEnviarPDF() {
-    try {
-      // Validación de datos
-      const nombre = document.getElementById('nombre').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const monto = document.getElementById('producto').value;
-      
-      if (!nombre || nombre.length < 3) {
-        throw new Error("Por favor ingresa un nombre válido (mínimo 3 caracteres)");
-      }
-
-      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        throw new Error("Por favor ingresa un email válido");
-      }
-
-      // Crear PDF
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      
-      // Configuración del documento
-      doc.setFontSize(16);
-      doc.text('COMPROBANTE DE PAGO', 105, 15, { align: 'center' });
-      doc.setFontSize(12);
-      doc.text('ThermoProcess - Capacitación en Procesamiento Térmico', 105, 25, { align: 'center' });
-      doc.line(20, 30, 190, 30);
-      
-      // Contenido del comprobante
-      doc.text(`Nombre: ${nombre}`, 20, 40);
-      doc.text(`Email: ${email}`, 20, 50);
-      doc.text(`Monto: USD ${monto}`, 20, 60);
-      doc.text(`Fecha: ${new Date().toLocaleDateString('es-PE')}`, 20, 70);
-
-      // Convertir a Base64 - Definimos la variable correctamente
-      const pdfOutput = doc.output('arraybuffer');
-      const base64String = arrayBufferToBase64(pdfOutput); // ¡Aquí definimos base64String!
-
-      // URL de tu Google Apps Script (asegúrate que es correcta)
-      const scriptUrl = "https://script.google.com/macros/s/AKfycbx0lWnD9jGInx5_x6ft1fZgpj8eVSv-xLYLwXpKBj-iQQGIB8y1Kkqz9wikWUGVvDsaDw/exec";
-
-      // Enviar datos al servidor
-      const response = await fetch(scriptUrl, {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+      paypal.Buttons({
+        style: {
+          color: 'blue',
+          shape: 'pill',
+          label: 'pay',
+          height: 40
         },
-        body: JSON.stringify({
-          pdfBase64: base64String, // Aquí usamos la variable ya definida
-          filename: `Comprobante_${nombre.replace(/\s+/g, '_')}_${Date.now()}.pdf`,
-          nombre: nombre,
-          email: email,
-          monto: monto
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error(`Error HTTP: ${response.status}`);
-      }
-
-      const result = await response.json();
-
-      if (result.status === "success") {
-        alert(`✅ Comprobante generado correctamente.\n\nPuedes verlo aquí: ${result.fileUrl}`);
-        window.open(result.fileUrl, '_blank');
-      } else {
-        throw new Error(result.message || "Error al guardar el comprobante");
-      }
-
-    } catch (error) {
-      console.error("Error detallado:", error);
-      alert(`❌ Error al generar comprobante:\n${error.message}`);
+        createOrder: (data, actions) => {
+          return actions.order.create({
+            purchase_units: [{ amount: { value: selectedAmount } }]
+          });
+        },
+        onApprove: (data, actions) => {
+          return actions.order.capture().then(details => {
+            alert(`✅ Gracias, ${details.payer.name.given_name}! Tu pago fue exitoso.`);
+          });
+        }
+      }).render('#paypal-button-container');
     }
-  }
 
-  // Función auxiliar para conversión a Base64 - Asegúrate de que esté definida
-  function arrayBufferToBase64(buffer) {
-    let binary = '';
-    const bytes = new Uint8Array(buffer);
-    for (let i = 0; i < bytes.byteLength; i++) {
-      binary += String.fromCharCode(bytes[i]);
+    renderPayPalButton();
+
+    async function generarComprobantePDF() {
+      try {
+        const nombre = document.getElementById('nombre').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const monto = document.getElementById('producto').value;
+
+        if (!nombre || nombre.length < 3) {
+          throw new Error("Por favor ingresa un nombre válido (mínimo 3 caracteres)");
+        }
+
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          throw new Error("Por favor ingresa un email válido");
+        }
+
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        doc.setFontSize(16);
+        doc.text('COMPROBANTE DE PAGO', 105, 15, { align: 'center' });
+        doc.setFontSize(12);
+        doc.text('ThermoProcess - Capacitación en Procesamiento Térmico', 105, 25, { align: 'center' });
+        doc.line(20, 30, 190, 30);
+        doc.text(`Nombre: ${nombre}`, 20, 40);
+        doc.text(`Email: ${email}`, 20, 50);
+        doc.text(`Monto: USD ${monto}`, 20, 60);
+        doc.text(`Fecha: ${new Date().toLocaleDateString('es-PE')}`, 20, 70);
+
+        const nombreArchivo = `Comprobante_${nombre.replace(/\s+/g, '_')}.pdf`;
+        doc.save(nombreArchivo);
+
+        alert("✅ Comprobante generado y descargado correctamente.");
+      } catch (error) {
+        console.error("Error al generar el comprobante:", error);
+        alert(`❌ Error: ${error.message}`);
+      }
     }
-    return window.btoa(binary);
-  }
 
-  // Función auxiliar optimizada para Base64
-  function arrayBufferToBase64(buffer) {
-    const bytes = new Uint8Array(buffer);
-    return btoa(String.fromCharCode.apply(null, bytes));
-  }
-
-  // Función opcional para enviar confirmación por email
-  function enviarEmailConfirmacion(email, nombre, fileUrl) {
-    // Implementación opcional usando EmailJS o similar
-    console.log(`Enviar confirmación a ${email} para ${nombre} con URL: ${fileUrl}`);
-  }
-
-// Función auxiliar para convertir ArrayBuffer a Base64
-function arrayBufferToBase64(buffer) {
-  let binary = '';
-  const bytes = new Uint8Array(buffer);
-  const len = bytes.byteLength;
-  for (let i = 0; i < len; i++) {
-    binary += String.fromCharCode(bytes[i]);
-  }
-  return window.btoa(binary);
-}
-</script>
-
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 
   <script src="/proceso-termico-web/js/menu.js" defer></script>
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>
 
