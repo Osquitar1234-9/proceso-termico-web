@@ -130,41 +130,86 @@
   // Función para generar y enviar PDF a Drive vía Google Apps Script
   async function generarYEnviarPDF() {
     try {
-      // [Mantén todo el código de creación del PDF igual hasta la generación del base64]
+      // Validación de datos
+      const nombre = document.getElementById('nombre').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const monto = document.getElementById('producto').value;
       
-      // URL de tu Apps Script (asegúrate que es la correcta)
-      const scriptUrl = "https://script.google.com/macros/s/AKfycbzqSbTO2ty0kQWRWs5bURw1s-Viob2f9wY5upTTCM-8KmThpGh9Gio2tB6ziVPaYxqY/exec";
+      if (!nombre || nombre.length < 3) {
+        throw new Error("Por favor ingresa un nombre válido (mínimo 3 caracteres)");
+      }
+
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        throw new Error("Por favor ingresa un email válido");
+      }
+
+      // Crear PDF
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
       
-      // Enviar datos
+      // Configuración del documento
+      doc.setFontSize(16);
+      doc.text('COMPROBANTE DE PAGO', 105, 15, { align: 'center' });
+      doc.setFontSize(12);
+      doc.text('ThermoProcess - Capacitación en Procesamiento Térmico', 105, 25, { align: 'center' });
+      doc.line(20, 30, 190, 30);
+      
+      // Contenido del comprobante
+      doc.text(`Nombre: ${nombre}`, 20, 40);
+      doc.text(`Email: ${email}`, 20, 50);
+      doc.text(`Monto: USD ${monto}`, 20, 60);
+      doc.text(`Fecha: ${new Date().toLocaleDateString('es-PE')}`, 20, 70);
+
+      // Convertir a Base64 - Definimos la variable correctamente
+      const pdfOutput = doc.output('arraybuffer');
+      const base64String = arrayBufferToBase64(pdfOutput); // ¡Aquí definimos base64String!
+
+      // URL de tu Google Apps Script (asegúrate que es correcta)
+      const scriptUrl = "https://script.google.com/macros/s/AKfycbzHgEFwKix-xpLY3I4ro1BJYDG32_Gpk7ZVso3lR0h6h7t8QECnlyS-j_1T47DgbNUKaw/exec";
+
+      // Enviar datos al servidor
       const response = await fetch(scriptUrl, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
         body: JSON.stringify({
-          pdfBase64: base64String,
-          filename: `Comprobante_${nombre.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0,10)}.pdf`,
+          pdfBase64: base64String, // Aquí usamos la variable ya definida
+          filename: `Comprobante_${nombre.replace(/\s+/g, '_')}_${Date.now()}.pdf`,
           nombre: nombre,
           email: email,
           monto: monto
         })
       });
 
-      if (!response.ok) throw new Error("Error en la respuesta del servidor");
-      
+      if (!response.ok) {
+        throw new Error(`Error HTTP: ${response.status}`);
+      }
+
       const result = await response.json();
-      
+
       if (result.status === "success") {
-        alert(`✅ Comprobante guardado en Drive:\n${result.fileUrl}`);
+        alert(`✅ Comprobante generado correctamente.\n\nPuedes verlo aquí: ${result.fileUrl}`);
         window.open(result.fileUrl, '_blank');
       } else {
         throw new Error(result.message || "Error al guardar el comprobante");
       }
 
     } catch (error) {
-      console.error("Error:", error);
-      alert(`❌ Error: ${error.message}\n\nPor favor contacta al soporte técnico.`);
+      console.error("Error detallado:", error);
+      alert(`❌ Error al generar comprobante:\n${error.message}`);
     }
+  }
+
+  // Función auxiliar para conversión a Base64 - Asegúrate de que esté definida
+  function arrayBufferToBase64(buffer) {
+    let binary = '';
+    const bytes = new Uint8Array(buffer);
+    for (let i = 0; i < bytes.byteLength; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
   }
 
   // Función auxiliar optimizada para Base64
