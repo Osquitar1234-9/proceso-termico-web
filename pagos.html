@@ -130,85 +130,30 @@
   // Función para generar y enviar PDF a Drive vía Google Apps Script
   async function generarYEnviarPDF() {
     try {
-      // Validación mejorada
-      const nombre = document.getElementById('nombre').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const monto = document.getElementById('producto').value;
-      
-      if (!nombre || nombre.length < 3) {
-        throw new Error("Por favor ingresa un nombre válido (mínimo 3 caracteres)");
-      }
+      // ... (código previo para crear PDF)
 
-      if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
-        throw new Error("Por favor ingresa un email válido");
-      }
-
-      // Crear PDF con jsPDF
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      
-      // Configuración del documento
-      doc.setFontSize(16);
-      doc.setTextColor(40, 40, 40);
-      doc.text('COMPROBANTE DE PAGO', 105, 15, { align: 'center' });
-      doc.setFontSize(12);
-      doc.text('ThermoProcess - Capacitación en Procesamiento Térmico', 105, 25, { align: 'center' });
-      doc.line(20, 30, 190, 30);
-      
-      // Contenido del comprobante
-      doc.text(`Nombre: ${nombre}`, 20, 40);
-      doc.text(`Email: ${email}`, 20, 50);
-      doc.text(`Monto: USD ${monto}`, 20, 60);
-      doc.text(`Fecha: ${new Date().toLocaleDateString('es-PE', { 
-        day: '2-digit', 
-        month: '2-digit', 
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      })}`, 20, 70);
-
-      // Convertir a Base64 - Método optimizado
-      const pdfOutput = doc.output('arraybuffer');
-      const base64String = arrayBufferToBase64(pdfOutput);
-
-      // URL del script - VERIFICA QUE SEA CORRECTA
+      // Usa esta URL especial para evitar CORS
       const scriptUrl = "https://script.google.com/macros/s/AKfycbzHgEFwKix-xpLY3I4ro1BJYDG32_Gpk7ZVso3lR0h6h7t8QECnlyS-j_1T47DgbNUKaw/exec";
-
-      // Enviar datos al servidor
-      const response = await fetch(scriptUrl, {
+      
+      // Usa este método para enviar los datos
+      const response = await fetch(scriptUrl + "?callback=guardarPDF", {
         method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+        mode: 'no-cors', // ← Esto evita el chequeo CORS
+        headers: {
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           pdfBase64: base64String,
-          filename: `Comprobante_${nombre.replace(/\s+/g, '_')}_${Date.now()}.pdf`,
-          nombre: nombre,
-          email: email,
-          monto: monto
+          filename: `Comprobante_${Date.now()}.pdf`
         })
       });
 
-      if (!response.ok) {
-        throw new Error(`Error en la solicitud: ${response.status}`);
-      }
-
-      const result = await response.json();
-
-      if (result.status === "success") {
-        alert(`✅ Comprobante generado correctamente!\n\nPuedes verlo aquí: ${result.fileUrl}`);
-        window.open(result.fileUrl, '_blank');
-        
-        // Opcional: Enviar email automático al cliente
-        enviarEmailConfirmacion(email, nombre, result.fileUrl);
-      } else {
-        throw new Error(result.message || "Error al procesar el comprobante");
-      }
-
+      // Verificación manual ya que no podemos leer la respuesta con 'no-cors'
+      alert("Comprobante enviado para procesamiento. Revisa tu Drive en unos segundos.");
+      
     } catch (error) {
-      console.error("Error detallado:", error);
-      alert(`❌ Error al generar comprobante:\n${error.message}`);
+      console.error("Error:", error);
+      alert("Error al enviar el comprobante");
     }
   }
 
