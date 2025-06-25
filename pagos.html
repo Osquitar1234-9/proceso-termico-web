@@ -130,21 +130,26 @@
   // Función para generar y enviar PDF a Drive vía Google Apps Script
   async function generarYEnviarPDF() {
     try {
-      // Validación de datos
+      // Validación mejorada
       const nombre = document.getElementById('nombre').value.trim();
       const email = document.getElementById('email').value.trim();
       const monto = document.getElementById('producto').value;
       
-      if (!nombre || !email) {
-        throw new Error("Por favor completa tu nombre y correo");
+      if (!nombre || nombre.length < 3) {
+        throw new Error("Por favor ingresa un nombre válido (mínimo 3 caracteres)");
       }
 
-      // Crear PDF
+      if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+        throw new Error("Por favor ingresa un email válido");
+      }
+
+      // Crear PDF con jsPDF
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
       
       // Configuración del documento
       doc.setFontSize(16);
+      doc.setTextColor(40, 40, 40);
       doc.text('COMPROBANTE DE PAGO', 105, 15, { align: 'center' });
       doc.setFontSize(12);
       doc.text('ThermoProcess - Capacitación en Procesamiento Térmico', 105, 25, { align: 'center' });
@@ -154,19 +159,28 @@
       doc.text(`Nombre: ${nombre}`, 20, 40);
       doc.text(`Email: ${email}`, 20, 50);
       doc.text(`Monto: USD ${monto}`, 20, 60);
-      doc.text(`Fecha: ${new Date().toLocaleDateString('es-PE')}`, 20, 70);
+      doc.text(`Fecha: ${new Date().toLocaleDateString('es-PE', { 
+        day: '2-digit', 
+        month: '2-digit', 
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      })}`, 20, 70);
 
-      // Convertir a Base64 - Método mejorado
+      // Convertir a Base64 - Método optimizado
       const pdfOutput = doc.output('arraybuffer');
       const base64String = arrayBufferToBase64(pdfOutput);
 
-      // URL CORRECTA de tu Google Apps Script (verifica que sea la misma)
+      // URL del script - VERIFICA QUE SEA CORRECTA
       const scriptUrl = "https://script.google.com/macros/s/AKfycbzp6JEE-WK_p9LZ7G0aPAecjFA3_kN-EEWsv_Dl3H-DITSTKY_URkKrrj-8CkWonuqSsg/exec";
 
       // Enviar datos al servidor
       const response = await fetch(scriptUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
         body: JSON.stringify({
           pdfBase64: base64String,
           filename: `Comprobante_${nombre.replace(/\s+/g, '_')}_${Date.now()}.pdf`,
@@ -176,19 +190,38 @@
         })
       });
 
+      if (!response.ok) {
+        throw new Error(`Error en la solicitud: ${response.status}`);
+      }
+
       const result = await response.json();
 
       if (result.status === "success") {
-        alert(`✅ Comprobante generado correctamente.\n\nPuedes verlo aquí: ${result.fileUrl}`);
+        alert(`✅ Comprobante generado correctamente!\n\nPuedes verlo aquí: ${result.fileUrl}`);
         window.open(result.fileUrl, '_blank');
+        
+        // Opcional: Enviar email automático al cliente
+        enviarEmailConfirmacion(email, nombre, result.fileUrl);
       } else {
-        throw new Error(result.message || "Error al guardar el comprobante");
+        throw new Error(result.message || "Error al procesar el comprobante");
       }
 
     } catch (error) {
-      console.error("Error:", error);
-      alert(`❌ Error: ${error.message}`);
+      console.error("Error detallado:", error);
+      alert(`❌ Error al generar comprobante:\n${error.message}`);
     }
+  }
+
+  // Función auxiliar optimizada para Base64
+  function arrayBufferToBase64(buffer) {
+    const bytes = new Uint8Array(buffer);
+    return btoa(String.fromCharCode.apply(null, bytes));
+  }
+
+  // Función opcional para enviar confirmación por email
+  function enviarEmailConfirmacion(email, nombre, fileUrl) {
+    // Implementación opcional usando EmailJS o similar
+    console.log(`Enviar confirmación a ${email} para ${nombre} con URL: ${fileUrl}`);
   }
 
 // Función auxiliar para convertir ArrayBuffer a Base64
