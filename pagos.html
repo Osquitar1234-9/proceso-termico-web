@@ -129,62 +129,61 @@
 
   // Función para generar y enviar PDF a Drive vía Google Apps Script
   async function generarYEnviarPDF() {
-    const nombre = document.getElementById('nombre').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const monto = document.getElementById('producto').value;
-    const { jsPDF } = window.jspdf;
+    try {
+      const nombre = document.getElementById('nombre').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const monto = document.getElementById('producto').value;
+      const { jsPDF } = window.jspdf;
 
-    if (!nombre || !email) {
-      alert("Por favor completa tu nombre y correo.");
-      return;
-    }
+      if (!nombre || !email) {
+        throw new Error("Por favor completa tu nombre y correo");
+      }
 
-    const doc = new jsPDF();
-    doc.setFontSize(16);
-    doc.text("Comprobante de Pago - ThermoProcess", 10, 15);
-    doc.setFontSize(12);
-    doc.text(`Nombre: ${nombre}`, 10, 30);
-    doc.text(`Email: ${email}`, 10, 40);
-    doc.text(`Monto: USD ${monto}`, 10, 50);
-    doc.text(`Fecha: ${new Date().toLocaleString('es-PE')}`, 10, 60);
+      // Crear el PDF
+      const doc = new jsPDF();
+      doc.setFontSize(16);
+      doc.text('COMPROBANTE DE PAGO', 105, 15, { align: 'center' });
+      doc.setFontSize(12);
+      doc.text('ThermoProcess - Capacitación en Procesamiento Térmico', 105, 25, { align: 'center' });
+      doc.line(20, 30, 190, 30);
 
-    const pdfBlob = doc.output('blob');
-    const reader = new FileReader();
+      doc.text(`Nombre: ${nombre}`, 20, 40);
+      doc.text(`Email: ${email}`, 20, 50);
+      doc.text(`Monto: USD ${monto}`, 20, 60);
+      doc.text(`Fecha: ${new Date().toLocaleDateString('es-PE')}`, 20, 70);
 
-    reader.onload = async function () {
-      const base64 = reader.result.split(',')[1];
+      // Convertir PDF a base64
+      const pdfOutput = doc.output('arraybuffer');
+      const uint8Array = new Uint8Array(pdfOutput);
+      const base64String = btoa(String.fromCharCode.apply(null, uint8Array));
 
       const payload = {
-        pdfBase64: base64,
-        filename: `comprobante_${Date.now()}.pdf`,
+        pdfBase64: base64String,
+        filename: `Comprobante_${nombre.replace(/\s+/g, '_')}_${Date.now()}.pdf`,
         nombre,
         email,
         monto
       };
 
-      try {
-        const response = await fetch("https://script.google.com/macros/s/AKfycbwomjtHFCg64Y-7xPokjiUq5btTjWTAMBjrsjUulTS-pSMZVo9NVUu6XxznuzTxow8V6A/exec", {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
+      const response = await fetch("https://script.google.com/macros/s/AKfycbwomjtHFCg64Y-7xPokjiUq5btTjWTAMBjrsjUulTS-pSMZVo9NVUu6XxznuzTxow8V6A/exec", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
 
-        const result = await response.json();
+      const result = await response.json();
 
-        if (result.status === "success") {
-          alert("✅ Comprobante generado correctamente.");
-          window.open(result.fileUrl, '_blank');
-        } else {
-          alert("❌ Error: " + result.message);
-        }
-
-      } catch (error) {
-        console.error("Error:", error);
-        alert("❌ Error de conexión al servidor.");
+      if (result.status === "success") {
+        alert(`✅ Comprobante generado.\nPuedes verlo aquí: ${result.fileUrl}`);
+        window.open(result.fileUrl, '_blank');
+      } else {
+        throw new Error(result.message || "Error al guardar el comprobante");
       }
-    };
 
-    reader.readAsDataURL(pdfBlob);
+    } catch (error) {
+      console.error("Error:", error);
+      alert(`❌ ${error.message}`);
+    }
   }
 </script>
 
