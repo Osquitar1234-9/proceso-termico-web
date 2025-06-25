@@ -206,33 +206,34 @@ body {
 
   .nav {
     flex-direction: column;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    width: 100%;
+    position: fixed;         /* ✅ para que se fije al lado */
+    top: 0;
+    right: -100%;            /* oculto inicialmente */
+    width: 280px;            /* ✅ ancho reducido */
+    height: 100vh;           /* alto completo */
     background-color: #1e293b;
-    padding: 0;
-    max-height: 0;
-    overflow: hidden;
+    padding-top: 4rem;
+    overflow-y: auto;
     opacity: 0;
-    transition: all 0.3s ease;
+    transition: right 0.3s ease, opacity 0.3s ease;
     z-index: 1000;
+    text-align: center;      /* ✅ centra los textos */
+    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
   }
 
   .nav.open {
-    padding: 1rem 0;
-    max-height: 100vh;   /* Permite toda la altura de la pantalla */
-    overflow-y: auto;    /* Activa scroll si es necesario */
+    right: 0;                /* ✅ visible cuando abre */
     opacity: 1;
   }
 
   .nav a {
-    padding: 13px 0;
-    text-align: left;
+    display: block;
+    padding: 1rem;
     color: #cbd5e1;
     font-weight: 500;
     text-decoration: none;
     border-bottom: 1px solid #334155;
+    text-align: center;      /* ✅ centra los textos */
   }
 
   .nav a:hover {
@@ -248,6 +249,7 @@ body {
     flex-direction: column;
   }
 }
+
 
 @media (max-width: 768px) {
   .logo {
