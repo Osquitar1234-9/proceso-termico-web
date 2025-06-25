@@ -39,53 +39,42 @@
     <section class="hero">
       <div class="container">
         <h1 class="hero-title">Pago Seguro de Cursos</h1>
-        <p class="hero-subtitle">Selecciona tu curso y realiza tu pago de forma segura con PayPal</p>
+        <p class="hero-subtitle">Selecciona tu curso y realiza tu pago de forma segura con PayPal o transferencia bancaria nacional</p>
       </div>
     </section>
 
     <section class="container" style="padding: 2rem 0;">
       <div class="features-grid">
         <div class="feature-card">
+          <h3>Datos del estudiante</h3>
+          <label>Nombre completo:</label>
+          <input type="text" id="nombre" placeholder="Tu nombre" required>
+          <label>Email:</label>
+          <input type="email" id="email" placeholder="tu@correo.com" required>
+        </div>
+        <div class="feature-card">
           <h3>Selecciona tu curso</h3>
-          <label for="producto" class="sr-only">Selecciona el curso</label>
           <select id="producto">
             <option value="100.00">Curso Básico - $100.00 USD</option>
             <option value="250.00">Curso Intermedio - $250.00 USD</option>
             <option value="500.00">Curso Avanzado - $500.00 USD</option>
           </select>
         </div>
-        <div class="feature-card">
-          <h3>Método de pago</h3>
-          <div id="paypal-button-container"></div>
-          <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 1rem;">
-            * Transacción procesada de forma segura por PayPal. Al realizar el pago aceptas nuestras 
-            <a href="politica.html" style="color:#38bdf8;">políticas de privacidad</a>.
-          </p>
-        </div>
       </div>
-    </section>
 
-    <section class="features">
-      <div class="container">
-        <div class="features-grid">
-          <div class="feature-card">
-            <h3>¿Qué incluye?</h3>
-            <ul>
-              <li>Acceso completo al curso</li>
-              <li>Material descargable en PDF y Excel</li>
-              <li>Certificado digital de participación</li>
-              <li>Soporte técnico personalizado por email</li>
-            </ul>
-          </div>
-          <div class="feature-card">
-            <h3>Políticas</h3>
-            <ul>
-              <li>Pagos 100% seguros a través de PayPal</li>
-              <li>Transferencia inmediata a cuenta Interbank</li>
-              <li>Factura electrónica disponible a pedido</li>
-              <li>Reembolsos disponibles dentro de 72h (según términos)</li>
-            </ul>
-          </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <h3>Método de pago internacional (PayPal)</h3>
+          <div id="paypal-button-container"></div>
+        </div>
+
+        <div class="feature-card">
+          <h3>Transferencia bancaria nacional</h3>
+          <p><strong>Banco:</strong> Interbank</p>
+          <p><strong>CCI:</strong> 00334101315818859652</p>
+          <p><strong>Nro. de Cuenta:</strong> 3413158188596</p>
+          <p><strong>Titular:</strong> Oscar Javier Del Carpio Carpio</p>
+          <button onclick="generarYEnviarPDF()">Generar comprobante PDF</button>
         </div>
       </div>
     </section>
@@ -99,14 +88,12 @@
     </div>
   </footer>
 
-  <!-- SDK de PayPal -->
+  <!-- Scripts -->
   <script src="https://www.paypal.com/sdk/js?client-id=ASNXMMjwxySGecXg8jGMmPrw8TqB2EbcF9yd_UNv9dHSB6M18eEBxwytelKi2wmGH-gw3ZP3tK12AJmf&currency=USD&locale=es_ES"></script>
-
-  <!-- Script PayPal Dinámico -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
     let selectedAmount = "100.00";
     const select = document.getElementById("producto");
-
     select.addEventListener("change", () => {
       selectedAmount = select.value;
       renderPayPalButton();
@@ -114,36 +101,52 @@
 
     function renderPayPalButton() {
       document.getElementById("paypal-button-container").innerHTML = "";
-
       paypal.Buttons({
-        style: {
-          color: 'blue',
-          shape: 'pill',
-          label: 'pay',
-          height: 40
-        },
-        createOrder: function (data, actions) {
-          return actions.order.create({
-            purchase_units: [{
-              amount: { value: selectedAmount }
-            }]
-          });
-        },
-        onApprove: function (data, actions) {
-          return actions.order.capture().then(function (details) {
-            alert('✅ ¡Gracias, ' + details.payer.name.given_name + '! Tu pago ha sido confirmado.');
-          });
-        }
+        style: { color: 'blue', shape: 'pill', label: 'pay', height: 40 },
+        createOrder: (data, actions) => actions.order.create({ purchase_units: [{ amount: { value: selectedAmount } }] }),
+        onApprove: (data, actions) => actions.order.capture().then(details => {
+          alert('✅ Gracias, ' + details.payer.name.given_name + '! Pago confirmado.');
+        })
       }).render('#paypal-button-container');
     }
-
     renderPayPalButton();
+
+    async function generarYEnviarPDF() {
+      const nombre = document.getElementById('nombre').value;
+      const email = document.getElementById('email').value;
+      const monto = document.getElementById('producto').value;
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.text('Comprobante de Pago - ThermoProcess', 10, 10);
+      doc.text(`Nombre: ${nombre}`, 10, 20);
+      doc.text(`Email: ${email}`, 10, 30);
+      doc.text(`Monto: S/ ${monto}`, 10, 40);
+      doc.text(`Fecha: ${new Date().toLocaleString()}`, 10, 50);
+
+      const pdfBlob = doc.output('blob');
+      const reader = new FileReader();
+      reader.onload = async function () {
+        const base64 = reader.result.split(',')[1];
+        const form = new FormData();
+        form.append('file', base64);
+        form.append('filename', `comprobante_${Date.now()}.pdf`);
+        form.append('nombre', nombre);
+        form.append('email', email);
+        form.append('monto', monto);
+
+        const response = await fetch('TU_URL_DEL_GOOGLE_SCRIPT', {
+          method: 'POST',
+          body: form
+        });
+        const result = await response.text();
+        alert(result === 'OK' ? '✅ Comprobante enviado a Drive' : '❌ Error al guardar comprobante');
+      };
+      reader.readAsDataURL(pdfBlob);
+    }
   </script>
 
-  <!-- Script de menú y año -->
   <script src="/proceso-termico-web/js/menu.js" defer></script>
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>
+
