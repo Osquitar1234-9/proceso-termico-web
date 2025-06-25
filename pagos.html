@@ -130,30 +130,40 @@
   // Función para generar y enviar PDF a Drive vía Google Apps Script
   async function generarYEnviarPDF() {
     try {
-      // ... (código previo para crear PDF)
-
-      // Usa esta URL especial para evitar CORS
+      // [Mantén todo el código de creación del PDF igual hasta la generación del base64]
+      
+      // URL de tu Apps Script (asegúrate que es la correcta)
       const scriptUrl = "https://script.google.com/macros/s/AKfycbzHgEFwKix-xpLY3I4ro1BJYDG32_Gpk7ZVso3lR0h6h7t8QECnlyS-j_1T47DgbNUKaw/exec";
       
-      // Usa este método para enviar los datos
-      const response = await fetch(scriptUrl + "?callback=guardarPDF", {
+      // Enviar datos
+      const response = await fetch(scriptUrl, {
         method: 'POST',
-        mode: 'no-cors', // ← Esto evita el chequeo CORS
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           pdfBase64: base64String,
-          filename: `Comprobante_${Date.now()}.pdf`
+          filename: `Comprobante_${nombre.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0,10)}.pdf`,
+          nombre: nombre,
+          email: email,
+          monto: monto
         })
       });
 
-      // Verificación manual ya que no podemos leer la respuesta con 'no-cors'
-      alert("Comprobante enviado para procesamiento. Revisa tu Drive en unos segundos.");
+      if (!response.ok) throw new Error("Error en la respuesta del servidor");
       
+      const result = await response.json();
+      
+      if (result.status === "success") {
+        alert(`✅ Comprobante guardado en Drive:\n${result.fileUrl}`);
+        window.open(result.fileUrl, '_blank');
+      } else {
+        throw new Error(result.message || "Error al guardar el comprobante");
+      }
+
     } catch (error) {
       console.error("Error:", error);
-      alert("Error al enviar el comprobante");
+      alert(`❌ Error: ${error.message}\n\nPor favor contacta al soporte técnico.`);
     }
   }
 
