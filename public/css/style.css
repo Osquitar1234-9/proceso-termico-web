@@ -17,9 +17,11 @@ body {
 
 /* ==== UTILIDADES ==== */
 .container {
-  width: 90%;
-  max-width: 1200px;
-  margin: auto;
+  width: min(90%, 1000px);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 /* ==== NAVBAR ==== */
@@ -251,4 +253,13 @@ body {
   .logo {
     display: none;
   }
+}
+* {
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
