@@ -134,16 +134,18 @@
 
       reader.onload = async function () {
         const base64 = reader.result.split(',')[1];
-        const form = new FormData();
-        form.append('file', base64);
-        form.append('filename', `comprobante_${Date.now()}.pdf`);
-        form.append('nombre', nombre);
-        form.append('email', email);
-        form.append('monto', monto);
+        const payload = {
+          pdfBase64: base64,
+          filename: `comprobante_${Date.now()}.pdf`,
+          nombre: nombre,
+          email: email,
+          monto: monto
+        };
 
         const response = await fetch("https://script.google.com/macros/s/AKfycbwomjtHFCg64Y-7xPokjiUq5btTjWTAMBjrsjUulTS-pSMZVo9NVUu6XxznuzTxow8V6A/exec", {
           method: 'POST',
-          body: form
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
         });
 
         const result = await response.text();
