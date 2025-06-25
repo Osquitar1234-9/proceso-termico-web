@@ -164,11 +164,15 @@
         email,
         monto
       };
-      const response = await fetch("https://script.google.com/macros/s/AKfycbwxRV73YQ3AppwsuovwjGrNnS6i3bLQF7QI4MHPAh7Pl9NflDKDNQNEz-dTIeaGwjTCag/exec", {
+      const response = await fetch("https://script.google.com/macros/s/AKfycby3oBtG1uv6JCmDuCzfRfFAWx8rtBhQk7GGhvInE1zHHBT0MR_v40ebBLR5gvVQ78nZOw/exec", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        mode: "cors", // ← IMPORTANTE para evitar error CORS
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify(payload)
       });
+
 
       const result = await response.json();
 
