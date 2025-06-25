@@ -13,7 +13,7 @@
 </head>
 <body>
 
-  <!-- Header -->
+  <!-- HEADER -->
   <header class="navbar">
     <div class="container">
       <a href="index.html" class="logo">
@@ -34,18 +34,18 @@
     </div>
   </header>
 
-  <!-- Contenido principal -->
+  <!-- CONTENIDO PRINCIPAL -->
   <main class="main-content">
     <section class="hero">
       <div class="container">
         <h1 class="hero-title">Pago Seguro de Cursos</h1>
-        <p class="hero-subtitle">Realiza tu pago y completa el formulario para generar tu comprobante.</p>
+        <p class="hero-subtitle">Realiza tu pago y luego completa el formulario para generar automáticamente tu comprobante en PDF.</p>
       </div>
     </section>
 
     <section class="container" style="padding: 2rem 0;">
       <div class="features-grid">
-        <!-- PayPal -->
+        <!-- Pago por PayPal -->
         <div class="feature-card">
           <h3>Pago internacional con PayPal</h3>
           <p>Selecciona tu curso:</p>
@@ -57,24 +57,24 @@
           <div id="paypal-button-container" style="margin-top: 1rem;"></div>
         </div>
 
-        <!-- Transferencia bancaria -->
+        <!-- Transferencia Bancaria -->
         <div class="feature-card">
           <h3>Transferencia bancaria nacional</h3>
           <p><strong>Banco:</strong> Interbank</p>
           <p><strong>CCI:</strong> 00334101315818859652</p>
           <p><strong>Cuenta:</strong> 3413158188596</p>
           <p><strong>Titular:</strong> Oscar Javier Del Carpio Carpio</p>
-          <p>Luego de realizar el pago, llena el formulario.</p>
+          <p><em>Luego de pagar, completa el formulario para generar tu comprobante.</em></p>
         </div>
       </div>
 
-      <!-- Formulario de Google Forms -->
+      <!-- Formulario Google Forms -->
       <div style="margin-top: 3rem;">
         <h3 style="text-align:center;">Formulario de Registro y Generación de Comprobante</h3>
         <iframe 
           src="https://docs.google.com/forms/d/e/1FAIpQLSfX8RYgSmpUrVqJLqjouShne2DK8oO4nllvssI2mUap60ZDVg/viewform?embedded=true" 
           width="100%" 
-          height="800" 
+          height="935" 
           frameborder="0" 
           marginheight="0" 
           marginwidth="0" 
@@ -82,12 +82,11 @@
           style="border-radius: 0.75rem; background-color: #fff;">
           Cargando…
         </iframe>
-
       </div>
     </section>
   </main>
 
-  <!-- Footer -->
+  <!-- FOOTER -->
   <footer class="footer">
     <div class="container">
       <p>&copy; <span id="year"></span> ThermoProcess - Todos los derechos reservados</p>
@@ -95,11 +94,12 @@
     </div>
   </footer>
 
-  <!-- Scripts -->
+  <!-- PayPal Script -->
   <script src="https://www.paypal.com/sdk/js?client-id=ASNXMMjwxySGecXg8jGMmPrw8TqB2EbcF9yd_UNv9dHSB6M18eEBxwytelKi2wmGH-gw3ZP3tK12AJmf&currency=USD&locale=es_ES"></script>
   <script>
     let selectedAmount = "100.00";
     const select = document.getElementById("producto");
+
     select.addEventListener("change", () => {
       selectedAmount = select.value;
       renderPayPalButton();
@@ -132,6 +132,7 @@
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 
+  <!-- Menú hamburguesa -->
   <script src="/proceso-termico-web/js/menu.js" defer></script>
 </body>
 </html>
