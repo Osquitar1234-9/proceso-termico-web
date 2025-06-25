@@ -92,69 +92,102 @@
   <script src="https://www.paypal.com/sdk/js?client-id=ASNXMMjwxySGecXg8jGMmPrw8TqB2EbcF9yd_UNv9dHSB6M18eEBxwytelKi2wmGH-gw3ZP3tK12AJmf&currency=USD&locale=es_ES"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-    let selectedAmount = "100.00";
-    const select = document.getElementById("producto");
-    select.addEventListener("change", () => {
-      selectedAmount = select.value;
-      renderPayPalButton();
-    });
+  let selectedAmount = "100.00";
 
-    function renderPayPalButton() {
-      document.getElementById("paypal-button-container").innerHTML = "";
-      paypal.Buttons({
-        style: { color: 'blue', shape: 'pill', label: 'pay', height: 40 },
-        createOrder: (data, actions) => actions.order.create({ purchase_units: [{ amount: { value: selectedAmount } }] }),
-        onApprove: (data, actions) => actions.order.capture().then(details => {
-          alert('✅ Gracias, ' + details.payer.name.given_name + '! Pago confirmado.');
-        })
-      }).render('#paypal-button-container');
-    }
+  // Asignar monto inicial y actualizar al cambiar curso
+  const select = document.getElementById("producto");
+  select.addEventListener("change", () => {
+    selectedAmount = select.value;
     renderPayPalButton();
+  });
 
-    async function generarYEnviarPDF() {
-      const nombre = document.getElementById('nombre').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const monto = document.getElementById('producto').value;
-      const { jsPDF } = window.jspdf;
+  // Renderizado del botón PayPal
+  function renderPayPalButton() {
+    document.getElementById("paypal-button-container").innerHTML = "";
 
-      if (!nombre || !email) {
-        alert("Por favor completa tu nombre y correo.");
-        return;
+    paypal.Buttons({
+      style: {
+        color: 'blue',
+        shape: 'pill',
+        label: 'pay',
+        height: 40
+      },
+      createOrder: (data, actions) => {
+        return actions.order.create({
+          purchase_units: [{ amount: { value: selectedAmount } }]
+        });
+      },
+      onApprove: (data, actions) => {
+        return actions.order.capture().then(details => {
+          alert(`✅ Gracias, ${details.payer.name.given_name}! Tu pago fue exitoso.`);
+        });
       }
+    }).render('#paypal-button-container');
+  }
 
-      const doc = new jsPDF();
-      doc.text('Comprobante de Pago - ThermoProcess', 10, 10);
-      doc.text(`Nombre: ${nombre}`, 10, 20);
-      doc.text(`Email: ${email}`, 10, 30);
-      doc.text(`Monto: USD ${monto}`, 10, 40);
-      doc.text(`Fecha: ${new Date().toLocaleString()}`, 10, 50);
+  renderPayPalButton();
 
-      const pdfBlob = doc.output('blob');
-      const reader = new FileReader();
+  // Función para generar y enviar PDF a Drive vía Google Apps Script
+  async function generarYEnviarPDF() {
+    const nombre = document.getElementById('nombre').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const monto = document.getElementById('producto').value;
+    const { jsPDF } = window.jspdf;
 
-      reader.onload = async function () {
-        const base64 = reader.result.split(',')[1];
-        const payload = {
-          pdfBase64: base64,
-          filename: `comprobante_${Date.now()}.pdf`,
-          nombre: nombre,
-          email: email,
-          monto: monto
-        };
+    if (!nombre || !email) {
+      alert("Por favor completa tu nombre y correo.");
+      return;
+    }
+
+    const doc = new jsPDF();
+    doc.setFontSize(16);
+    doc.text("Comprobante de Pago - ThermoProcess", 10, 15);
+    doc.setFontSize(12);
+    doc.text(`Nombre: ${nombre}`, 10, 30);
+    doc.text(`Email: ${email}`, 10, 40);
+    doc.text(`Monto: USD ${monto}`, 10, 50);
+    doc.text(`Fecha: ${new Date().toLocaleString('es-PE')}`, 10, 60);
+
+    const pdfBlob = doc.output('blob');
+    const reader = new FileReader();
+
+    reader.onload = async function () {
+      const base64 = reader.result.split(',')[1];
+
+      const payload = {
+        pdfBase64: base64,
+        filename: `comprobante_${Date.now()}.pdf`,
+        nombre,
+        email,
+        monto
+      };
+
+      try {
         const response = await fetch("https://script.google.com/macros/s/AKfycbwomjtHFCg64Y-7xPokjiUq5btTjWTAMBjrsjUulTS-pSMZVo9NVUu6XxznuzTxow8V6A/exec", {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
 
-        const result = await response.text();
-        alert(result === 'OK' ? '✅ Comprobante enviado a Drive correctamente.' : '❌ Error al guardar el comprobante en Drive.');
-      };
+        const result = await response.json();
 
-      reader.readAsDataURL(pdfBlob);
-    }
+        if (result.status === "success") {
+          alert("✅ Comprobante generado correctamente.");
+          window.open(result.fileUrl, '_blank');
+        } else {
+          alert("❌ Error: " + result.message);
+        }
 
-  </script>
+      } catch (error) {
+        console.error("Error:", error);
+        alert("❌ Error de conexión al servidor.");
+      }
+    };
+
+    reader.readAsDataURL(pdfBlob);
+  }
+</script>
+
 
   <script src="/proceso-termico-web/js/menu.js" defer></script>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
