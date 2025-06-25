@@ -112,19 +112,26 @@
     renderPayPalButton();
 
     async function generarYEnviarPDF() {
-      const nombre = document.getElementById('nombre').value;
-      const email = document.getElementById('email').value;
+      const nombre = document.getElementById('nombre').value.trim();
+      const email = document.getElementById('email').value.trim();
       const monto = document.getElementById('producto').value;
       const { jsPDF } = window.jspdf;
+
+      if (!nombre || !email) {
+        alert("Por favor completa tu nombre y correo.");
+        return;
+      }
+
       const doc = new jsPDF();
       doc.text('Comprobante de Pago - ThermoProcess', 10, 10);
       doc.text(`Nombre: ${nombre}`, 10, 20);
       doc.text(`Email: ${email}`, 10, 30);
-      doc.text(`Monto: S/ ${monto}`, 10, 40);
+      doc.text(`Monto: USD ${monto}`, 10, 40);
       doc.text(`Fecha: ${new Date().toLocaleString()}`, 10, 50);
 
       const pdfBlob = doc.output('blob');
       const reader = new FileReader();
+
       reader.onload = async function () {
         const base64 = reader.result.split(',')[1];
         const form = new FormData();
@@ -134,15 +141,18 @@
         form.append('email', email);
         form.append('monto', monto);
 
-        const response = await fetch('TU_URL_DEL_GOOGLE_SCRIPT', {
+        const response = await fetch("https://script.google.com/macros/s/AKfycbwomjtHFCg64Y-7xPokjiUq5btTjWTAMBjrsjUulTS-pSMZVo9NVUu6XxznuzTxow8V6A/exec", {
           method: 'POST',
           body: form
         });
+
         const result = await response.text();
-        alert(result === 'OK' ? '✅ Comprobante enviado a Drive' : '❌ Error al guardar comprobante');
+        alert(result === 'OK' ? '✅ Comprobante enviado a Drive correctamente.' : '❌ Error al guardar el comprobante en Drive.');
       };
+
       reader.readAsDataURL(pdfBlob);
     }
+
   </script>
 
   <script src="/proceso-termico-web/js/menu.js" defer></script>
