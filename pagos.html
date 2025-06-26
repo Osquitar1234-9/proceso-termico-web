@@ -84,7 +84,8 @@
           <p><strong>Cuenta:</strong> 3413158188596</p>
           <p><strong>Titular:</strong> Oscar Javier Del Carpio Carpio</p>
           <p><em>Luego de pagar, completa el formulario para generar tu comprobante.</em></p>
-          <button onclick="mostrarFormularioNacional()" class="btn-verde">Ya pagué por transferencia bancaria</button>
+          <button onclick="generarCodigoNacional()" class="btn-verde">Generar código de pago nacional</button>
+          <div id="codigo-generado" style="margin-top: 1rem; font-weight: bold;"></div>
         </div>
       </div>
 
@@ -190,6 +191,47 @@
 
   <!-- Menú hamburguesa -->
   <script src="/proceso-termico-web/js/menu.js" defer></script>
+  <script>
+    async function generarCodigoNacional() {
+      // Generar un código aleatorio tipo TP-20250626-XYZ123
+      const fecha = new Date();
+      const dia = fecha.toISOString().slice(0, 10).replace(/-/g, "");
+      const sufijo = Math.random().toString(36).substring(2, 8).toUpperCase(); // Ej: 6 caracteres
+      const codigo = `TP-${dia}-${sufijo}`;
+
+      // Guardar en hoja de cálculo
+      const payload = {
+        codigo: codigo,
+        fecha: new Date().toLocaleString("es-PE"),
+        estado: "PENDIENTE"
+      };
+
+      try {
+        const res = await fetch("https://script.google.com/macros/s/AKfycbxnITjD-UTSXyL9HZ0VKpCf0DGyGH4IyKYpJn4VW5F8YuRmgR4qdHFa_b4m3KhaUtcAyA/exec", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const resultado = await res.json();
+
+        if (resultado.success) {
+          document.getElementById("codigo-generado").innerHTML = `
+            🧾 Tu código de pago es: <span style="color:blue">${codigo}</span><br>
+            📌 Copia este código y pégalo en el formulario.
+          `;
+          mostrarFormularioNacional();
+        } else {
+          alert("No se pudo generar el código. Intenta nuevamente.");
+        }
+
+      } catch (err) {
+        console.error("Error al generar código:", err);
+        alert("Error de conexión al generar código.");
+      }
+    }
+  </script>
 </body>
 </html>
-
