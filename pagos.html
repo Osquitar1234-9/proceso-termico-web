@@ -192,46 +192,42 @@
   <!-- Menú hamburguesa -->
   <script src="/proceso-termico-web/js/menu.js" defer></script>
   <script>
-    async function generarCodigoNacional() {
-      // Generar un código aleatorio tipo TP-20250626-XYZ123
-      const fecha = new Date();
-      const dia = fecha.toISOString().slice(0, 10).replace(/-/g, "");
-      const sufijo = Math.random().toString(36).substring(2, 8).toUpperCase(); // Ej: 6 caracteres
-      const codigo = `TP-${dia}-${sufijo}`;
-
-      // Guardar en hoja de cálculo
-      const payload = {
-        codigo: codigo,
-        fecha: new Date().toLocaleString("es-PE"),
-        estado: "PENDIENTE"
-      };
+    async function generarCodigoPagoNacional() {
+      const codigo = "TP-" + Date.now(); // Ejemplo: TP-1720038719205
+      const fecha = new Date().toLocaleString("es-PE");
 
       try {
-        const res = await fetch("https://script.google.com/macros/s/AKfycbxnITjD-UTSXyL9HZ0VKpCf0DGyGH4IyKYpJn4VW5F8YuRmgR4qdHFa_b4m3KhaUtcAyA/exec", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(payload)
+        const response = await fetch('https://script.google.com/macros/s/AKfycbxnITjD-UTSXyL9HZ0VKpCf0DGyGH4IyKYpJn4VW5F8YuRmgR4qdHFa_b4m3KhaUtcAyA/exec', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code: codigo, date: fecha })
         });
 
-        const resultado = await res.json();
+        const result = await response.json();
 
-        if (resultado.success) {
-          document.getElementById("codigo-generado").innerHTML = `
-            🧾 Tu código de pago es: <span style="color:blue">${codigo}</span><br>
-            📌 Copia este código y pégalo en el formulario.
-          `;
-          mostrarFormularioNacional();
+        if (result.success) {
+          document.getElementById("codigo-generado").textContent = `Código generado: ${codigo}`;
+          document.getElementById("codigo-container").style.display = "block";
         } else {
-          alert("No se pudo generar el código. Intenta nuevamente.");
+          alert("⚠️ No se pudo registrar el código. Intenta nuevamente.");
+          console.error(result.error);
         }
-
       } catch (err) {
-        console.error("Error al generar código:", err);
-        alert("Error de conexión al generar código.");
+        alert("❌ Error al generar código de pago.");
+        console.error(err);
       }
     }
+
+    // Mostrar formulario solo si es pago nacional
+    document.addEventListener("DOMContentLoaded", function () {
+      const formularioNacional = document.getElementById("formulario-nacional");
+      const btnGenerar = document.getElementById("btn-generar-codigo");
+
+      if (formularioNacional && btnGenerar) {
+        formularioNacional.style.display = "block";
+        btnGenerar.addEventListener("click", generarCodigoPagoNacional);
+      }
+    });
   </script>
 </body>
 </html>
