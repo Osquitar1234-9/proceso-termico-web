@@ -3,15 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Pago internacional con tarjeta para cursos de procesamiento térmico" />
+  <meta name="description" content="Pago seguro internacional con PayPal - ThermoProcess" />
   <title>Pago Internacional | ThermoProcess</title>
 
-  <!-- Icono y fuentes -->
   <link rel="icon" href="public/svg/logo.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="/proceso-termico-web/public/css/style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    #formulario-postpago {
+      display: none;
+      margin-top: 2rem;
+    }
+  </style>
 </head>
-
 <body>
   <!-- HEADER -->
   <header class="navbar">
@@ -20,7 +24,7 @@
         <img src="public/svg/log.svg" alt="Logo ThermoProcess" />
         <span>ThermoProcess</span>
       </a>
-      <button class="menu-toggle" id="menu-toggle" aria-label="Menú móvil" aria-expanded="false">
+      <button class="menu-toggle" id="menu-toggle" aria-label="Menú móvil">
         <span class="menu-icon">☰</span>
       </button>
       <nav class="nav" id="main-nav">
@@ -34,26 +38,40 @@
     </div>
   </header>
 
-  <!-- CONTENIDO -->
+  <!-- CONTENIDO PRINCIPAL -->
   <main class="main-content">
     <section class="hero">
       <div class="container">
-        <h1 class="hero-title">Pago Internacional Seguro</h1>
-        <p class="hero-subtitle">Realiza tu pago con tarjeta a través de PayPal. El comprobante se enviará automáticamente a tu correo.</p>
+        <h1 class="hero-title">Pago Internacional</h1>
+        <p class="hero-subtitle">Realiza tu pago con PayPal y completa el formulario para recibir tu comprobante electrónico.</p>
       </div>
     </section>
 
     <section class="container" style="padding: 2rem 0;">
-      <div class="feature-card" style="max-width: 600px; margin: 0 auto;">
-        <h3>Selecciona tu curso:</h3>
+      <div class="feature-card">
+        <h3>Selecciona tu curso</h3>
         <select id="producto">
           <option value="100.00">Curso Básico - $100.00 USD</option>
           <option value="250.00">Curso Intermedio - $250.00 USD</option>
           <option value="500.00">Curso Avanzado - $500.00 USD</option>
         </select>
+        <div id="paypal-button-container" style="margin-top: 1rem;"></div>
+      </div>
 
-        <div id="paypal-button-container" style="margin-top: 1.5rem;"></div>
-        <div id="confirmacion" style="margin-top: 1rem; font-weight: bold;"></div>
+      <div id="formulario-postpago">
+        <h3 style="text-align:center;">Formulario para recibir comprobante</h3>
+        <p style="text-align:center;">Por favor, completa el siguiente formulario con tu nombre, correo, curso y el ID de transacción de PayPal.</p>
+        <iframe 
+          src="https://docs.google.com/forms/d/e/1FAIpQLScieNgATjMgR95RWVYYkTFKpqLdThmwANXypWTJXAo8sOtzbQ/viewform?embedded=true" 
+          width="100%" 
+          height="1000" 
+          frameborder="0" 
+          marginheight="0" 
+          marginwidth="0" 
+          loading="lazy" 
+          style="border-radius: 0.75rem; background-color: #fff;">
+          Cargando…
+        </iframe>
       </div>
     </section>
   </main>
@@ -68,8 +86,6 @@
 
   <!-- PayPal SDK -->
   <script src="https://www.paypal.com/sdk/js?client-id=ASNXMMjwxySGecXg8jGMmPrw8TqB2EbcF9yd_UNv9dHSB6M18eEBxwytelKi2wmGH-gw3ZP3tK12AJmf&currency=USD&locale=es_ES"></script>
-
-  <!-- Script de PayPal y registro -->
   <script>
     let selectedAmount = "100.00";
     const select = document.getElementById("producto");
@@ -78,10 +94,9 @@
       renderPayPalButton();
     });
 
-    renderPayPalButton();
-
     function renderPayPalButton() {
       document.getElementById("paypal-button-container").innerHTML = "";
+
       paypal.Buttons({
         style: {
           color: 'blue',
@@ -99,36 +114,16 @@
           });
         },
         onApprove: (data, actions) => {
-          return actions.order.capture().then(async details => {
-            const curso = select.options[select.selectedIndex].text;
-            const paymentData = {
-              transaction_id: details.id,
-              name: `${details.payer.name.given_name} ${details.payer.name.surname}`,
-              email: details.payer.email_address,
-              course: curso,
-              amount: details.purchase_units[0].amount.value,
-              currency: details.purchase_units[0].amount.currency_code,
-              date: new Date().toLocaleString("es-PE"),
-              status: "COMPLETED"
-            };
-
-            await fetch("https://script.google.com/macros/s/AKfycbyI3BPlAHbk06pBJQv2CgBEsdqRMNNkjXfi37jV4UdIPZYzwznvMKpWZeBenVwphY4bOg/exec", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ action: "savePayment", data: paymentData })
-            });
-
-            document.getElementById("confirmacion").innerHTML = `✅ Gracias, ${paymentData.name}. Tu pago ha sido registrado. Recibirás el comprobante en tu correo.`;
-            document.getElementById("paypal-button-container").innerHTML = "<p><strong>✅ Pago procesado.</strong></p>";
+          return actions.order.capture().then(details => {
+            alert(`✅ Gracias, ${details.payer.name.given_name}. Tu pago fue exitoso.`);
+            document.getElementById("formulario-postpago").style.display = "block";
+            document.getElementById("formulario-postpago").scrollIntoView({ behavior: "smooth" });
           });
-        },
-        onError: err => {
-          console.error("Error en PayPal:", err);
-          alert("❌ Error al procesar el pago.");
         }
       }).render("#paypal-button-container");
     }
 
+    renderPayPalButton();
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 
