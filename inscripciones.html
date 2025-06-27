@@ -3,64 +3,70 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Inscripción a cursos de procesamiento térmico de alimentos"/>
-  <title>Inscripciones | ThermoProcess</title>
+  <meta name="description" content="Formulario de inscripción a cursos de procesamiento térmico - ThermoProcess">
+  <title>Inscripción | ThermoProcess</title>
 
-  <!-- Icono y estilos -->
-  <link rel="icon" href="public/svg/logo.svg" type="image/svg+xml"/>
-  <link rel="stylesheet" href="/proceso-termico-web/public/css/style.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <!-- Tipografía -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="/proceso-termico-web/public/css/style.css" />
 </head>
-
 <body>
-  <!-- HEADER -->
+
+  <!-- Navbar -->
   <header class="navbar">
     <div class="container">
       <a href="index.html" class="logo">
-        <img src="public/svg/log.svg" alt="Logo ThermoProcess"/>
+        <img src="public/svg/log.svg" alt="Logo ThermoProcess" />
         <span>ThermoProcess</span>
       </a>
+      
+      <!-- Botón hamburguesa -->
       <button class="menu-toggle" id="menu-toggle" aria-label="Menú móvil" aria-expanded="false">
         <span class="menu-icon">☰</span>
       </button>
+
+      <!-- Menú principal -->
       <nav class="nav" id="main-nav">
         <a href="index.html">Inicio</a>
         <a href="clases.html">Clases</a>
         <a href="app.html">App</a>
         <a href="noticias.html">Noticias</a>
         <a href="formularios.html">Contacto</a>
-        <a href="pagos.html">Pagos</a>
-        <a href="inscripciones.html" class="active">Inscripciones</a>
+        <a href="inscripcion.html" class="active">Inscripción</a>
+        <a href="pagos-internacionales.html">Pagos</a>
       </nav>
     </div>
   </header>
 
-  <!-- CONTENIDO PRINCIPAL -->
+  <!-- Contenido principal -->
   <main class="main-content">
     <section class="hero">
       <div class="container">
         <h1 class="hero-title">Inscripción a Cursos</h1>
-        <p class="hero-subtitle">Completa el siguiente formulario para registrarte en nuestros cursos. Luego realiza el pago en la página correspondiente.</p>
+        <p class="hero-subtitle">Completa el formulario para reservar tu vacante.</p>
       </div>
     </section>
 
     <section class="container" style="padding: 2rem 0;">
-      <!-- FORMULARIO GOOGLE EMBEBIDO -->
-      <iframe 
-        src="https://docs.google.com/forms/d/e/1FAIpQLSdXXXXXXXXXXXXXXX/viewform?embedded=true"
-        width="100%" 
-        height="950" 
-        frameborder="0" 
-        marginheight="0" 
-        marginwidth="0"
-        loading="lazy"
-        style="border-radius: 12px; background-color: #fff;">
-        Cargando…
-      </iframe>
+      <div style="margin: auto; max-width: 900px;">
+        <iframe 
+          src="https://docs.google.com/forms/d/e/1FAIpQLSd6qFLSG_XXXXXXX/viewform?embedded=true" 
+          width="100%" 
+          height="900" 
+          frameborder="0" 
+          marginheight="0" 
+          marginwidth="0" 
+          style="border-radius: 0.75rem; background-color: #fff;" 
+          loading="lazy">
+          Cargando…
+        </iframe>
+      </div>
     </section>
   </main>
 
-  <!-- FOOTER -->
+  <!-- Footer -->
   <footer class="footer">
     <div class="container">
       <p>&copy; <span id="year"></span> ThermoProcess - Todos los derechos reservados</p>
@@ -68,12 +74,10 @@
     </div>
   </footer>
 
-  <!-- Script para año dinámico -->
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
-
-  <!-- Menú hamburguesa -->
+  <!-- JS -->
   <script src="/proceso-termico-web/js/menu.js" defer></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
