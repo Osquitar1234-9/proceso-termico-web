@@ -40,11 +40,10 @@
     </section>
 
     <section class="container" style="padding: 2rem 0;">
-      <div class="features-grid">
-
-        <!-- Pago Internacional -->
+      <div class="pagos-grid">
+        <!-- Columna 1: PayPal -->
         <div class="feature-card">
-          <h3>Pago Internacional (PayPal / Tarjeta)</h3>
+          <h3>Pago internacional con PayPal</h3>
           <p>Selecciona tu curso:</p>
           <select id="producto">
             <option value="100.00">Curso Básico - $100.00 USD</option>
@@ -54,24 +53,33 @@
           <div id="paypal-button-container" style="margin-top: 1rem;"></div>
         </div>
 
-        <!-- Pago Nacional -->
+        <!-- Columna 2: Transferencia -->
         <div class="feature-card">
-          <h3>Pago Nacional (Transferencia / Plin)</h3>
+          <h3>Transferencia bancaria nacional</h3>
           <p><strong>Banco:</strong> Interbank</p>
           <p><strong>CCI:</strong> 00334101315818859652</p>
           <p><strong>Cuenta:</strong> 3413158188596</p>
           <p><strong>Titular:</strong> Oscar Javier Del Carpio Carpio</p>
-          <p>Una vez realizado el pago, llena el siguiente formulario para generar tu comprobante.</p>
-
-          <iframe 
-            src="https://docs.google.com/forms/d/e/1FAIpQLScodigo_formulario/viewform?embedded=true"
-            width="100%" height="935" frameborder="0" marginheight="0" marginwidth="0" loading="lazy"
-            style="border-radius: 0.75rem; background-color: #fff; margin-top: 1rem;">
-            Cargando…
-          </iframe>
+          <p><em>Luego de pagar, completa el formulario con tu código único.</em></p>
         </div>
       </div>
+
+      <!-- FORMULARIO DE PAGO NACIONAL -->
+      <div class="formulario-container">
+        <h3 style="text-align: center; margin-top: 2rem;">Formulario para pagos nacionales</h3>
+        <iframe 
+          src="https://docs.google.com/forms/d/e/1FAIpQLSeXtuFormularioPublico/viewform?embedded=true"
+          width="100%"
+          height="980"
+          frameborder="0"
+          marginheight="0"
+          marginwidth="0"
+          style="border-radius: 0.75rem; background-color: #fff;">
+          Cargando…
+        </iframe>
+      </div>
     </section>
+
   </main>
 
   <footer class="footer">
