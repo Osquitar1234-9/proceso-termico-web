@@ -3,18 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Pago seguro internacional con PayPal - ThermoProcess" />
-  <title>Pago Internacional | ThermoProcess</title>
-
+  <meta name="description" content="Página oficial de pagos para cursos ThermoProcess." />
+  <title>Pagos | ThermoProcess</title>
   <link rel="icon" href="public/svg/logo.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="/proceso-termico-web/public/css/style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-  <style>
-    #formulario-postpago {
-      display: none;
-      margin-top: 2rem;
-    }
-  </style>
 </head>
 <body>
   <!-- HEADER -->
@@ -24,7 +17,7 @@
         <img src="public/svg/log.svg" alt="Logo ThermoProcess" />
         <span>ThermoProcess</span>
       </a>
-      <button class="menu-toggle" id="menu-toggle" aria-label="Menú móvil">
+      <button class="menu-toggle" id="menu-toggle" aria-label="Menú móvil" aria-expanded="false">
         <span class="menu-icon">☰</span>
       </button>
       <nav class="nav" id="main-nav">
@@ -33,50 +26,54 @@
         <a href="app.html">App</a>
         <a href="noticias.html">Noticias</a>
         <a href="formularios.html">Contacto</a>
-        <a href="pagos-internacionales.html" class="active">Pago Internacional</a>
+        <a href="pagos.html" class="active">Pagos</a>
       </nav>
     </div>
   </header>
 
-  <!-- CONTENIDO PRINCIPAL -->
   <main class="main-content">
     <section class="hero">
       <div class="container">
-        <h1 class="hero-title">Pago Internacional</h1>
-        <p class="hero-subtitle">Realiza tu pago con PayPal y completa el formulario para recibir tu comprobante electrónico.</p>
+        <h1 class="hero-title">Realiza tu Pago</h1>
+        <p class="hero-subtitle">Selecciona el método más conveniente</p>
       </div>
     </section>
 
     <section class="container" style="padding: 2rem 0;">
-      <div class="feature-card">
-        <h3>Selecciona tu curso</h3>
-        <select id="producto">
-          <option value="100.00">Curso Básico - $100.00 USD</option>
-          <option value="250.00">Curso Intermedio - $250.00 USD</option>
-          <option value="500.00">Curso Avanzado - $500.00 USD</option>
-        </select>
-        <div id="paypal-button-container" style="margin-top: 1rem;"></div>
-      </div>
+      <div class="features-grid">
 
-      <div id="formulario-postpago">
-        <h3 style="text-align:center;">Formulario para recibir comprobante</h3>
-        <p style="text-align:center;">Por favor, completa el siguiente formulario con tu nombre, correo, curso y el ID de transacción de PayPal.</p>
-        <iframe 
-          src="https://docs.google.com/forms/d/e/1FAIpQLScieNgATjMgR95RWVYYkTFKpqLdThmwANXypWTJXAo8sOtzbQ/viewform?embedded=true" 
-          width="100%" 
-          height="1000" 
-          frameborder="0" 
-          marginheight="0" 
-          marginwidth="0" 
-          loading="lazy" 
-          style="border-radius: 0.75rem; background-color: #fff;">
-          Cargando…
-        </iframe>
+        <!-- Pago Internacional -->
+        <div class="feature-card">
+          <h3>Pago Internacional (PayPal / Tarjeta)</h3>
+          <p>Selecciona tu curso:</p>
+          <select id="producto">
+            <option value="100.00">Curso Básico - $100.00 USD</option>
+            <option value="250.00">Curso Intermedio - $250.00 USD</option>
+            <option value="500.00">Curso Avanzado - $500.00 USD</option>
+          </select>
+          <div id="paypal-button-container" style="margin-top: 1rem;"></div>
+        </div>
+
+        <!-- Pago Nacional -->
+        <div class="feature-card">
+          <h3>Pago Nacional (Transferencia / Plin)</h3>
+          <p><strong>Banco:</strong> Interbank</p>
+          <p><strong>CCI:</strong> 00334101315818859652</p>
+          <p><strong>Cuenta:</strong> 3413158188596</p>
+          <p><strong>Titular:</strong> Oscar Javier Del Carpio Carpio</p>
+          <p>Una vez realizado el pago, llena el siguiente formulario para generar tu comprobante.</p>
+
+          <iframe 
+            src="https://docs.google.com/forms/d/e/1FAIpQLScodigo_formulario/viewform?embedded=true"
+            width="100%" height="935" frameborder="0" marginheight="0" marginwidth="0" loading="lazy"
+            style="border-radius: 0.75rem; background-color: #fff; margin-top: 1rem;">
+            Cargando…
+          </iframe>
+        </div>
       </div>
     </section>
   </main>
 
-  <!-- FOOTER -->
   <footer class="footer">
     <div class="container">
       <p>&copy; <span id="year"></span> ThermoProcess - Todos los derechos reservados</p>
@@ -84,7 +81,8 @@
     </div>
   </footer>
 
-  <!-- PayPal SDK -->
+  <!-- JS -->
+  <script src="/proceso-termico-web/js/menu.js" defer></script>
   <script src="https://www.paypal.com/sdk/js?client-id=ASNXMMjwxySGecXg8jGMmPrw8TqB2EbcF9yd_UNv9dHSB6M18eEBxwytelKi2wmGH-gw3ZP3tK12AJmf&currency=USD&locale=es_ES"></script>
   <script>
     let selectedAmount = "100.00";
@@ -94,9 +92,10 @@
       renderPayPalButton();
     });
 
+    renderPayPalButton();
+
     function renderPayPalButton() {
       document.getElementById("paypal-button-container").innerHTML = "";
-
       paypal.Buttons({
         style: {
           color: 'blue',
@@ -115,19 +114,18 @@
         },
         onApprove: (data, actions) => {
           return actions.order.capture().then(details => {
-            alert(`✅ Gracias, ${details.payer.name.given_name}. Tu pago fue exitoso.`);
-            document.getElementById("formulario-postpago").style.display = "block";
-            document.getElementById("formulario-postpago").scrollIntoView({ behavior: "smooth" });
+            alert(`✅ ¡Gracias, ${details.payer.name.given_name}! Tu pago fue registrado exitosamente.`);
+            document.getElementById("paypal-button-container").innerHTML = "<p><strong>✅ Pago registrado. Recibirás confirmación por correo.</strong></p>";
           });
+        },
+        onError: err => {
+          console.error("Error en PayPal:", err);
+          alert("❌ Ocurrió un error al procesar el pago.");
         }
       }).render("#paypal-button-container");
     }
 
-    renderPayPalButton();
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
-
-  <!-- Menú hamburguesa -->
-  <script src="/proceso-termico-web/js/menu.js" defer></script>
 </body>
 </html>
