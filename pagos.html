@@ -19,13 +19,9 @@
         <img src="public/svg/adoper-logo.svg" alt="Logo ADOPER" />
         <span>ADOPER</span>
       </a>
-
-      <!-- Botón hamburguesa -->
       <button class="menu-toggle" id="menu-toggle" aria-label="Menú móvil">
         <span class="menu-icon">☰</span>
       </button>
-
-      <!-- Menú principal -->
       <nav class="nav" id="main-nav">
         <a href="index.html">Inicio</a>
         <a href="app.html">App</a>
@@ -37,47 +33,48 @@
 
   <!-- Contenido principal -->
   <main class="main-content">
-    <section class="container" style="padding: 2rem 0;">
-      <h1 class="section-title">Opciones de Pago</h1>
-
-      <!-- Nacional -->
-      <div style="margin-bottom: 2rem;">
-        <h2>🇵🇪 Pago Nacional (Perú)</h2>
-        <p>Realiza una transferencia a la siguiente cuenta:</p>
-        <ul style="margin-top: 1rem; line-height: 1.8;">
-          <li><strong>Banco:</strong> Interbank</li>
-          <li><strong>Titular:</strong> Javier del Carpio</li>
-          <li><strong>Cuenta (Soles):</strong> 123-4567890123</li>
-          <li><strong>CCI:</strong> 003-123-004567890123-45</li>
-        </ul>
-        <p style="margin-top: 1rem;">Luego de transferir, completa el formulario más abajo adjuntando tu comprobante.</p>
+    <section class="hero">
+      <div class="container">
+        <h1 class="hero-title">Realiza tu pago</h1>
+        <p class="hero-subtitle">Selecciona tu método de pago preferido</p>
       </div>
+    </section>
 
-      <!-- Internacional -->
-      <div style="margin-bottom: 2rem;">
-        <h2>🌎 Pago Internacional</h2>
-        <p>Puedes pagar con tarjeta de crédito o débito mediante PayPal:</p>
-        <div style="margin-top: 1rem;">
-          <!-- Reemplaza el enlace siguiente con el botón real de PayPal -->
-          <a href="https://www.paypal.com/paypalme/tuusuario" target="_blank" class="btn btn-primary">Pagar con PayPal</a>
+    <!-- Métodos de pago -->
+    <section class="features">
+      <div class="container">
+        <h2 class="section-title">Métodos disponibles</h2>
+
+        <div class="features-grid">
+          <!-- Pago internacional con PayPal -->
+          <div class="feature-card">
+            <h3>Pago Internacional</h3>
+            <div id="paypal-button-container"></div>
+          </div>
+
+          <!-- Pago por transferencia bancaria -->
+          <div class="feature-card">
+            <h3>Transferencia Nacional</h3>
+            <p><strong>Banco:</strong> Interbank</p>
+            <p><strong>Número de cuenta:</strong> 123-4567890123</p>
+            <p><strong>CCI:</strong> 002-123-45678901234567</p>
+            <p><strong>Titular:</strong> Oscar del Carpio</p>
+          </div>
         </div>
       </div>
+    </section>
 
-      <!-- Formulario -->
-      <div style="margin-top: 3rem;">
-        <h2>📄 Confirmar tu pago</h2>
-        <p>Llena este formulario para validar tu pago. Recibirás tu comprobante por correo.</p>
-
-        <iframe 
-          src="https://docs.google.com/forms/d/e/1FAIpQLSejemplo/formResponse?embedded=true"
-          width="100%" 
-          height="900" 
-          frameborder="0" 
-          marginheight="0" 
-          marginwidth="0"
-          style="margin-top: 1.5rem; border: 1px solid #334155; border-radius: 0.75rem; background-color: white;">
-          Cargando…
-        </iframe>
+    <!-- Formulario de confirmación (en otra pestaña) -->
+    <section class="cta">
+      <div class="container">
+        <h2>Confirma tu pago</h2>
+        <p>Una vez realizado el pago, por favor llena el formulario para generar tu comprobante.</p>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfXXXXXXXXXXXXXX/viewform" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="btn btn-primary">
+          Llenar formulario de pago
+        </a>
       </div>
     </section>
   </main>
@@ -90,10 +87,31 @@
     </div>
   </footer>
 
-  <!-- JS -->
-  <script src="js/menu.js" defer></script>
+  <!-- Scripts -->
+  <script src="https://www.paypal.com/sdk/js?client-id=AZeJRAjZNx4jllFd8xGkM8ZRSZ6veXve5CeAoZXrnSRPMyl7-qR4kRgcVH5KjZM4cNq5mB_gR2piqpuU&currency=USD"></script>
+  <script>
+    paypal.Buttons({
+      createOrder: function(data, actions) {
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: '50.00' // Cambia esto al monto real
+            }
+          }]
+        });
+      },
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+          alert('Pago realizado por: ' + details.payer.name.given_name);
+        });
+      }
+    }).render('#paypal-button-container');
+  </script>
+
+  <script src="/proceso-termico-web/js/menu.js" defer></script>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
+
