@@ -250,12 +250,6 @@ body {
   }
 }
 
-
-@media (max-width: 768px) {
-  .logo {
-    display: none;
-  }
-}
 * {
   max-width: 100%;
   overflow-wrap: break-word;
