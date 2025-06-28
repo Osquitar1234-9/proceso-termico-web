@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Simulador térmico inteligente - ThermoProcess / ADOPER">
+  <title>App | ADOPER</title>
+
+  <!-- Tipografía -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="public/css/style.css" />
+</head>
+
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="public/svg/adoper-logo.svg" alt="Logo ADOPER" />
+        <span>ADOPER</span>
+      </a>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Menú móvil">
+        <span class="menu-icon">☰</span>
+      </button>
+      <nav class="nav" id="main-nav">
+        <a href="index.html">Inicio</a>
+        <a href="app.html" class="active">App</a>
+        <a href="noticias.html">Noticias</a>
+        <a href="pagos.html">Pagos</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Contenido principal -->
+  <main class="main-content">
+    <section class="hero">
+      <div class="container">
+        <h1 class="hero-title">Simulador Térmico Inteligente</h1>
+        <p class="hero-subtitle">Sube tu curva térmica y obtén cálculos automáticos de parámetros críticos.</p>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="container">
+        <h2 class="section-title">Ingreso de Datos</h2>
+        <form id="thermal-form" enctype="multipart/form-data">
+          <div class="features-grid">
+
+            <div class="feature-card">
+              <label for="archivo">Historia térmica (.csv):</label>
+              <input type="file" id="archivo" name="archivo" accept=".csv" required>
+            </div>
+
+            <div class="feature-card">
+              <label for="tipo-calentamiento">Tipo de calentamiento:</label>
+              <select id="tipo-calentamiento" name="tipo-calentamiento" required>
+                <option value="">Seleccionar</option>
+                <option value="vapor">Vapor</option>
+                <option value="agua">Agua</option>
+                <option value="aire">Aire</option>
+                <option value="otro">Otro</option>
+              </select>
+            </div>
+
+            <div class="feature-card">
+              <label for="envase">Tipo de envase:</label>
+              <select id="envase" name="envase" required>
+                <option value="">Seleccionar</option>
+                <option value="lata">Lata</option>
+                <option value="vidrio">Vidrio</option>
+                <option value="pouch">Pouch</option>
+              </select>
+            </div>
+
+            <div class="feature-card">
+              <label for="temperatura">Temperatura objetivo (°C):</label>
+              <input type="number" id="temperatura" name="temperatura" step="0.1" required>
+            </div>
+
+            <div class="feature-card">
+              <label for="z">Valor z (°C):</label>
+              <input type="number" id="z" name="z" step="0.1" required>
+            </div>
+
+            <div class="feature-card">
+              <label for="fo">Fo requerido (min):</label>
+              <input type="number" id="fo" name="fo" step="0.01" required>
+            </div>
+          </div>
+
+          <div style="text-align:center; margin-top: 2rem;">
+            <button type="submit" class="btn btn-primary">Calcular</button>
+          </div>
+        </form>
+
+        <!-- Resultados -->
+        <div id="resultados" style="margin-top: 3rem; text-align: center;">
+          <h3 style="color: #38bdf8;">Resultados aparecerán aquí...</h3>
+          <!-- Aquí se cargarán los resultados generados por el backend -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> ADOPER - Todos los derechos reservados</p>
+      <p>Contacto: <a href="mailto:javier.decarpio.789@gmail.com">javier.decarpio.789@gmail.com</a></p>
+    </div>
+  </footer>
+
+  <!-- Script de menú y año -->
+  <script src="js/menu.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    document.getElementById('thermal-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      alert("🔧 Funcionalidad en desarrollo: Los datos serán enviados al servidor para análisis térmico.");
+      // Aquí se podría hacer un fetch con FormData hacia tu backend en Render
+    });
+  </script>
+</body>
+</html>
