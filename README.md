@@ -8,23 +8,12 @@ proceso-térmico-web/
 │       │      └── style.css            
 │       ├── img/            
 │       │      └── qr-plin.jpg           
-│       ├── js/            
-│       │      └── menu.js           
+│       │  
 │       └── svg/             
-│              ├──  app-desktop.svg
-│              ├── app-mobile.svg
-│              ├── clases-desktop.svg
-│              ├── clases-mobile.svg
-│              ├── formularios-desktop.svg
-│              ├── formularios-mobile.svg
-│              ├── home-desktop.svg
-│              ├── home-mobile.svg
-│              ├── noticias-desktop.svg
-│              ├── noticias-mobile.svg
 │              ├── log.svg
-│              ├── pagos-desktop.svg
-│              ├── pagos-mobile.svg
 │              └── qr-plin.svg
+├── js/            
+│    └── menu.js
 │ 
 ├── readme.md                       # Documentación del proyecto
 ├── .nojekyll                      
