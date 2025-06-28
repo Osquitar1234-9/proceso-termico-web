@@ -262,3 +262,11 @@ img {
 a {
   text-decoration: none;
 }
+.logo img {
+  height: auto;
+  max-height: 40px;     /* Altura máxima controlada para todas las pantallas */
+  width: auto;
+  max-width: 100%;
+  margin-right: 0.5rem;
+  display: block;
+}
